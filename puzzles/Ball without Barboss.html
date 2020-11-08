@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="windows-1251">
+    <title>Ball without Barboss</title>
+    <style>
+#d0 {
+  margin-left: 10px ; 
+  margin-top: 10px ;
+  border-width: 1px; 
+  border-style: solid; 
+  border-color: blue;  
+  width: 600px;
+  height: 400px;
+  border-radius: 0px;        
+  color: white;
+  background-color: lightcyan;      
+}
+#im01 {
+  width: 350px;
+  position: absolute;
+  left: 630px;
+  top: 120px ;
+  transform:rotate(30deg);
+  opacity :0.2;
+ }
+.i1{width: 60px; margin-left: 5px;} 
+ 
+body {
+ background-color: navy; 
+ font-family: "Courier New", Arial, sans-serif; font-size: 18px; font-weight: bold;
+ color: white;}
+
+#btn0 { 
+  margin-left: 120px;
+  width: 140px; 
+  height: 36px;  
+  background-color: rgb(50, 14, 12);
+  font-family: 'Courier New'; font-size: 18px; font-weight: bold; color: white;
+  transition: width 0.2s, height 0.2s, margin-left 0.2s  background-color 0.2s;  
+ }
+ #btn0:hover {
+  width: 155px; 
+  height: 44px; 
+  margin-left: 115px;
+  background-color: red;
+}
+#d1 {
+        background-color: blue;    
+        width: 100px;
+        height: 100px;
+        border-radius: 50px; 
+        position: relative;
+        left: 50px;
+        top: 100px;
+        transform:rotate(0deg);
+ }   
+ #d2 {   
+        background-color: lightblue;
+        width: 4px;
+        height: 80px;
+        border-radius: 5px; 
+        position: fixed;
+        left: 48px;  
+        top: 10px;   
+ }  
+ #d3 {
+        background-color: lightblue;
+        width: 4px;
+        height: 80px;
+        border-radius: 5px; 
+        position: fixed;
+        left: 48px;  
+        top: 10px; 
+        transform:rotate(60deg);      
+ }
+#d4 {
+        background-color: lightblue;
+        width: 4px;
+        height: 80px;
+        border-radius: 5px; 
+        position: fixed;
+        left: 48px;  
+        top: 10px; 
+        transform:rotate(120deg);      
+ }
+    </style>
+  </head> 
+  <body>
+  <p style = "margin-left: 50px; font-size: 24px">Dynamic task example without Barboss</p>
+  
+  <div id="d0">
+   <div id="d1">
+    <div id="d2">  </div>
+    <div id="d3">  </div>
+    <div id="d4">  </div>
+   </div>
+  </div>
+  
+  <img id="im01" src="https://www.pinclipart.com/picdir/big/135-1357420_full-bear-white-stroke-bear-mascot-logo-png.png">
+
+  <p style = "margin-left: 150px; font-size: 24px">Initial data</p>
+  x0<input class ='i1' type="number" id="x0" value="50">
+  y0<input class ='i1' type="number" id="y0" value="100">  
+  vx<input class ='i1' type="number" id="vx" value="50">
+  vy<input class ='i1' type="number" id="vy" value="-40"><br>
+  ay<input class ='i1' type="number" id="ay" value="0.5">
+  om<input class ='i1' type="number" id="om" value="40"> 
+  dt<input class ='i1' type="number" id="dt" value="0.25">
+  Kr<input class ='i1' type="number" id="kr" value="1"> 
+ <input type='button' value='Input Data' onclick='InpData()' 
+    style="margin-left: 20px; width: 100px; height: 25px; margin-top: 5px"/>
+  <p>
+    <input type="radio" name="radio" value="0">Left to right
+    <input type="radio" name="radio" value="1">Top to down
+    <input type="radio" name="radio" value="2" checked >Ball
+   
+  </p>
+  <input type='button' id="btn0" value='START'><br>
+
+<script type='text/javascript' >
+  let act = false;    let kr = 1;    
+  let x = 350; 
+  let y =100;  
+  let v0 = -50; let vy0 = -40; let ay0 = 0.5; let va = 50; let a0 = 0; 
+  let v; let vy; let ay;  let a; let dt = 0.25;
+  v = v0;      vy = vy0;     ay = ay0;      a = a0;  
+
+      Pict();
+
+function Pict(){
+  d1.style.left = String(x)+'px';
+  d1.style.top = String(y)+'px';
+  d1.style.transform = 'rotate(' + String(a) + 'deg)';
+ } 
+ function Borders(){
+  if ((x >= 500)&&(v>0)){v = -v; va = -va;} 
+  if ((x <= 0)&&(v<0)){v = -v; va = -va;} 
+  if ((y >= 295)&&(vy>0)){vy = -vy; va = -va;}
+  if ((y <= 0)&&(vy<0)){vy = -vy; va = -va;}
+ }     
+function InpData(){
+  let input = document.getElementById('x0');  x = input.value
+  input = document.getElementById('y0');  y = input.value
+  input = document.getElementById('vx');  v0 = input.value
+  input = document.getElementById('vy');  vy0 = input.value
+  input = document.getElementById('ay');  ay0 = input.value
+  input = document.getElementById('om');  va = input.value
+  input = document.getElementById('dt');  dt = input.value
+  input = document.getElementById('kr');  kr = input.value
+  v = v0;  vy = vy0; ay = ay0;    a = a0; 
+  Pict();
+ }
+
+let button0 = document.querySelector('#btn0');
+let kradio = 0;  
+button0.addEventListener('click', function() {
+act = (!act); 
+if (act) {button0.value = 'STOP'; im01.style.opacity = '1';} else 
+         {button0.value = 'START'; im01.style.opacity = '0.2';}
+var rad = document.getElementsByName('radio');
+ for (let i = 0; i < 3; i++){
+if (rad[i].checked) { kradio = i; }}   
+  let i = 0;  
+let tim = setInterval(function() {
+   if (!act) {clearInterval(tim);}
+  
+ if (kradio==0){x = +x + +v*dt;}
+ if (kradio==1){vy = +vy + +ay*dt; y = +y + +vy*dt; a = +a + +va*dt; }
+ if (kradio==2){ x = +x + +v*dt; vy = +vy + +ay*dt; 
+    y = +y + +vy*dt; a = +a + +va*dt; }                    
+   
+     Borders();
+     i++;   if (i == kr){ 
+     v = 1.0*v; vy = 1.0*vy; i = 0; Pict()}
+ 
+}, 50/kr);
+});  //end click
+</script>
+     
+  </body>
+</html>
+ 

@@ -1,0 +1,86 @@
+<html>
+<head>
+        <meta charset="windows-1251">
+	<title>Table Gauss</title> 
+		<style> 
+        input { width: 190px; margin-left: 1px ;
+font-family: "Courier New"; font-size:18; font-weight: bold;
+ }
+body {background-image: url('00.png'); background-size: 20px 20px;
+font-family: "Courier New", Arial, sans-serif; font-weight: bold;
+       }
+table { font-weight: bold } 
+div { margin-left: 30px ;}
+                </style>
+</head>
+<body>
+  <p> Расчет Матожидания, дисперсии и СКО <br>
+     Алгоритм:<br> 
+     Сумму Nr чисел из ДСЧ принимаем за одно число Xi<br> случайной последовательности Nx<br>
+     Матожидание Mx находим как среднее значение,<br> 
+     дисперсию Dx и СКО sigmaX по обычным формулам<br> стат. обработки. </p>
+ <div>
+  Nx = <input type="number" id="Inp1" value="5000"><br>
+  Nr = <input type="number" id="Inp2" value="5"><br>
+  <input type='button' value='Input N and Nr' onclick='messageShow()'/>
+  </div>
+   <p id="par1">Turn the button.</p>
+
+              <table border="1 cellspacing="0" cellpadding="5"  width="500" height="240">
+	<tr>
+		<th colspan="2" > Results</th> <th>Theory</th>
+	<!--	<th>Ячейка 3</th> -->
+	</tr>
+
+	<tr>
+	<td>Mx</td> <td id="Id1">Mx</td> <td>0.0</td>
+	</tr>
+
+	<tr>
+	<td>Dx</td> <td id="Id2">Dx</td> <td>1.0</td>
+	</tr>
+
+	<tr>
+	<td>SigmaX</td> <td id="Id3">Sigmax</td> <td>1.0</td>
+	</tr>
+         </table>
+
+
+ <script type='text/javascript' >
+   var Sum = 0;
+   var Sum2 = 0;
+   var t;
+   let N = ''
+   let Nr = ''
+ function messageShow() {
+   const input = document.getElementById('Inp1')
+   N = input.value
+   const input1 = document.getElementById('Inp2')
+   Nr = input1.value
+   for (i = 0; i < N; i++){
+  t=0; 
+   for (j = 0; j < Nr; j++){
+  t = t + (Math.random()- 0.5);
+   }
+  Sum = Sum + t;
+  Sum2 = Sum2 + t*t;
+   }
+     Sum = (Sum/N);  
+     Sum2 = ((Sum2/N)*12/Nr - Sum*Sum);
+     var sko = Math.sqrt(Sum2);
+var aS = String(Sum); 
+var aS2 = String(Sum2); 
+var aSk = String(sko); 
+
+   document.getElementById("par1").innerHTML="Result:"+"<br>" +
+"value Nx = " + N + ";  Nr =  "+ Nr;
+
+document.getElementById("Id1").innerHTML=aS.substr(0,8);
+document.getElementById("Id2").innerHTML=aS2.substr(0,6);
+document.getElementById("Id3").innerHTML=aSk.substr(0,6);
+}
+</script>
+
+</body>
+</html>
+

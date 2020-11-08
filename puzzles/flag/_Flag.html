@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Flag</title>
+</head>
+<body>
+<style>
+body {background-color: rgba(250,250,250,0.5);
+  font-family:  monospace; font-size: 18px; color: navy; font-weight: bold;}
+#divfi{ cursor: default;
+ position: fixed; left: 5px; top: 10px; height: 130px; width:  200px; 
+ /*white-space: pre;*/ 
+ border: 1px solid black; box-shadow:0 0 6px 0 #999; text-align: center;
+ font-weight: bold; font-size: 18px; color: black; text-shadow: 0px 0px 2px #00f; 
+}
+#check{position: fixed; top: 145px;
+
+}
+#divbg{ cursor: pointer;
+ position: fixed; left: 5px; top: 185px; height: 130px; width:  200px; 
+ border: 1px solid black; box-shadow:0 0 6px 0 #999; text-align: center;
+ font-weight: bold; font-size: 18px; color: black; text-shadow: 0px 0px 2px #00f; 
+}
+#Mycanvas{
+  position: fixed;
+  z-index: 2;
+  cursor: pointer; 
+  box-shadow:0 0 10px 0 #555555;
+  left: 215px;
+  top: 10px;}
+#r0{position: fixed; left: 10px; top: 350px;}
+#divinp{ position: fixed; top: 720px;}
+#BG{position: fixed; 
+  left: 215px; top: 10px;  height:700px;
+  width:875px; -webkit-filter: blur(5px); opacity: 0.8;  
+}
+#btn0 {position: fixed; 
+  left: 10px; top: 645px;
+  width: 140px; 
+  height: 36px;  
+  background-color: rgb(50, 14, 12);
+  font-family: 'Courier New'; font-size: 18px; font-weight: bold; color: white;
+  transition: width 0.2s, height 0.2s,  background-color 0.2s;  
+ }
+#btn0:hover {
+  width: 155px; 
+  height: 44px; 
+  background-color: red;
+}
+</style>
+ <canvas id="Mycanvas" width="875" height="700">Обновите браузер</canvas>
+ <img id="BG" src="..//Image/Mi_01.jpg"/>  
+Change fiZ and fiY
+<div id="divfi"><br><br><br><br></div>
+  <div  id="check">    
+  
+  <input type="checkbox" checked="checked" onclick="Aks=!Aks">Aks or Dim<br>
+  <input type="checkbox" checked="checked" onclick="imFlag=!imFlag">Flag or BG
+  </div>  
+<div id="divbg" ondragover="event.stopPropagation(); event.preventDefault();"
+     ondrop="event.stopPropagation(); event.preventDefault();
+     dodropbg(event);"><br><br><br><br>Change Image</div>
+
+<div id="r0">
+ <input type="radio" name="radio" value="0" onclick="varfl=+this.value;SetTrans()">FlHor
+ <input type="radio" name="radio" value="1" checked onclick="varfl=+this.value;SetTrans()">FlVer <br>
+ <input type="radio" name="radio" value="2" onclick="varfl=+this.value;SetTrans()">FlSdl
+ <input type="radio" name="radio" value="3" onclick="varfl=+this.value;SetTrans()">FFree <br>
+ <input type="radio" name="radio" value="4" onclick="varfl=+this.value;SetTrans()">_X**2
+ <input type="radio" name="radio" value="5" onclick="varfl=+this.value;SetTrans()">_Y**2 <br><br>
+Opct<input type="range" value="0.8" min=0.1 max=1 step=0.05 onchange = 'opc = +this.value; SetOpc()'><br>
+Blur<input type="range" value="4" min=0 max=10 step=1 onchange = 'blr = +this.value;  SetBlr()'><br><br> 
+OpcF<input type="range" value="1" min=0.1 max=1 step=0.05 onchange = 'opf = +this.value;SetTrans()'><br>
+BlFl<input type="range" value="0" min=0 max=10 step=1 onchange = 'blf = +this.value; SetTrans()'><br>
+</div>
+<div id="divinp">
+Nx<input type="range" value="10" min=2 max=30 step=1 onchange = 'nx = +this.value;  SetNxy()'>
+Ny<input type="range" value="10" min=2 max=30 step=1 onchange = 'ny = +this.value;  SetNxy()'>
+Zoom  <input type="range" value="25" min=1 max=50 step=1 onchange = 'kzoom = +this.value/25;  SetTrans()'>
+Ampl  <input type="range" value="25" min=1 max=50 step=1 onchange = 'aflag = +this.value;  SetTrans()'>
+Speed <input type="range" value="25" min=1 max=50 step=1 onchange = 'akf = +this.value/100;  SetTrans()'>
+<p id="sN" style = "margin-left: 10px;"> Nx = </p> 
+</div>
+<!--  <input type='button' id="bt" value='Transfom 1 step' onclick='SetTrans()'>   -->
+ <input type='button' id="btn0" value='Play\STOP'onclick="act = (!act); Run()">
+
+<script type="text/javascript">
+   let Wb,Hb,bgw;  wp=Mycanvas.width; let act = false; imFlag = true;
+	nx=7; ny=7; let opc=0.8; let opf=1.0; blr = 4; blf = 0; let x0,y0;  kzoom = 1; flmouse=false;  flfi=false; let dxf = 5; varfl = 1;  Aks = true;
+	document.getElementById("sN").innerHTML= "Nx = "+nx+" ;  Ny= "+ny;
+	var canvas=document.getElementById("Mycanvas");
+    var ctx=canvas.getContext("2d");
+ var img2=new Image();  // Создаём изображение
+ img2.src = "MiLA.jpg"; 
+
+function Run(){
+ let tim = setInterval(function() {
+   if (!act) {clearInterval(tim);}
+   SetTrans()
+},50); }//Run
+
+function SetOpc(){BG.style.opacity = opc; SetTrans()}  
+function SetBlr(){BG.style =' width:'+ wp +'px;'+ '-webkit-filter: blur('+blr+'px);opacity:'+opc+';';SetTrans()} 
+
+function SetNxy(){
+w0 = W/(nx-0);  h0 =H/(ny-0); 
+  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}
+	document.getElementById("sN").innerHTML= "Nx = "+nx+" ;  Ny= "+ny;
+SetTrans();	
+}
+
+ var imgbg=new Image();  // Создаём изображение
+ imgbg.src = "Texas-wallpaper-9050208.jpg"; BG.src=imgbg.src;
+
+function dodropbg(event){
+  var dt = event.dataTransfer;
+  var files = dt.files;
+ if (imFlag){img2.src = URL.createObjectURL(files[0]); } else
+ {  
+  //imgbg=document.getElementById("BG");
+  imgbg.src = URL.createObjectURL(files[0]);   BG.src=imgbg.src;
+imgbg.onload = function() {
+ Wb=this.width;  Hb = this.height;  wp=700/Hb*Wb;
+ canvas.width=wp; 
+var imgbg=document.getElementById("BG");  SetBlr() }
+//imgbg.style = ' width:'+ wp +'px'; imgbg.style.opacity = opc;
+SetTrans();
+}}
+
+ img2.onload = function() { kf=0;
+ W=this.width;  H = this.height; 
+ w0 = W/(nx-0);  h0 =H/(ny-0); 
+  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}
+ SetTrans(); 
+}
+ 
+pim = Math.PI;   let aflag=15;  
+xris0 = 330; yris0 = 160; xris = xris0; yris = yris0;  akf = 0.2;
+let fiz0 = 0;  fiz = fiz0; let fiy0 = 0;  fiy = fiy0; 
+cosz=Math.cos(fiz); cosy=Math.cos(fiy); sinz=Math.sin(fiz); siny=Math.sin(fiy); 
+
+var xs=[]; var ys=[]; var xa=[]; var ya=[]; var zs=[];    
+
+ kf=0;
+function SetTrans(){ 
+  function clearCanvas() {canvas.height=700;}
+  clearCanvas();
+  Mycanvas.style = '-webkit-filter: blur('+blf+'px); opacity:'+ opf+';'       
+ for (i = 0; i < nx+1; i++) {
+ 	  xs[i] = [];  ys[i] = [];  xa[i] = [];  ya[i] = []; zs[i] = [];
+ for (j = 0; j < ny+1; j++) {	  
+xs[i][j] = (dx*i)*kzoom;// + Math.random()*3; 
+ys[i][j] = (dy*j)*kzoom;//+yris;
+switch (varfl) {
+ case 0: zs[i][j] = (Math.sin(1.5*pim/nx*i+akf*kf)-Math.sin(akf*kf))*aflag*kzoom; break;
+ case 1: zs[i][j] = (Math.sin(1.5*pim/ny*j+akf*kf)-Math.sin(akf*kf))*aflag*kzoom; break;
+ case 2: zs[i][j] = (Math.sin(pim/nx*i)-Math.sin(pim/ny*j)-0.0)*Math.cos(akf*kf)*aflag*kzoom; break;
+ case 3: zs[i][j] = (Math.sin(pim/nx*i)+Math.sin(pim/ny*j)-0.0)*aflag*Math.sin(akf*kf)*kzoom; break;
+ case 4: zs[i][j] = 0.3*(i-nx/2)*(i-nx/2)*Math.cos(akf*kf)*aflag*kzoom; break;
+ case 5: zs[i][j] = 0.3*(j-ny/2)*(j-ny/2)*Math.cos(akf*kf)*aflag*kzoom; break;
+}
+  aksxy(xs[i][j],ys[i][j],zs[i][j]);
+  xa[i][j] = xr+xris;  ya[i][j] = yr + yris;
+//xa[i][j] = aksx(xs[i][j],ys[i][j],zs[i][j])+xris;; 
+//ya[i][j] = aksy(xs[i][j],ys[i][j],zs[i][j])+yris;;
+}}
+ for (i = 0; i < nx; i++) {
+ for (j = 0; j < ny; j++) {	
+
+   w01 = xa[i+1][j]-xa[i][j];        h01=ya[i][j+1]-ya[i][j];  
+   sy = (ya[i+1][j]-ya[i][j])/w01;  sx = (xa[i][j+1]-xa[i][j])/h01; 
+   if (w01>0) {skx =1; } else {skx =-1; };
+   if (h01>0) {sky =1; } else {sky =-1; };
+ctx.setTransform(skx,skx*sy,sky*sx,sky,-ya[i][j]*sx,-xa[i][j]*sy);  //матрица поворота и др.
+ctx.drawImage(img2,w0*i,h0*j,w0,h0,skx*xa[i][j],sky*ya[i][j],skx*1.05*w01,sky*1.05*h01); 
+ 
+}}  if ((act)&&(!flmouse)&&(!flfi))  kf=kf+1;
+} 
+// function aksx(x,y,z){xt = (x*cosz-y*sinz)*cosy+z*siny; yt = x*sinz+y*cosz;  zt=z;
+//           x1=(xt-yt)*0.82; return x1;}
+//          x1=xt - zt*0.7; return x1;}
+// function aksy(x,y,z){xt = (x*cosz-y*sinz)*cosy+z*siny; yt = x*sinz+y*cosz;  zt=z*cosy;
+//   y1 = (yt+xt)*0.82-zt;  return y1;}
+
+function aksxy(x,y,z){xt = (x*cosz-y*sinz)*cosy+z*siny; yt = x*sinz+y*cosz;  zt=z*cosy;
+  if (Aks) {xr=(xt-yt)*0.82;  yr = (yt+xt)*0.82-zt;} else
+           {xr=xt-zt*0.7;  yr = yt+zt*0.7;}
+}
+var divfi=document.getElementById("divfi");
+divfi.onmousedown= function(obj_event) { 
+  flfi = true; x0fi = window.event.offsetX; y0fi = window.event.offsetY; }
+divfi.onmousemove= function(obj_event) { 
+  if (flfi) {xf = window.event.offsetX; dfiz = (xf-x0fi)/250; fiz = fiz0 +dfiz;
+             yf = window.event.offsetY; dfiy = (yf-y0fi)/50;  fiy = fiy0 +dfiy;
+cosz=Math.cos(fiz); cosy=Math.cos(fiy);  sinz=Math.sin(fiz);  siny=Math.sin(fiy); 
+SetTrans();
+}}
+divfi.onmouseup= function(obj_event) {  flfi = false; fiz0 = fiz; fiy0 = fiy;}
+
+canvas.onmousedown = function(obj_event) { 
+  flmouse = true;
+  x0 = window.event.offsetX;
+  y0 = window.event.offsetY;  
+}
+canvas.onmousemove = function(obj_event) { 
+  if (flmouse) {
+  x1r = window.event.offsetX; drx = x1r - x0;
+  y1r = window.event.offsetY; dry = y1r - y0;
+  xris = xris0+drx; yris = yris0+dry; SetTrans();
+}
+}
+canvas.onmouseup = function(obj_event) { 
+  flmouse = false; xris0 = xris;  yris0 = yris;
+  SetTrans();
+}
+</script> 
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+ <html>
+  <head>
+    INPUT&BUTTON&GAUSS
+     <title>Inp&But&Rnd</title>
+  </head>
+   <body>
+   <p>Пример на input and random Gauss</p>
+  <input type="number" id="numInput" value="3451"><br>
+  <input type='button' value='Input N' onclick='messageShow()'/>
+  <p id="par1">Turn the button.</p>
+
+ <script type='text/javascript'>
+   var Sum = 0;
+   var Sum2 = 0;
+   var t;
+   let N = ''
+ function messageShow() {
+   const input = document.getElementById('numInput')
+   N = input.value
+   for (i = 0; i < N; i++){
+  t=0; 
+   for (j = 0; j < 12; j++){
+  t = t + (Math.random()- 0.5);
+   }
+  Sum = Sum + t;
+  Sum2 = Sum2 + t*t;
+   }
+     Sum = Sum/N;  
+     Sum2 = ((Sum2/N)- Sum*Sum);
+     var sko = Math.sqrt(Sum2);
+
+   document.getElementById("par1").innerHTML="Result:"+"<br>" +
+"value N = " + N + "<br>" +
+   "Мат. ожидание Mx = " + Sum + "<br>" + 'Теория  0.0' + "<br>" + 
+   "Дисперсия Dx = " + Sum2 + "<br>" + "Теория  1.0" + "<br>"  + 
+   "СКО sigmaX = " + sko   + "<br>" + "Теория  1.0" ;
+  }
+</script>
+
+    <style> 
+   input { margin-left: 80px ; }
+   button { margin-left: 70px ; widht: 200px;}
+   img { margin-left: 60px ;}
+    </style> 
+<img src="MI_01.jpg" width="200" height="200" alt="Michael" />
+  <p>Спасибо от нашего Михаила Ивановича</p>
+
+   </body>
+ </html>
