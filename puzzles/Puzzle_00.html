@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>PuzzleTestCloud01</title>
+<title>PuzzlePaste_03H</title>
 </head>
 <body>
 <style>
@@ -14,52 +14,69 @@
  table {position: absolute;    left: 740px; top: 150px; border-style: dashed; border-color: lightgray;}	
  #d0{ opacity: 0.4;-webkit-filter: blur(9px); text-align: center; }
  #d0:hover {opacity: 1; -webkit-filter: blur(0px); }
- #Mycanvas{  
+ #d2{ position: fixed; top: 2px; left: 2px; background-color: #000; width: 100%; height: 0px; color: #aff; font-size: 20px; font-weight: normal;  overflow-y: hidden; transition: 0.5s; z-index: 2;}
+ .closebtn {
+  position: absolute; color: #aaa;
+  top: 0px;
+  left: 5px;
+  font-size: 45px; cursor: pointer;
+}
+.closebtn:hover {color: red;}
+#inp{ display: none;}
+label{
+   position: fixed;
+   width: 120px;
+   height: 25px;
+   text-align: center; 
+   text-shadow: 0px 0px 1px #00F;
+   border-style: solid;
+   border-color: black;
+   border-width: 1px; 
+   font-size: 18px; 
+   color: white;
+   cursor:pointer;
+   background-color:  #D2691E;
+   box-shadow:0 0 5px 0 #F5DEB3;
+}
+label:hover{background-color: rgb(150,60,60);}
+#help{position: fixed; background-color: #D2691E; width: 80px; height: 30px; box-shadow:0 0 5px 0 #F5DEB3; margin-left: 120px; margin-top: -3px;
+  font-family: 'Courier New'; font-size: 18px; font-weight: bold; color: white;}
+#help:hover{background-color: rgb(150,60,60);}
+#Mycanvas{  
    cursor: pointer;
    box-shadow:0 0 10px 0 #555555;
    -webkit-box-shadow:0 0 10px 0 #555555;
    -moz-box-shadow:0 0 10px 0 #555555;
  }
-.Nxy { width: 120px; margin-left: 20px;}
+.Nxy { width: 120px; margin-left: 2px;}
 .i1{width: 60px; margin-left: 10px;} 
-#Ch{
-  position: absolute; left: 450px; top: 670px;  width: 80px; 
+#Ch,#Cl{ background-color: rgb(150,60,60); color: rgb(100,250,250);
+  position: absolute; left: 550px; top: 760px;  width: 100px; height: 40px;
   text-shadow: 0px 0px 1px #880000;
 }
-#Cl{
-  position: absolute; left: 450px; top: 700px;  width: 80px;
-  text-shadow: 0px 0px 1px #880000;
-} 
+#Cl{top: 805px;   } 
 #tm0{
    position: absolute; 
-   left: 80px; top: 695px; 
+   left: 80px; top: 845px; 
    font-weight: bold; font-size: 16px; color: blue; text-shadow: 0px 0px 3px #FF0000;
 }
-input#inp{
-  display: none;
-}
-#label{
-   position: fixed;
-   width:100px;
-   height:20px;
-   text-align: center; text-shadow: 0px 0px 1px #0000FF;
-   left: 645px; top: 578px; 
-   border-style: solid;
-   border-color: black;
-   border-width: 1px;  
-   color: rgb(0,0,100);
-   cursor:pointer;
-   background-color:  #eee;
-}
 #output{
- position: absolute; left: 620px; top: 610px; height: 130px; width:  200px; 
+ position: absolute; left: 850px; top: 570px; height: 130px; width:  200px; 
  white-space: pre; 
  border: 1px solid black; box-shadow:0 0 6px 0 #222299; text-align: center;
  font-weight: bold; font-size: 18px; color: black; text-shadow: 0px 0px 2px #0000FF; 
 }
+#btn{width: 65px; height: 30px; background-color: rgb(150,60,60); color: rgb(100,250,250);}
 </style>
+    <div id="d2"> 
+    <h3 style="text-align: center; font size: 20px"> HELP</h3>   
+ <p style="margin-top: 40px;"> Выбор картинки: а) Open File открываем графический файл. б) На панель DROP FILE HERE загружается (мышкой) файл. в) Картинка загружается из буфера обмена - CTRL + V. </p><p>Кнопкой "Change1st" выполняется 1 шаг сборки пазла, если ее держать - процесс продолжится. Кнопками Horizont, Vertikal и RandomXY задается направление перемещения элементов. Кнопкой Cloud1st пазл собирается без поиска.</p><p> Nx - Ny - число элементов по горизонтали и вертикали. При небольшом количестве пазл собирают вручную, перемещая мышкой элементы.</p><p> Для контроля времени можно использовать таймер, запускаемый кнопкой START. <br>
+ </p>  
+ <!--    <input type="button" id="close" value="X_Close" onclick="div2.style.height='0px'"> -->
+    <a  class="closebtn" onclick="div2.style.height='0px'">&times</a>
+    </div>  <!-- href="javascript:void(0)" -->
 
- <canvas id="Mycanvas" width="700" height="550">Обновите браузер</canvas> 
+ <canvas id="Mycanvas" width="700" height="700">Обновите браузер</canvas> 
 
  <svg height="150" width="450">
    <defs>
@@ -76,14 +93,13 @@ input#inp{
 	  <tr> <td id="d0"></td> </tr>
  </table>
 
-    <input type="file" id="inp" onchange="showFile(this)"><br></p> 
-    <label for="inp" id="label">Open File</label>  
  
 <p>
  Zoom<input class ='i1' type="number" id="k" value="1.5" min=0.02 max=4 step=0.02 onchange = 'SetZoom()'> 
-    <input type="radio" name="radio" value="0" checked onchange = 'SetVar()'>Horizont
-    <input type="radio" name="radio" value="1" onchange = 'SetVar()'>Vertikal
-    <input type="checkbox" onclick= 'rndxy = !rndxy;'>RandomXY
+    <input type="radio" name="radio" value="0" checked onclick = 'horver=+this.value;SetVar()'>Horizont
+    <input type="radio" name="radio" value="1" onclick = 'horver=+this.value;SetVar()'>Vertikal
+    <input type="radio" name="radio" value="2" onclick= 'rndxy = true;'>RandomXY
+<!--     <input type="checkbox" onclick= 'rndxy = !rndxy;'>RandomXY -->
     
     <input type='button' value='New variant' onclick='SetData()'/>
 <select name: 'S01' id="S01">
@@ -98,11 +114,15 @@ input#inp{
      <option value="..//Image/Snuglse_02.jpg">Snugles</option>
      <option value="..//Image/Paddy_01.jpg">Paddy</option>
      <option value="..//Image/Valdek.jpg">Valdek</option>
-  </select><br> 
+  </select> 
+    <input type="file" id="inp" onchange="showFile(this)"> 
+    <label for="inp" id="label">Open File</label>  
+<input type="button" id="help" value="HELP" onclick="if (div2.style.height=='350px') div2.style.height='0px'; else div2.style.height='350px' ">
+
 </p>
  
-  <input type="range" class = "Nxy" id="Nx" value="25" min=1 max=30 step=1 onchange = 'SetNx()'>
-  <input type="range" class = "Nxy" id="Ny" value="25" min=1 max=30 step=1 onchange = 'SetNy()'>
+  Nx <input type="range" class = "Nxy" id="Nx" value="25" min=1 max=30 step=1 onchange = 'SetNx()'>
+  Ny <input type="range" class = "Nxy" id="Ny" value="25" min=1 max=30 step=1 onchange = 'SetNy()'>
   <input type="color" id="R" value= "#FFFFFF" onchange = 'SetBgrnd()'>BackGround
   
   <input type="checkbox" checked="checked" onclick= 'setka = !setka;'>Setka
@@ -125,13 +145,15 @@ input#inp{
 <script type="text/javascript">
  let nx = 25; let ny = 25; let k = 1.5; let horver = 0; setka = true; let rndxy = false;
  let colorbgr = 'white';
-
+ 
+ var div2 = document.getElementById("d2");
  var img0 = new Image();  // Создаём изображение
 
 function SetImage(){
 img0.onload = function() {
   w0=this.width; h0=this.height; 
-  kw = 690/w0; kh = 540/h0; if (kw<kh) k = kw; else k = kh; document.getElementById("k").value = k;
+  kw = 690/w0; kh = 690/h0; if (kw<kh) k = kw; else k = kh; document.getElementById("k").value = k;
+  Xl=(700-w0*k)/2; Yt=(700-h0*k)/2;
   SetData(); 
   if (w0>=h0) w1 = 95; else w1 = w0*95/h0;
 document.getElementById("d0").innerHTML ="<img src="+ img0.src +" style = width:"+w1+"%; align: center;/> "
@@ -156,9 +178,10 @@ img0.src = strimg;
 SetImage();
 });
 
-function SetVar() {horver = 1 - horver; SetData(); ShowPuzzle();}
+function SetVar() { rndxy = false; SetData(); ShowPuzzle();}
 
-function SetZoom() { k = document.getElementById("k").value;  ShowPuzzle();}
+function SetZoom() { k = document.getElementById("k").value;  
+ Xl=(700-w0*k)/2; Yt=(700-h0*k)/2; ShowPuzzle();}
   
 
 document.getElementById("sN").innerHTML= "Nx = "+nx+" ;  Ny= "+ny;
@@ -172,7 +195,7 @@ let input = document.getElementById('Ny');  ny = input.value; SetData();
 document.getElementById("sN").innerHTML= "Nx = "+nx+" ;  Ny= "+ny;}
 
 var canvas = document.getElementById("Mycanvas")
-var image1 = canvas.getContext("2d");
+var ctx = canvas.getContext("2d");
 
 function SetArr() { 
  let j, i
@@ -213,8 +236,8 @@ function Change1st(){
 
 function ShowPuzzle() {
   w10=w0/nx; h10=h0/ny;
-  image1.fillStyle=colorbgr;
-  image1.fillRect(0,0,700,550);
+  ctx.fillStyle=colorbgr;
+  ctx.fillRect(0,0,700,700);
 
   for (i = 0; i < nx*ny; i++){
   if (horver == 1) {
@@ -222,15 +245,15 @@ function ShowPuzzle() {
   i1=Math.floor(arr[i]/ny); j1=Math.floor(arr[i]%ny);} else
   {j0=Math.floor(i/nx); i0=Math.floor(i%nx); 
   j1=Math.floor(arr[i]/nx); i1=Math.floor(arr[i]%nx);}
-  image1.drawImage(img0,i1*w10,j1*h10,w10,h10,i0*k*w10,j0*k*h10,k*w10,k*h10);
+  ctx.drawImage(img0,i1*w10,j1*h10,w10,h10,Xl+i0*k*w10,Yt+j0*k*h10,k*w10,k*h10);
  }
   if (setka) ShowSetka(); nSt=0;
 }
 
 function Cloud(){
   function Repit(){nSt = 0; }
-   image1.fillStyle=colorbgr;
-   image1.fillRect(0,0,700,550);
+   ctx.fillStyle=colorbgr;
+   ctx.fillRect(0,0,700,700);
    nr = 50;  if ((nSt > 0) && (nSt < nr)) canvas.style.opacity = 0.3 + 0.7*nSt/nr; else canvas.style.opacity = 1;
 for (i = 0; i < nx*ny; i++){
   if (horver == 1) {
@@ -241,35 +264,35 @@ for (i = 0; i < nx*ny; i++){
   x0 = i1*w10; y0 = j1*h10; x1 = i0*w10; y1 = j0*h10; 
   dx = (x1-x0)/nr; dy = (y1-y0)/nr;
   x = x1 - dx*nSt;  y = y1 - dy*nSt;
-  image1.drawImage(img0,x0,y0,w10,h10,x*k,y*k,k*w10,k*h10);
+  ctx.drawImage(img0,x0,y0,w10,h10,Xl+x*k,Yt+y*k,k*w10,k*h10);
  }
   nSt = nSt + 1; if (nSt>nr) nSt = nr; 
 }
 
 function ShowSetka() {
-  image1.lineWidth=1; 
-  image1.strokeStyle=colorbgr; image1.beginPath();
+  ctx.lineWidth=1; 
+  ctx.strokeStyle=colorbgr; ctx.beginPath();
  for (i = 1; i < ny; i++){
-    image1.moveTo(0,i*k*h10);
-    image1.lineTo(w0*k,i*k*h10); }
+    ctx.moveTo(Xl+0,Yt+i*k*h10);
+    ctx.lineTo(Xl+w0*k,Yt+i*k*h10); }
  for (i = 1; i < nx; i++){
-    image1.moveTo(i*k*w10,0);
-    image1.lineTo(i*k*w10,k*h0); }
-            image1.stroke();
+    ctx.moveTo(Xl+i*k*w10,Yt+0);
+    ctx.lineTo(Xl+i*k*w10,Yt+k*h0); }
+            ctx.stroke();
 }
 
 function SetData(){nStep = 0; SetArr();  ShowPuzzle();}
 
 canvas.onmousedown = function(obj_event) { 
-  x = window.event.offsetX;
-  y = window.event.offsetY; //alert('x='+x+' y= '+y )  
+  x = window.event.offsetX-Xl;
+  y = window.event.offsetY-Yt; //alert('x='+x+' y= '+y )  
   id = Math.floor(x/k/w10);   jd = Math.floor(y/k/h10);
   if (horver == 0) Ndown=jd*nx+id; else Ndown=jd+id*ny; 
 }
 
 canvas.onmouseup = function(obj_event) { 
-  x = window.event.offsetX;
-  y = window.event.offsetY; 
+  x = window.event.offsetX-Xl;
+  y = window.event.offsetY-Yt; 
   iu = Math.floor(x/k/w10);   ju = Math.floor(y/k/h10);
   if (horver == 0) Nup=ju*nx+iu; else Nup=ju+iu*ny; 
   if ((iu<nx)&&(ju<ny)&&(id<nx)&&(jd<ny)) {ChangeIJ();}
@@ -295,6 +318,26 @@ function Start() {   //Timer
   document.getElementById("tm0").textContent = 'time: ' + d0(hc) +':'+d0(mc)+':'+d0(sc)+'.'+ds ;
   }, 100)
 } 
+
+function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
+  if(pasteEvent.clipboardData == false){if(typeof(callback) == "function"){
+            callback(undefined);}};
+
+    var items = pasteEvent.clipboardData.items;
+
+    if(items == undefined){if(typeof(callback) == "function"){callback(undefined);}};
+
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") == -1) continue;
+        var blob = items[i].getAsFile();
+        if(typeof(callback) == "function"){callback(blob);}}}
+
+window.addEventListener("paste", function(e){
+    retrieveImageFromClipboardAsBlob(e, function(imageBlob){
+        if(imageBlob){var URLObj = window.URL || window.webkitURL;
+        img0.src = URLObj.createObjectURL(imageBlob);
+             SetImage();}});}, false);
+
 </script> 
 </body>
-</html>
+<!-- </html> -->
