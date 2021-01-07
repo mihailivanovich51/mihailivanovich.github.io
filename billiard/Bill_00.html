@@ -5,15 +5,15 @@
       <title>Billiard_00</title>
     <style> 
     body{margin: 0vw}  
-    div{ width: 10vw; height: 350px;
-         position: absolute; 
+    div{ width: 11vw; height: 350px;
+         position: .absolute; 
          top: 2px;
          border: 1px solid black; box-shadow:0 0 6px 0 #222299;
          background-color: rgb(240,240,250);
          font-family: "Courier New"; font-size: 12px;
          text-align: center;}
      #c1{left: 50.5vw;}    
-     #c2{left: 61vw;} 
+     #c2{left: 62vw;} 
        
        #tname{width: 70px}
        #nameO{width: 60px}
@@ -554,7 +554,7 @@ function SetImage(){
 imbg.onload = function() {
    w0=this.width; h0=this.height; 
   Lx=Ly*w0/h0; imbg.style.width=Lx+'vw'; //imbg.style.height=Ly0+'vw';
-  c1.style.left=Lx+0.5+'vw'; c2.style.left=Lx+11+'vw'; divSave.style.left=Lx+0.5+'vw';
+  c1.style.left=Lx+0.5+'vw'; c2.style.left=Lx+12+'vw'; divSave.style.left=Lx+0.5+'vw';
 }}           
 function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
   if(pasteEvent.clipboardData == false){if(typeof(callback) == "function"){
