@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Puzzle_Git</title>
+</head>
+<body>
+<style>  
+ body {text-align: center;}
+ #Mycanvas{  
+   box-shadow:0 0 10px 0 #555555;
+   -webkit-box-shadow:0 0 10px 0 #555555;
+   -moz-box-shadow:0 0 10px 0 #555555;
+ }
+
+</style>
+
+ <canvas id="Mycanvas" width="700" height="700">Обновите браузер</canvas> 
+
+<script type="text/javascript">
+ let nx = 35; let ny = 35; let k = 1.5; let horver = 0; setka = true; let rndxy = false;   act=true;
+ let colorbgr = 'white';
+ 
+ var div2 = document.getElementById("d2");
+ var img0 = new Image();  // Создаём изображение
+ img0.src = "Pict/rp03.jpg";
+ SetImage();  setTimeout(GoCloud,3000);
+ //GoCloud();
+
+function GoCloud(){
+ let tim = setInterval(function() {
+   if (!act) {clearInterval(tim)} else Cloud();
+},50); 
+ }
+
+function SetImage(){
+img0.onload = function() {
+  w0=this.width; h0=this.height; 
+  kw = 690/w0; kh = 690/h0; if (kw<kh) k = kw; else k = kh; //document.getElementById("k").value = k;
+  Xl=(700-w0*k)/2; Yt=(700-h0*k)/2;
+  SetData(); 
+}}
+
+var canvas = document.getElementById("Mycanvas")
+var ctx = canvas.getContext("2d");
+
+function SetArr() { 
+ let j, i
+ let ntek = nx*ny; arr0 = []; arr = []; arr00 = []; 
+ for (i = 0; i < nx*ny; i++) { arr0[i] = i; arr00[i] = i;  }
+    for (i = 0 ; i < nx*ny ; i++) {
+        j = Math.floor(Math.random() * (ntek))
+        arr[i] = arr0[j];   //наверх
+        arr0[j] = arr0[ntek - 1];
+        ntek = ntek - 1;      
+    }
+ }
+
+function ShowPuzzle() {
+  w10=w0/nx; h10=h0/ny;
+  ctx.fillStyle=colorbgr;
+  ctx.fillRect(0,0,700,700);
+  for (i = 0; i < nx*ny; i++){
+  j0=Math.floor(i/nx); i0=Math.floor(i%nx); 
+  j1=Math.floor(arr[i]/nx); i1=Math.floor(arr[i]%nx);
+  ctx.drawImage(img0,i1*w10,j1*h10,w10,h10,Xl+i0*k*w10,Yt+j0*k*h10,k*w10,k*h10);
+ }
+  ShowSetka();  nSt=0; }
+
+function Cloud(){
+  function Repit(){nSt = 0; }
+   ctx.fillStyle=colorbgr;
+   ctx.fillRect(0,0,700,700);
+   nr = 100;  if ((nSt > 0) && (nSt < nr)) canvas.style.opacity = 0.6 + 0.45*nSt/nr; else canvas.style.opacity = 1;
+for (i = 0; i < nx*ny; i++){
+  j0=Math.floor(i/nx); i0=Math.floor(i%nx); 
+  j1=Math.floor(arr[i]/nx); i1=Math.floor(arr[i]%nx);
+  x0 = i1*w10; y0 = j1*h10; x1 = i0*w10; y1 = j0*h10; 
+  dx = (x1-x0)/nr; dy = (y1-y0)/nr;
+  x = x1 - dx*nSt;  y = y1 - dy*nSt;
+  ctx.drawImage(img0,x0,y0,w10,h10,Xl+x*k,Yt+y*k,k*w10,k*h10);
+ }
+  nSt = nSt + 1; if (nSt>nr) nSt = nr; 
+}
+
+function ShowSetka() {
+  ctx.lineWidth=1; 
+  ctx.strokeStyle=colorbgr; ctx.beginPath();
+ for (i = 1; i < ny; i++){
+    ctx.moveTo(Xl+0,Yt+i*k*h10);
+    ctx.lineTo(Xl+w0*k,Yt+i*k*h10); }
+ for (i = 1; i < nx; i++){
+    ctx.moveTo(Xl+i*k*w10,Yt+0);
+    ctx.lineTo(Xl+i*k*w10,Yt+k*h0); }
+            ctx.stroke();
+}
+
+function SetData(){nStep = 0; SetArr();  ShowPuzzle();}
+
+function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
+  if(pasteEvent.clipboardData == false){if(typeof(callback) == "function"){
+            callback(undefined);}};
+
+    var items = pasteEvent.clipboardData.items;
+
+    if(items == undefined){if(typeof(callback) == "function"){callback(undefined);}};
+
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") == -1) continue;
+        var blob = items[i].getAsFile();
+        if(typeof(callback) == "function"){callback(blob);}}}
+
+window.addEventListener("paste", function(e){
+    retrieveImageFromClipboardAsBlob(e, function(imageBlob){
+        if(imageBlob){var URLObj = window.URL || window.webkitURL;
+        img0.src = URLObj.createObjectURL(imageBlob);
+             SetImage();}});}, false);
+
+</script> 
+</body>
+</html>
