@@ -18,14 +18,14 @@
  <canvas id="Mycanvas" width="700" height="700">Обновите браузер</canvas> 
 
 <script type="text/javascript">
- let nx = 35; let ny = 35; let k = 1.5; let horver = 0; setka = true; let rndxy = false;   act=true;
- let colorbgr = 'white';
+ let nx = 35; let ny = 35;   act=true; let colorbgr = 'white';
  
- var div2 = document.getElementById("d2");
+ var canvas = document.getElementById("Mycanvas")
+ var ctx = canvas.getContext("2d");
  var img0 = new Image();  // Создаём изображение
  img0.src = "Pict/rp03.jpg";
- SetImage();  setTimeout(GoCloud,3000);
- //GoCloud();
+ SetImage();  
+
 
 function GoCloud(){
  let tim = setInterval(function() {
@@ -33,16 +33,15 @@ function GoCloud(){
 },50); 
  }
 
+function SetData(){SetArr();  ShowPuzzle(); setTimeout(GoCloud,3000);}
+
 function SetImage(){
 img0.onload = function() {
   w0=this.width; h0=this.height; 
-  kw = 690/w0; kh = 690/h0; if (kw<kh) k = kw; else k = kh; //document.getElementById("k").value = k;
-  Xl=(700-w0*k)/2; Yt=(700-h0*k)/2;
-  SetData(); 
+  kw = 690/w0; kh = 690/h0; if (kw<kh) k = kw; else k = kh; 
+  Xl=(700-w0*k)/2; Yt=(700-h0*k)/2; act=true;
+  SetData();
 }}
-
-var canvas = document.getElementById("Mycanvas")
-var ctx = canvas.getContext("2d");
 
 function SetArr() { 
  let j, i
@@ -50,7 +49,7 @@ function SetArr() {
  for (i = 0; i < nx*ny; i++) { arr0[i] = i; arr00[i] = i;  }
     for (i = 0 ; i < nx*ny ; i++) {
         j = Math.floor(Math.random() * (ntek))
-        arr[i] = arr0[j];   //наверх
+        arr[i] = arr0[j];   
         arr0[j] = arr0[ntek - 1];
         ntek = ntek - 1;      
     }
@@ -68,7 +67,6 @@ function ShowPuzzle() {
   ShowSetka();  nSt=0; }
 
 function Cloud(){
-  function Repit(){nSt = 0; }
    ctx.fillStyle=colorbgr;
    ctx.fillRect(0,0,700,700);
    nr = 100;  if ((nSt > 0) && (nSt < nr)) canvas.style.opacity = 0.6 + 0.45*nSt/nr; else canvas.style.opacity = 1;
@@ -80,7 +78,7 @@ for (i = 0; i < nx*ny; i++){
   x = x1 - dx*nSt;  y = y1 - dy*nSt;
   ctx.drawImage(img0,x0,y0,w10,h10,Xl+x*k,Yt+y*k,k*w10,k*h10);
  }
-  nSt = nSt + 1; if (nSt>nr) nSt = nr; 
+  nSt = nSt + 1; if (nSt>nr) act=!act;
 }
 
 function ShowSetka() {
@@ -95,21 +93,15 @@ function ShowSetka() {
             ctx.stroke();
 }
 
-function SetData(){nStep = 0; SetArr();  ShowPuzzle();}
-
 function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
   if(pasteEvent.clipboardData == false){if(typeof(callback) == "function"){
             callback(undefined);}};
-
     var items = pasteEvent.clipboardData.items;
-
     if(items == undefined){if(typeof(callback) == "function"){callback(undefined);}};
-
     for (var i = 0; i < items.length; i++) {
         if (items[i].type.indexOf("image") == -1) continue;
         var blob = items[i].getAsFile();
         if(typeof(callback) == "function"){callback(blob);}}}
-
 window.addEventListener("paste", function(e){
     retrieveImageFromClipboardAsBlob(e, function(imageBlob){
         if(imageBlob){var URLObj = window.URL || window.webkitURL;
