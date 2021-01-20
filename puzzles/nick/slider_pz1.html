@@ -23,7 +23,7 @@
  let nx = 20; let ny = 20;   let colorbgr = 'white'; act=true;
  let w0,h0,w10,h10,Xl,Yt,k;
  let arrimg=['pict/n10.jpg','pict/n11.jpg','pict/n2009.jpg','pict/n00.jpg','pict/n000.jpg']; 
- npic=arrimg.length; 
+ let npic=arrimg.length; 
  var canvas = document.getElementById("Mycanvas")
  var ctx = canvas.getContext("2d");  ctx.fillStyle=colorbgr;
  var img0 = new Image();  // Создаём изображение
@@ -35,7 +35,7 @@
  {b1.value='PLAY'; b1.style.background='rgba(0,255,0,0.9)'}
  let tim = setInterval(function() {if (!act) {clearInterval(tim)} else { iz++; Cloud();}},50); }
  
-let nr=20; nst=30;  n1=nst; n2=n1+nr; n3 = n2+25; nsum=n3+1;  ipic=0;   npic=arrimg.length;
+let nr=20; nst=30;  n1=nst; n2=n1+nr; n3 = n2+25; nsum=n3+1;  ipic=0;  
 let iz=0;
 
 function Cloud1st(){
