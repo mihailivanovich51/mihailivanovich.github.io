@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+      <title>_SLIDER_</title>
+    <style> 
+   body{background-color: rgb(0,0,50); text-align: center; font-family: 'Courier New'; color: white}   
+   figure {    
+  background-color: rgb(0,0,50);     
+  box-shadow: inset 0 0 1vw #000;
+  outline: .2vw solid #b1917fbd;
+  border: .1vw dashed #999;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  width: 52vw;
+  height: 52vw;
+}
+  figure img {
+    position: absolute;
+    opacity: 0;
+    left: 1vw;
+    top: 1vw;
+  } 
+  #bt{width: 100px; height: 30px;
+    font-family: 'Courier New'; font-size: 18px; font-weight: bold; color: white; }
+    </style>
+  
+  </head> 
+  <body>              
+<figure> 
+  <img  src="n2009.jpg" style="opacity: 1; width: 50vw;">  
+  <img  src="https://api.time.com/wp-content/uploads/2018/05/bear-pepper-spray.jpg?w=800&amp;quality=85" >
+  <img  src="n11.jpg" > 
+  <img  src="n10.jpg" > 
+  <img  src="n00.jpg" > 
+  <img  src="n000.jpg" > 
+  </figure><br>
+
+ <input type="range" min="10" max="30" value="20" onchange="tp=value*200;">Pause 
+<input type='button' value='PLAY' id="bt" onclick="Go();">
+Trans<input type="range" min="3" max="8" value="5" onchange="tij=value*5;">
+
+ <script type="text/javascript">
+ var e = document.querySelectorAll('figure img');  Np = e.length; 
+ let wp=[]; let hp=[]; let W=[]; let H=[];   FlShow=false;    tp=4000; tij=25;
+ 
+ setTimeout(SetWH, 300); bt.style.background = 'green';
+
+function Go(){FlShow =!FlShow; if (!FlShow){bt.value='PLAY'; bt.style.background='rgb(0,100,0)'} else {bt.value = 'STOP'; Show(); bt.style.background = 'rgb(210,0,0)'}}
+
+function SetWH(){ 
+  if(e) { 
+for (j = 0; j < Np; j++) {
+ W=e[j].width;  H = e[j].height; 
+ if (W>H) {wp[j]=50; hp[j]=50*H/W} else {hp[j]=50; wp[j]=50*W/H} 
+}}}
+
+let i=0;  let N1=20;
+
+ function Show(){  
+if(e) {
+  let tim=setInterval(() => { if (!FlShow) {clearInterval(tim);} else {
+      ns=i;  i1=0;
+      i++;
+      i = i === Np ? 0 : i;
+        e[i].style.width = wp[i] + 'vw'; e[i].style.height = hp[i] + 'vw';
+        e[i].style.left = 26-wp[i]/2 + 'vw'; e[i].style.top = 26-hp[i]/2 + 'vw';
+   
+    let tim1=setInterval(() => { if (i1==N1) {clearInterval(tim1);} else {
+      i1++; op=1-i1/N1;
+        e[ns].style.opacity = op; 
+        e[i].style.opacity = 1-op;
+  }}, tij);      
+  }}, tp); 
+}}
+
+ </script>
+  </body>
+</html>
+ 
