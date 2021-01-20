@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Puzzle_Slider1</title>
+<title>Puzzle_Slider0</title>
 </head>
 <body>
 <style>  
  body {text-align: center;}
- #b1{width: 100px; height: 30px; background-color: rgba(255,0,0,0.9); color: white; font-weight: bold}
+ #b1{width: 100px; height: 30px; color: white; background-color: rgba(255,0,0,0.9); font-weight: bold}
  #Mycanvas{  
    box-shadow:0 0 10px 0 #555555;
    -webkit-box-shadow:0 0 10px 0 #555555;
@@ -23,7 +23,7 @@
  let nx = 20; let ny = 20;   let colorbgr = 'white'; act=true;
  let w0,h0,w10,h10,Xl,Yt,k;
  let arrimg=['pict/n10.jpg','pict/n11.jpg','pict/n2009.jpg','pict/n00.jpg','pict/n000.jpg']; 
- let npic=arrimg.length; 
+ npic=arrimg.length; 
  var canvas = document.getElementById("Mycanvas")
  var ctx = canvas.getContext("2d");  ctx.fillStyle=colorbgr;
  var img0 = new Image();  // Создаём изображение
@@ -34,11 +34,11 @@
  act=!act; if (act) {b1.value='STOP'; b1.style.background='rgba(255,0,0,0.9)'} else 
  {b1.value='PLAY'; b1.style.background='rgba(0,255,0,0.9)'}
  let tim = setInterval(function() {if (!act) {clearInterval(tim)} else { iz++; Cloud();}},50); }
- 
-let nr=20; nst=30;  n1=nst; n2=n1+nr; n3 = n2+25; nsum=n3+1;  ipic=0;  
+
+let nr=20; nst=30;  n1=nst; n2=n1+nr; n3 = n2+25; nsum=n3+1;  ipic=0;
 let iz=0;
 
-function Cloud1st(){
+function Cloud1st(n1,n2){
 for (i = 0; i < nx*ny; i++){
   j0=Math.floor(i/nx); i0=Math.floor(i%nx); 
   j1=Math.floor(arr[i]/nx); i1=Math.floor(arr[i]%nx);
@@ -49,17 +49,18 @@ for (i = 0; i < nx*ny; i++){
 }}
      let ii=0;
 function Cloud(){ctx.fillRect(0,0,700,700);  
-for (i = 0; i < 2; i++){
+for (i = 0; i < npic; i++){
    if ((iz==0)) {img0.src = arrimg[ii]; SetImage(); SetArr(); ShowPuzzle();   } 
-   if (iz<=n1) {ShowPuzzle(); op=iz/n1; canvas.style.opacity=op; }
-  // if (iz<=16) {op=iz/16; canvas.style.opacity=op;  }
-   if ((iz>n1) && (iz<=n2)) {nSt=iz-nst; Cloud1st();}
+   if (iz<=n1) {ShowPuzzle();}
+   if (iz<=16) {op=iz/16; canvas.style.opacity=op;  }
+   if ((iz>n1) && (iz<=n2)) {nSt=iz-nst; Cloud1st(n1,n2);}
    if ((iz>n2) && (iz<=n3)) {nSt=0; ctx.drawImage(img0,0,0,w0,h0,Xl,Yt,k*w0,k*h0);}
    if (iz==nsum){ctx.drawImage(img0,0,0,w0,h0,Xl,Yt,k*w0,k*h0); iz=0; ii++; if (ii==npic) ii=0;}
  }}  
 
 function SetData(){SetArr(); ShowPuzzle(); let tim = setInterval(function() {  
-   if (!act) {clearInterval(tim); iz=0} else { iz++; Cloud(); }},50); 
+   if (!act) {clearInterval(tim);} else { iz++; Cloud(); }
+},50); 
 }
 
 function SetImage(){
@@ -78,8 +79,7 @@ function SetArr() {
         j = Math.floor(Math.random() * (ntek))
         arr[i] = arr0[j];   
         arr0[j] = arr0[ntek - 1];
-        ntek = ntek - 1;}
- }
+        ntek = ntek - 1;}}
 
 function ShowPuzzle() {  
   ctx.fillStyle=colorbgr;
@@ -100,8 +100,7 @@ function ShowSetka() {
  for (i = 1; i < nx; i++){
     ctx.moveTo(Xl+i*k*w10,Yt+0);
     ctx.lineTo(Xl+i*k*w10,Yt+k*h0); }
-            ctx.stroke();
-}
+            ctx.stroke();}
 
 function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
   if(pasteEvent.clipboardData == false){if(typeof(callback) == "function"){
@@ -116,7 +115,7 @@ window.addEventListener("paste", function(e){
     retrieveImageFromClipboardAsBlob(e, function(imageBlob){
         if(imageBlob){var URLObj = window.URL || window.webkitURL;
         img0.src = URLObj.createObjectURL(imageBlob);
-             SetImage(); SetData(); }});}, false);
+             SetImage(); SetData();}});}, false);
 
 </script> 
 </body>
