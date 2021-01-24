@@ -11,7 +11,7 @@
   padding: 2px;
   width: 33%;
 }
-      h1{font-size: 36px; text-align: center; font-family: 'Courier New'; color: rgb(5,5,255)}
+      h1{font-size: 35px; text-align: center; font-family: 'Courier New'; color: rgb(5,5,255)}
       h5{font-size: 28px; text-align: center; font-family: 'Courier New'; color: rgb(5,5,255)}
       body{background-color: #211414;/*rgb(225,225,235);*/ text-align: center;} 
       p{margin-left: 3%; color: rgb(50,50,255);font-family: 'Courier New'; font-size: 20px;}
@@ -41,9 +41,15 @@
   <div class="column">
   
   </div>
-
 </div>
+<script type="text/javascript">
+  let iz=0; let Nz=40;
+  let tim = setInterval(function() {if (iz==2*Nz) {clearInterval(tim)} else { iz++; Rorate();}},125);
+  function Rorate(){
+    let fi=10*Math.sin(iz*Math.PI*4/Nz);
+    i1.style.transform = 'rotate(' + String(fi) + 'deg)';
+  }
 
-
+</script> 
 </body>
 </html>
