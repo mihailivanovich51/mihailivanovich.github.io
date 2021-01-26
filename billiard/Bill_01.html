@@ -46,8 +46,7 @@ label{display: inline-block; width: 120px;
 #Help{display: none; width: 100vw; height: 50vh;position: fixed; top: 2px; left: 2px; z-index: 4;
       background-color: rgb(50, 14, 12); text-align: left; color: #aff; opacity: 0.9;
       overflow-y: auto;} 
-#Bl,#Op{width: 80px}      
-
+#Bl,#Op{width: 80px}   
     </style>  
   </head>
 
@@ -100,11 +99,10 @@ label{display: inline-block; width: 120px;
   kZ <input type="range" value="0" min=0 max=1 step=0.05 onchange = 'kZ=this.value; Piramid(VS)'><br>
   Wi <input type="range" value="1" min=0.2 max=2 step=0.05 onchange ='kw0=this.value;Piramid(VS)'><br>
   wN <input type="range" value="1" min=0.2 max=2 step=0.05 onchange ='kwN=this.value; Piramid(VS)'><br>
-  om <input type="range" value="1" min=-5 max=5 step=0.5 onchange ='kom=+this.value; '><br>
+  
  </div>
   
- <div id="c1"> 
-  
+ <div id="c1">  
  <input  id="tname" value="Barboss"><br> 
   t0 = <input type="number" id="t00"><br> 
   t1 = <input type="number" id="t01"><br> 
@@ -123,10 +121,9 @@ label{display: inline-block; width: 120px;
   <input type="radio" checked name="rd" onclick='Circle()'>Circl<br>
   <input type="radio" checked name="rad" onclick='OldIm()'>ZV_51
   <input type="radio" name="rad" onclick='NewIm()'>Zv_WF
-
   </div>
- <div id="c2"> 
-   
+
+ <div id="c2">    
     <input type="checkbox" checked name="spice"><input name="tn0"><br>
     <input type="checkbox" checked name="spice"><input name="tn0"><br>
     <input type="checkbox" checked name="spice"><input name="tn0"><br>
@@ -199,8 +196,7 @@ label{display: inline-block; width: 120px;
  t0=[0,0,0,0,0,0,0]; t1=[25,25,25,25,20,20,20]; t2=[50,50,50,50,55,55,55]; t3=[70,70,70,70,70,70,70]; 
  t4=[80,80,80,80,80,82,82];  t5=[90,90,90,90,90,90,90]; tz=[0,0,0,0,0,0,0];
 
-  let kZ=0.0;  kw0=1; kwN=1; let Lx=50; let Ly=50;               flH=0; 
- // imbg.style.height=Ly+'vw';
+  let kZ=0.0;  kw0=1; kwN=1; let Lx=50; let Ly=50;               flH=0;  
   imbg.style.width=Lx+'vw'; 
   c1.style.left=Lx+0.5+'vw'; c2.style.left=Lx+11+'vw'; divSave.style.left=Lx+0.5+'vw';
 
@@ -259,13 +255,13 @@ let x0 = []; let y0 = []; Rp=0.3*Ly;
      PicSH() }
 
                          //Бильярд
-   let omeg=[20,-20,15,15,25,-25,30]; let xs0=[]; let ys0=[];  let vxs0=[];  let vys0=[];   let ays=[0,0,0,0,0,0,0];
-   ts=0; dt=0.0025; krat=20; kom=1;  Fx=[]; Fy=[];  Cs=800; db=0.06; 
+   let omeg=[0,0,0,0,0,0,0]; let xs0=[]; let ys0=[];  let vxs0=[];  let vys0=[];   let ays=[0,0,0,0,0,0,0];
+   ts=0; dt=0.0025; krat=20;  Fx=[]; Fy=[];  Cs=800; db=0.06;   kom=1; 
    
-   let xs=[]; let ys=[]; let vxs=[]; let vys=[];  let Rs=[];
+   let xs=[]; let ys=[]; let vxs=[]; let vys=[];  let Rs=[]; fis=[0,0,0,0,0,0,0];
           
 function PicSH(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
-  Img0[i].style = 'transform:rotate('+kom*omeg[i]*ts+'deg)';  Img0[i].style.opacity = 1;
+  Img0[i].style = 'transform:rotate('+fis[i]+'rad)';  Img0[i].style.opacity = 1;
   Img0[i].style.left=xs[i]+'vw';    Img0[i].style.top=ys[i]+'vw'; 
   Img0[i].style.width=wris[i]+'vw';  
    if (rect==1) {Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' navy';
@@ -279,22 +275,25 @@ function Bounce(){ //1 step Billiard
 for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  Rs[i]=wris[i]*(1+2*db)/2;}
 
 function Udar(i,j){
-let Fxy,Fx1,Fy1, dxR,dyR;
+let Fxy,Fx1,Fy1, dxR,dyR,vtij;
   dxR=(xs[j]+Rs[j]-xs[i]-Rs[i])/dR;   dyR=(ys[j]+Rs[j]-ys[i]-Rs[i])/dR; // направляющие косинусы нормали
   Fxy=Cs*(Rs[j]+Rs[i]-dR);  
   Fx1=Fxy*dxR;  Fy1=Fxy*dyR;
   Fx[j]=Fx[j]+Fx1;    Fx[i]=Fx[i]-Fx1;
-  Fy[j]=Fy[j]+Fy1;    Fy[i]=Fy[i]-Fy1;} //Udar
+  Fy[j]=Fy[j]+Fy1;    Fy[i]=Fy[i]-Fy1;
+  vtij=(vxs[i]-vxs[j])*dyR-(vys[i]-vys[j])*dxR;
+  omeg[i]=vtij/Rs[i]; omeg[j]=-vtij/Rs[j];
+  } //Udar
 
   for (i8 = 0; i8 < krat; i8++){ 
 
   for (i = 0; i < Nzv; i++) {Fx[imt0[i]]=0; Fy[imt0[i]]=0;}
 
   for (j1 = 0; j1 < Nzv; j1++) {i = imt0[j1];
-  if (xs[i]<0) {Fx[i]=-Cs*(xs[i]);};  
-  if ((xs[i]+2*Rs[i])>Lx) {Fx[i]=Cs*(Lx-(xs[i]+2*Rs[i]))};
-  if (ys[i]<0) {Fy[i]=-Cs*(ys[i])};
-  if ((ys[i]+2*Rs[i])>Ly) {Fy[i]=Cs*(Ly-(ys[i]+2*Rs[i]))};  
+  if (xs[i]<0) {Fx[i]=-Cs*(xs[i]);              omeg[i] = vys[i]/Rs[i];};  
+  if ((xs[i]+2*Rs[i])>Lx) {Fx[i]=Cs*(Lx-(xs[i]+2*Rs[i])); omeg[i] = -vys[i]/Rs[i];};
+  if (ys[i]<0) {Fy[i]=-Cs*(ys[i]);   omeg[i] = -vxs[i]/Rs[i];};
+  if ((ys[i]+2*Rs[i])>Ly) {Fy[i]=Cs*(Ly-(ys[i]+2*Rs[i])); omeg[i] = vxs[i]/Rs[i];};  
 
        for (j2 = j1+1; j2 < Nzv; j2++){j = imt0[j2]; // alert(i+' '+j) 
       dR=Math.sqrt((xs[i]+Rs[i]-xs[j]-Rs[j])*(xs[i]+Rs[i]-xs[j]-Rs[j])
@@ -304,6 +303,7 @@ let Fxy,Fx1,Fy1, dxR,dyR;
   vxs[i]=vxs[i]+Fx[i]*dt;  
   vys[i]=vys[i]+ays[i]*dt+Fy[i]*dt;
    xs[i]=xs[i]+vxs[i]*dt;     ys[i]=ys[i]+vys[i]*dt;
+   fis[i]+=omeg[i]*dt;
 }
 
  ts+=dt;}  PicSH();}
