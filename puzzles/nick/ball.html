@@ -33,10 +33,10 @@ div {
   height: 400px;
   border-radius: 0px;        
   color: white;
-  background-color: cyan;      }
+  background-color: #228B22;      }
 .i1{width: 60px; margin-left: 5px;} 
  
-body {/*background-image: url('00.png'); background-size: 20px 20px;*/
+body {
  background-color: navy; 
  font-family: "Courier New", Arial, sans-serif; font-size: 18px; font-weight: bold;
  color: white;}
@@ -57,21 +57,21 @@ body {/*background-image: url('00.png'); background-size: 20px 20px;*/
     </style>
   </head> 
   <body>
-  <p style = "margin-left: 150px; font-size: 24px">Dynamic task example</p>
+  <p style = "margin-left: 80px; font-size: 24px">Dynamic task example: BallBarboss</p>
   
   <div><img id="im0" src="pict/brb.jpg"></div>
 
   <img id="im01" src="pict/mi.jpg">
 
   <p style = "margin-left: 150px; font-size: 24px">Initial data</p>
-  x0<input class ='i1' type="number" id="x0" value="50">
-  y0<input class ='i1' type="number" id="y0" value="100">  
-  vx<input class ='i1' type="number" id="vx" value="50">
-  vy<input class ='i1' type="number" id="vy" value="-40"><br>
-  ay<input class ='i1' type="number" id="ay" value="0.5">
-  om<input class ='i1' type="number" id="om" value="40"> 
-  dt<input class ='i1' type="number" id="dt" min=0.01 max=2 step=0.01 value="0.25">
-  Kr<input class ='i1' type="number" id="kr" value="1"> 
+  x0<input class ='i1' type="number" id="X0" value="50">
+  y0<input class ='i1' type="number" id="Y0" value="100">  
+  vx<input class ='i1' type="number" id="VX" value="50">
+  vy<input class ='i1' type="number" id="VY" value="-40"><br>
+  ay<input class ='i1' type="number" id="AY" value="0.5">
+  om<input class ='i1' type="number" id="OM" value="40"> 
+  dt<input class ='i1' type="number" id="DT" min=0.01 max=2 step=0.01 value="0.1">
+  kr<input class ='i1' type="number" id="KR" value="2"> 
  <input type='button' value='Input Data' onclick='InpData()' 
     style="margin-left: 20px; width: 100px; height: 25px; margin-top: 5px"/>
   <p>
@@ -83,12 +83,12 @@ body {/*background-image: url('00.png'); background-size: 20px 20px;*/
   <input type='button' id="btn0" value='START' ><br>
 
 <script type='text/javascript' >
-  let act = false;    let kr = 1;    
-  let x = 350; 
+  let act = false;    let kr = 2;    kfi=180/Math.PI;
+  let x = 50; 
   let y =100;  
-  let v0 = -50; let vy0 = -40; let ay0 = 0.5; let va = 12; let a0 = 0; 
-  let v; let vy; let ay;  let a; let dt = 0.25;
-  v = v0;      vy = vy0;     ay = ay0;      a = a0;  
+  let v0 = -50; let vy0 = -40; let ay0 = 0.5; let va = 12; let a0 = 0; rb=50;
+  let vx; let vy; let ay;  let a; let dt = 0.1;
+  vx = v0;      vy = vy0;     ay = ay0;      a = a0;  
 
       Pict();
 
@@ -98,22 +98,22 @@ function Pict(){
   im0.style.transform = 'rotate(' + String(a) + 'deg)';
  }     
 function InpData(){
-  let input = document.getElementById('x0');  x = input.value
-  input = document.getElementById('y0'); y = input.value
-  input = document.getElementById('vx'); v0 = input.value
-  input = document.getElementById('vy'); vy0 = input.value
-  input = document.getElementById('ay'); ay0 = input.value
-  input = document.getElementById('om'); va = input.value
-  input = document.getElementById('dt'); dt = input.value
-  input = document.getElementById('kr'); kr = input.value
-  v = v0;  vy = vy0; ay = ay0;    a = a0; 
+  let input = document.getElementById('X0');  x = input.value
+  input = document.getElementById('Y0'); y = input.value
+  input = document.getElementById('VX'); v0 = input.value
+  input = document.getElementById('VY'); vy0 = input.value
+  input = document.getElementById('AY'); ay0 = input.value
+  input = document.getElementById('OM'); va = input.value
+  input = document.getElementById('DT'); dt = input.value
+  input = document.getElementById('KR'); kr = input.value
+  vx = v0;  vy = vy0; ay = ay0;    a = a0; 
   Pict();
  }
 function Borders(){
-  if ((x >= 480)&&(v>0)){v = -v; va = -va;} 
-  if ((x <= 0)&&(v<0)){v = -v; va = -va;} 
-  if ((y >= 280)&&(vy>0)){vy = -vy; va = -va;}
-  if ((y <= 0)&&(vy<0)){vy = -vy; va = -va;}
+  if ((x >= 480)&&(vx>0)){vx = -vx; va=0; va = -kfi*vy/rb;} 
+  if ((x <= 0)&&(vx<0)){vx = -vx; va = kfi*vy/rb;} 
+  if ((y >= 280)&&(vy>0)){vy = -vy; va = kfi*vx/rb;}
+  if ((y <= 0)&&(vy<0)){vy = -vy; va = -kfi*vx/rb;}
  }   
 
 let button0 = document.querySelector('#btn0');
@@ -130,20 +130,14 @@ if (rad[i].checked) { kradio = i; }}
 let tim = setInterval(function() {
    if (!act) {clearInterval(tim);}
   
- if (kradio==0){x = +x + +v*dt;}
- if (kradio==1){vy = +vy + +ay*dt; y = +y + +vy*dt; a = +a + +va*dt; }
- if (kradio==2){ x = +x + +v*dt; vy = +vy + +ay*dt; 
+ if (kradio==0){x = +x + +vx*dt;}
+ if (kradio==1){vy = +vy + +ay*dt; y = +y + +vy*dt; /*a = +a + +va*dt;*/ }
+ if (kradio==2){ x = +x + +vx*dt; vy = +vy + +ay*dt; 
     y = +y + +vy*dt; a = +a + +va*dt; }                    
- /*
-  if (x >= 475){v = -v; va = -va;} 
-  if (x <= 0){v = -v; va = -va;} 
-  if (y >= 275){vy = -vy; va = -va;}
-  if (y <= 0){vy = -vy; va = -va;}
-     i++;   if (i == kr){ i = 0; Pict()}
- */
+ 
  Borders();
      i++;   if (i == kr){ 
-     v = 1.0*v; vy = 1.0*vy; i = 0; Pict()}
+     /*vx = 1.0*vx; vy = 1.0*vy;*/ i = 0; Pict()}
 }, 50/kr);
 });  //end click
 </script>
