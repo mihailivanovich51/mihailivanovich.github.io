@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-      <title>Billiard_00</title>
+      <title>Billiard_01</title>
     <style> 
     body{margin: 0vw}  
     div{ width: 11vw; height: 350px;
@@ -226,6 +226,7 @@ function SetBlr(){imbg.style=' width:'+ Lx +'vw;'+ ' height:'+ Ly +'vw;'+'-webki
 
 function Piramid(VarSt){
   let R,dZ,X0,Y0,dxy;  VS=VarSt;
+  for (j=0; j<Nzv; j++) {i=imt0[j]; omeg[i]=0; fis[i]=0;}
   if (VarSt==0){ //piramida
   for (j=0; j<Nzv; j++){i=imt0[j]; vxs[i]=0; vys[i]=0;
        wris[i]=7*kwN; Rs[i]=wris[i]*(1+2*db)/2;}        wris[0]=7*kw0; vxs[0]=10; ts=0;
@@ -281,8 +282,8 @@ let Fxy,Fx1,Fy1, dxR,dyR,vtij;
   Fx1=Fxy*dxR;  Fy1=Fxy*dyR;
   Fx[j]=Fx[j]+Fx1;    Fx[i]=Fx[i]-Fx1;
   Fy[j]=Fy[j]+Fy1;    Fy[i]=Fy[i]-Fy1;
-  vtij=(vxs[i]-vxs[j])*dyR-(vys[i]-vys[j])*dxR;
-  omeg[i]=vtij/Rs[i]; omeg[j]=-vtij/Rs[j];
+  vtij=((vxs[i]-vxs[j])*dyR -(vys[i]-vys[j])*dxR+omeg[i]*Rs[i]-omeg[j]*Rs[j])/2;
+  omeg[i]=-vtij/Rs[i]; omeg[j]=vtij/Rs[j];
   } //Udar
 
   for (i8 = 0; i8 < krat; i8++){ 
