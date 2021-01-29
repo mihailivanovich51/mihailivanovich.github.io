@@ -89,6 +89,7 @@ label{display: inline-block; width: 120px;
  <input type='button' class="btS" value='OpenObj'onclick="OpenSt();"><br>
  <input type='button' class="btS" value='SaveJS' onclick="SaveJS()">
    <a href=#> Save </a><br><br>
+  rv = <input type="number" value=0 id="RV" min=0 max=10 step=0.005 onchange = 'rv=+this.value;'><br>
   vx = <input type="number" id="vx"><br> 
   vy = <input type="number" id="vy"><br> 
   
@@ -257,7 +258,7 @@ let x0 = []; let y0 = []; Rp=0.3*Ly;
 
                          //Бильярд
    let omeg=[0,0,0,0,0,0,0]; let xs0=[]; let ys0=[];  let vxs0=[];  let vys0=[];   let ays=[0,0,0,0,0,0,0];
-   ts=0; dt=0.0025; krat=20;  Fx=[]; Fy=[];  Cs=800; db=0.06;   kom=1; 
+   ts=0; dt=0.001; krat=20;  Fx=[]; Fy=[];  Cs=800; db=0.06;   kom=1; 
    
    let xs=[]; let ys=[]; let vxs=[]; let vys=[];  let Rs=[]; fis=[0,0,0,0,0,0,0];
           
@@ -269,8 +270,7 @@ function PicSH(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
    if (i==0) Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' red';
   Img0[i].style.borderRadius=wris[i]+'vw'; 
   } }
-}
-
+}  
 function Bounce(){ //1 step Billiard
   let dR;  PorT=0; 
 for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  Rs[i]=wris[i]*(1+2*db)/2;}
@@ -301,15 +301,16 @@ let Fxy,Fx1,Fy1, dxR,dyR,vtij;
         +(ys[i]+Rs[i]-ys[j]-Rs[j])*(ys[i]+Rs[i]-ys[j]-Rs[j]));
       if (dR<(Rs[j]+Rs[i])) Udar(i,j);}  
 
-  vxs[i]=vxs[i]+Fx[i]*dt;  
-  vys[i]=vys[i]+ays[i]*dt+Fy[i]*dt;
+  vxs[i]=vxs[i]+Fx[i]*dt-rv*vxs[i]*dt;  
+  vys[i]=vys[i]+ays[i]*dt+Fy[i]*dt-rv*vys[i]*dt;
    xs[i]=xs[i]+vxs[i]*dt;     ys[i]=ys[i]+vys[i]*dt;
    fis[i]+=omeg[i]*dt;
 }
+ ts+=dt;}  
+T=0; for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  T+=vxs[i]*vxs[i]+vys[i]*vys[i] ;}
+ PicSH();}
 
- ts+=dt;}  PicSH();}
-
-  sincos();   SetTab(); SetName();  Piramid(VS);
+  sincos();   SetTab(); SetName();  Piramid(VS); let T; let rv=0;
 
 
   function SavOpenHelp(){if (flH==1) Help.style.display='none'; else Help.style.display='block';
@@ -430,19 +431,11 @@ function New(){t0[pic] = +t00.value; t1[pic] = +t01.value; t2[pic] = +t02.value;
   t4[pic] = +t04.value; t5[pic] = +t05.value; tz[pic] = +tz0.value; 
   rxy[0][pic]=+d00.value; rxy[1][pic]=+d01.value; rxy[2][pic]=+d02.value; Nst=+nst.value; }
 
-function Run(){
- let tim = setInterval(function() {
-   if (!act) {clearInterval(tim); document.getElementById("btn0").value='Theater'} else
-   document.getElementById("btn0").value='STOP';
-   OneStep()
-},tint); }//Run Teatr
+function Run(){ let tim = setInterval(function() {
+   if (!act) {clearInterval(tim); btn0.value='Theater'} else {btn0.value='STOP'; OneStep()}},tint); }//Run Teatr
 
-function Run1(){
- let tim = setInterval(function() {
-   if (!act1) {clearInterval(tim); btn1.value='Billiard'} else
-   document.getElementById("btn1").value='STOP';
-   Bounce()
-},tint); }//Run1 Billiard
+function Run1(){ let tim = setInterval(function() {
+   if (!act1) {clearInterval(tim); btn1.value='Billiard'} else {btn1.value='STOP'; Bounce()}},tint); }//Run1 Billiard
 
 function SetPic(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
   if (rect==1) if (k%12==i+1){rnd[i]=Math.floor(Math.random() * (8));}
