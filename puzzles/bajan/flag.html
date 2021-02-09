@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Bajanov</title>
+<title>flag 2021</title>
 </head>
 <body>
 <style>
@@ -27,11 +27,11 @@ body {background-color: rgba(250,250,250,0.5);
   box-shadow:0 0 10px 0 #555555;
   left: 215px;
   top: 10px;}
-#r0{position: fixed; left: 10px; top: 350px;}
+#r0{position: fixed; left: 10px; top: 330px;}
 #divinp{ position: fixed; top: 720px;}
 #BG{position: fixed; 
   left: 215px; top: 10px;  height:700px;
-  width:875px; -webkit-filter: blur(2px); opacity: 0.8;  
+  width:875px; -webkit-filter: blur(0px); opacity: 1;  
 }
 #btn0 {position: fixed; 
   left: 10px; top: 670px;
@@ -63,17 +63,17 @@ body {background-color: rgba(250,250,250,0.5);
 </style>
      <div id="d2">    
      <h3 style="text-align: center; font size: 20px">Программа 'ФЛАГ' (HELP)<br> Демонстрация колебаний флага на фоне BG</h3>   
-<p style="margin-top: 40px;"> Aks or Dim - выбираем вид аксонометрии...Flag or BG - на панель Change Image загружается (мышкой) изображение фона или флага..</p>    
+<p style="margin-top: 40px;"> Aks or Dim - выбираем вид аксонометрии...</p>Flag or BG - на панель Change Image загружается (мышкой) изображение фона или флага..</p>    
  <p>Радиокнопки  FlHor, FlVer, FlSdl, FFree, _X**2, _Y**2  выбирают различную форму деформации флага... </p>
  <p>Ползунками Opct и Blur регулируют прозрачность и размытость фона или флага..</p>
  <p>CTRL + V - вставка картинки флага или фона из буфера обмена..</p>
- <p>На панели Change fiZ and fiY мышью разворачиваем флаг...В главном окне мышью перемещаем флаг...  </p>  
+ <p>На панели Change fiZ and fiY мышью разворачиваем флаг...</p>В главном окне мышью перемещаем флаг...  </p>  
  <!--    <input type="button" id="close" value="X_Close" onclick="div2.style.height='0px'"> -->
     <a  class="closebtn" onclick="d2.style.height='0px'">&times</a>
     </div>  <!-- href="javascript:void(0)" -->
 
  <canvas id="Mycanvas" width="875" height="700">Обновите браузер</canvas>
- <img id="BG" src="bg.jpg"/>  
+ <img id="BG" src="bg1.jpg"/>  
 Change fiZ and fiY
 <div id="divfi"><br><br><br><br></div>
  
@@ -93,8 +93,8 @@ Change fiZ and fiY
  <input type="radio" name="radio" value="4" onclick="varfl=+this.value;SetTrans()">_X**2
  <input type="radio" name="radio" value="5" onclick="varfl=+this.value;SetTrans()">_Y**2 <br>
 <p>Background</p>
-Opct<input type="range" value="0.8" min=0.1 max=1 step=0.05 onchange = 'opc = +this.value; SetOpc()'><br>
-Blur<input type="range" value=2 min=0 max=10 step=1 onchange = 'blr = +this.value;  SetBlr()'><br><br> 
+Opct<input type="range" value="1" min=0.1 max=1 step=0.05 onchange = 'opc = +this.value; SetOpc()'><br>
+Blur<input type="range" value=0 min=0 max=10 step=1 onchange = 'blr = +this.value;  SetBlr()'><br><br> 
 <p>Flag</p>
 OpcF<input type="range" value="1" min=0.1 max=1 step=0.05 onchange = 'opf = +this.value;SetTrans()'><br>
 BlFl<input type="range" value="0" min=0 max=10 step=1 onchange = 'blf = +this.value; SetTrans()'><br>
@@ -106,7 +106,7 @@ Zoom  <input type="range" value="37" min=1 max=50 step=1 onchange = 'kzoom = +th
 Ampl  <input type="range" value="25" min=1 max=50 step=1 onchange = 'aflag = +this.value;  SetTrans()'>
 Speed <input type="range" value="25" min=1 max=50 step=1 onchange = 'akf = +this.value/100;'>
 
-<input type="button" id="help" value="HELP" onclick="if (d2.style.height=='350px') d2.style.height='0px'; else d2.style.height='350px' ">
+<input type="button" id="help" value="HELP" onclick="if (d2.style.height=='450px') d2.style.height='0px'; else d2.style.height='450px' ">
 <input type="checkbox" checked onclick="exp=!exp">expansion<br>
 <p id="sN" style = "margin-left: 10px;"> Nx = </p> 
 </div>
@@ -114,7 +114,7 @@ Speed <input type="range" value="25" min=1 max=50 step=1 onchange = 'akf = +this
  <input type='button' id="btn0" value='PLAY'onclick="act = (!act); Run()">
 
 <script type="text/javascript">
-   let Wb,Hb,bgw;  wp=Mycanvas.width; let act = false; imFlag = true; let exp=true;
+   let Wb,Hb,bgw;  wp=Mycanvas.width; let act = false; imFlag = true; let exp=true; let dxd;
 	nx=10; ny=8; let opc=0.8; let opf=1.0; blr = 2; blf = 0; let x0,y0;  kzoom = 1.5; flmouse=false;  flfi=false; let dxf = 5; varfl = 0;  Aks = true;
   sN.innerHTML= "Nx = "+nx+" ;  Ny= "+ny;
 
@@ -136,7 +136,7 @@ function SetBlr(){BG.style =' width:'+ wp +'px;'+ '-webkit-filter: blur('+blr+'p
 
 function SetNxy(){
 w0 = W/(nx-0);  h0 =H/(ny-0); 
-  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}
+  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}  dxd=0.12*dx;
 	sN.innerHTML= "Nx = "+nx+" ;  Ny= "+ny;
 SetTrans();	
 }
@@ -160,12 +160,12 @@ SetTrans();
  img2.onload = function() { kf=0;
  W=this.width;  H = this.height; 
  w0 = W/(nx-0);  h0 =H/(ny-0); 
-  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}
+  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}   dxd=0.12*dx;
  SetTrans(); 
 }
  
 pim = Math.PI;   let aflag=15;  
-xris0 = 30; yris0 = 100; xris = xris0; yris = yris0;  akf = 0.2;
+xris0 = 20; yris0 = 100; xris = xris0; yris = yris0;  akf = 0.2;
 let fiz0 = -0.78;  fiz = fiz0; let fiy0 = 0;  fiy = fiy0; 
 cosz=Math.cos(fiz); cosy=Math.cos(fiy); sinz=Math.sin(fiz); siny=Math.sin(fiy); 
 
@@ -188,7 +188,8 @@ function SetTrans(){
 xs[i][j] = (dx*i)*kzoom;
 ys[i][j] = (dy*j)*kzoom;
 switch (varfl) {
- case 0: zs[i][j] = (Math.sin(1.5*pim/nx*i+akf*kf)-Math.sin(akf*kf))*aflag*kzoom; break;
+ case 0: dx1=dxd*Math.sin(akf*kf)+dxd; xs[i][j] = ((dx-dx1)*i)*kzoom;
+        zs[i][j] = (Math.sin(1.5*pim/nx*i+akf*kf)-Math.sin(akf*kf))*aflag*kzoom; break;
  case 1: zs[i][j] = (Math.sin(1.5*pim/ny*j+akf*kf)-Math.sin(akf*kf))*aflag*kzoom; break;
  case 2: zs[i][j] = (Math.sin(pim/nx*i)-Math.sin(pim/ny*j)-0.0)*Math.cos(akf*kf)*aflag*kzoom; break;
  case 3: zs[i][j] = (Math.sin(pim/nx*i)+Math.sin(pim/ny*j)-0.0)*aflag*Math.sin(akf*kf)*kzoom; break;
@@ -272,7 +273,7 @@ SetTrans();
  img2.onload = function() { kf=0;
  W=this.width;  H = this.height; 
  w0 = W/(nx-0);  h0 =H/(ny-0); 
-  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}
+  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}   dxd=0.12*dx;
  SetTrans(); 
       }});
   }, false);
