@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Line Rnd</title>
+</head>
+<body>
+<style>
+body{
+	font-size: 20px;
+}	
+input{width: 50px; margin-left: 10px;} 	
+/*#nl,#z1,#r,#f,#df,#l{width: 50px; margin-left: 10px;} 	*/
+canvas{
+border:1px solid #a1a4a8; 
+box-shadow:0 0 10px 0 #555555;
+margin-left: 25px;
+margin-top: 5px;}
+#bt,#bt1,#bt2{width: 100px; height: 35px;background-color: rgb(150,60,60); color: rgb(100,250,250);}
+#d2{ position: fixed; top: 2px; left: 2px; background-color: #000; width: 100%; height: 0px; color: #aff; font-size: 20px; font-weight: normal;  overflow-y: hidden; transition: 0.5s; z-index: 2;}
+ .closebtn {
+  position: absolute; color: #aaa;
+  top: 0px;
+  left: 5px;
+  font-size: 45px; cursor: pointer;}
+ .closebtn:hover {color: red;} 
+#help{background-color: #D2691E; width: 80px; height: 30px;font-size: 18px; color: white;}
+#help:hover{background-color: rgb(150,60,60);}
+
+</style>
+    <div id="d2">    
+ <p style="margin-top: 40px;"> Пояснения к программе:<br> кнопкой RND 1 step пошагово вычерчиваютя отрезки прямых.<br> - nLine - количество линий; Fi/pi - коэффициент угла случайного рассеивания, при "0" отрезки одного направления,<br> dFi - угол отклонения, fi0 - угловое смещение линий, WLine - толщина линий, Rstart - радиус начала прямых,<br> Lstep - длина отрезков, при отмеченном Random отрезки разной длины (случайно).<br>Кнопкой 'CLEAR' стирают канву, но построение продолжается из последних точек. <br> Начальные точки заново задаются на окружности Rstart только при изменении nLine или кнопкой NewStart. <br> Сохранить рисунок можно кликом по "Download to Im_01.png", а скопировать с помощью правой кнопки мыши. <br>
+ Регулярные фигуры Fi=0; nLine=3,6,9 - dFi=0.835; nLine=4,8 - dFi=0.75; nLine=5 - dFi=0.9; без Random.
+ </p>  
+ 
+    <a  class="closebtn" onclick="div2.style.height='0px'">&times</a>
+    </div>  <!-- href="javascript:void(0)" -->
+
+<!-- <img id = "im0" src="../image/MI_01.jpg">  -->
+ <canvas id="Mycanvas" width="550" height="550">Обновите браузер</canvas><br>
+
+ Zoom<input type="number" id="z1" value="1" step='0.1' onchange = 'kxy=this.value; Zoom()' >
+nLine<input type="number" id="nl" value="100" onchange = 'nl=this.value; SetArr()'> 
+Fi/pi<input type="number" id="f" value="1" step='0.1' onchange = 'kfi=this.value;'> 
+dFi/pi<input type="number" id="df" value="0" step='0.1' onchange = 'dfi=+this.value*pim;'> 
+fi0<input type="number" id="fi0" value="0" step='0.5' onchange = 'fi0=+this.value*pim/180;'><br> 
+Wline<input type="number" id="l" value="1" onchange = 'lw=this.value;'>
+Rstart<input type="number" id="rc" value="60" onchange = 'rc=this.value; '>
+Lstep<input type="number" id="r" value="20" onchange = 'rst=this.value; '>
+Random<input type="checkbox" checked onclick= 'lrnd=!lrnd;'><br> 
+   
+  <input type="color" id="R1" value= "#FFFFFF" onchange = 'colorbgr=this.value; SetBG()'>BackGround
+  <input type="color" id="R2" value= "#0000ff" onchange = 'colorline=this.value; ctx.beginPath();'>Lines Color
+  <input type='button' id="bt" value='RND 1 step' onclick='Step1()'>
+<a id="download" download="Im_01.png" href="" onclick="download_img(this);">Download to Im_01.png</a><br>
+  <input type='button' id="bt1" value='CLEAR' onclick='ctx.beginPath(); SetBG()'>
+  <input type='button' value='COPY' onclick='Copy()'>
+  <input type='button' id="bt2" value='NewStart' onclick='SetArr()'>
+  <input type="button" id="help" value="HELP" onclick="if (div2.style.height=='300px') div2.style.height='0px'; else div2.style.height='300px'"> 
+   
+<script type="text/javascript">
+	var canvas=document.getElementById("Mycanvas");    lw=1;
+	var ctx=canvas.getContext("2d"); ctx.beginPath(); ctx.lineWidth=lw;
+    var div2 = document.getElementById("d2");
+
+let colorline='#0000ff';  let colorbgr='#FFFFFF'; let pim = Math.PI; let lrnd = true;
+let minx0 = -canvas.width/2; let miny0 = -canvas.height/2; let kxy = 1; kfi = 1.0; dfi=0; fi0=0;
+minx=minx0; miny=miny0;
+ rst=20; 
+let xs=[];  let ys=[]; nl = 100; rc=60; var df=2*pim/nl; 
+
+SetArr();
+
+function SetBG(){
+  ctx.fillStyle=colorbgr;
+  ctx.fillRect(0,0,canvas.width,canvas.height); ctx.stroke();  
+}
+function newx(x) {return (-minx + x)*kxy;}
+function newy(y) {return (-miny - y)*kxy;}
+function Zoom() {minx=minx0/kxy; miny=miny0/kxy; }
+function SetArr() {	xs=[]; ys=[]; 
+for (i = 0; i < nl; i++){ df=2*Math.PI/nl; 
+fi=fi0+df*i; xs[i]=rc*Math.cos(fi); ys[i]=rc*Math.sin(fi);}
+}
+function Step1() {
+	ctx.strokeStyle=colorline; ctx.lineWidth=lw;
+  for (i = 0; i < xs.length; i++){
+//  	var df; if (i<xs.length/2) {df=dfi;} else df=-dfi;
+fi =fi0-pim/2 + dfi+df*i+Math.random()*pim*kfi+pim*(1-kfi)/2; 
+if (lrnd) r0 = Math.random()*rst; else r0 = rst;
+dx=r0*Math.cos(fi); dy=r0*Math.sin(fi);
+  ctx.moveTo(newx(xs[i]),newy(ys[i]));  
+  ctx.lineTo(newx(xs[i]+dx),newy(ys[i]+dy));
+  xs[i]=xs[i]+dx; ys[i]=ys[i]+dy;
+ }
+            ctx.stroke();
+}
+download_img = function(el) {
+  // get image URI from canvas object
+  var imageURI = canvas.toDataURL("image/png");//("image/jpg");
+  el.href = imageURI;
+};
+
+// do copy 
+function Copy(){
+var img = document.getElementById('im0');
+//var img = document.createElement('im1');
+img.src = canvas.toDataURL("image/png")
+
+ var div = document.createElement('div');
+ div.contentEditable = true;
+ div.appendChild(img);
+ document.body.appendChild(div);
+ SelectText(div);
+ document.execCommand('Copy'); //window.addEventListener("copy",SelectText(div)); window.copy;
+// document.body.removeChild(div);
+ document.copy;
+}
+function SelectText(element) {
+    var doc = document;
+    if (doc.body.createTextRange) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(element);
+        range.select();
+    }  else if (window.getSelection) {
+         var selection = window.getSelection();
+         var range = document.createRange();
+         range.selectNodeContents(element);
+         selection.removeAllRanges();
+         selection.addRange(range);
+     }
+}
+
+</script> 
+</body>
+</html>
