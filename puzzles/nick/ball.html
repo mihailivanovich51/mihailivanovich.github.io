@@ -69,11 +69,10 @@ body {
   vx<input class ='i1' type="number" id="VX" value="50">
   vy<input class ='i1' type="number" id="VY" value="-40"><br>
   ay<input class ='i1' type="number" id="AY" value="0.5">
-  om<input class ='i1' type="number" id="OM" value="40"> 
   dt<input class ='i1' type="number" id="DT" min=0.01 max=2 step=0.01 value="0.1">
   kr<input class ='i1' type="number" id="KR" value="2"> 
  <input type='button' value='Input Data' onclick='InpData()' 
-    style="margin-left: 20px; width: 100px; height: 25px; margin-top: 5px"/>
+    style="margin-left: 26px; width: 100px; height: 25px; margin-top: 5px; background-color: brown;"/>
   <p>
     <input type="radio" name="radio" value="0">Left to right
     <input type="radio" name="radio" value="1">Top to down
@@ -83,37 +82,31 @@ body {
   <input type='button' id="btn0" value='START' ><br>
 
 <script type='text/javascript' >
-  let act = false;    let kr = 2;    kfi=180/Math.PI;
+  let act = false;    let kr = 2;  
   let x = 50; 
   let y =100;  
-  let v0 = -50; let vy0 = -40; let ay0 = 0.5; let va = 12; let a0 = 0; rb=50;
+  let v0 = 50; let vy0 = -40; let ay0 = 0.5; let om = 0; let a0 = 0; rb=50;
   let vx; let vy; let ay;  let a; let dt = 0.1;
   vx = v0;      vy = vy0;     ay = ay0;      a = a0;  
 
       Pict();
 
 function Pict(){
-  im0.style.left = String(x)+'px';
-  im0.style.top = String(y)+'px';
-  im0.style.transform = 'rotate(' + String(a) + 'deg)';
+  im0.style.left = x+'px';
+  im0.style.top = y+'px';
+  im0.style.transform = 'rotate(' + a + 'rad)';
  }     
 function InpData(){
-  let input = document.getElementById('X0');  x = input.value
-  input = document.getElementById('Y0'); y = input.value
-  input = document.getElementById('VX'); v0 = input.value
-  input = document.getElementById('VY'); vy0 = input.value
-  input = document.getElementById('AY'); ay0 = input.value
-  input = document.getElementById('OM'); va = input.value
-  input = document.getElementById('DT'); dt = input.value
-  input = document.getElementById('KR'); kr = input.value
-  vx = v0;  vy = vy0; ay = ay0;    a = a0; 
+  x = X0.value ; y = Y0.value; v0 = VX.value; vy0 = VY.value;  
+  ay0 = AY.value;  /*om = OM.value;*/  dt = DT.value;  kr = KR.value;
+  vx = v0;  vy = vy0; ay = ay0;    a = a0; om=0;
   Pict();
  }
 function Borders(){
-  if ((x >= 480)&&(vx>0)){vx = -vx; va=0; va = -kfi*vy/rb;} 
-  if ((x <= 0)&&(vx<0)){vx = -vx; va = kfi*vy/rb;} 
-  if ((y >= 280)&&(vy>0)){vy = -vy; va = kfi*vx/rb;}
-  if ((y <= 0)&&(vy<0)){vy = -vy; va = -kfi*vx/rb;}
+  if ((x >= 480)&&(vx>0)){vx = -vx; om = -vy/rb;} 
+  if ((x <= 0)&&(vx<0)){vx = -vx; om = vy/rb;} 
+  if ((y >= 280)&&(vy>0)){vy = -vy; om = vx/rb;}
+  if ((y <= 0)&&(vy<0)){vy = -vy; om = -vx/rb;}
  }   
 
 let button0 = document.querySelector('#btn0');
@@ -133,11 +126,11 @@ let tim = setInterval(function() {
  if (kradio==0){x = +x + +vx*dt;}
  if (kradio==1){vy = +vy + +ay*dt; y = +y + +vy*dt; /*a = +a + +va*dt;*/ }
  if (kradio==2){ x = +x + +vx*dt; vy = +vy + +ay*dt; 
-    y = +y + +vy*dt; a = +a + +va*dt; }                    
+    y = +y + +vy*dt; a = +a + +om*dt; }                    
  
  Borders();
      i++;   if (i == kr){ 
-     /*vx = 1.0*vx; vy = 1.0*vy;*/ i = 0; Pict()}
+     i = 0; Pict()}
 }, 50/kr);
 });  //end click
 </script>
