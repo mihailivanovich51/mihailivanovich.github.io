@@ -1,0 +1,103 @@
+<html>
+<head>
+        <meta charset="UTF-8">
+	<title>Table Gauss</title> 
+		<style> 
+#btn1 {
+  width: 180px; 
+  height: 30px; 
+  margin-top: 5px; 
+  color: white; 
+  background-color: darkred;
+  transition: width 0.2s, height 0.2s, background-color 0.2s ;
+}      
+#btn1:hover {
+  width: 190px; 
+  height: 40px;
+  background-color: red;     
+      }
+input { width: 190px; margin-left: 1px ;
+font-family: "Courier New"; font-size:18; font-weight: bold;
+ }
+body {background-image: url('00.png'); background-size: 20px 20px;
+font-family: "Courier New", Arial, sans-serif; font-weight: bold;
+       }
+table { font-weight: bold } 
+div { margin-left: 30px ;}
+                </style>
+</head>
+<body>
+  <p> Расчет Матожидания, дисперсии и СКО <br>
+     Алгоритм:<br> 
+     Сумму Nr чисел из ДСЧ принимаем за одно число Xi<br> случайной последовательности Nx<br>
+     Матожидание Mx находим как среднее значение,<br> 
+     дисперсию Dx и СКО sigmaX по обычным формулам<br> стат. обработки. </p>
+ <div>
+  Nx = <input type="number" id="Inp1" value="5000" style="width: 80px;"><br>
+  Nr = <input type="number" id="Inp2" value="5" style="width: 80px;"><br>
+  <input type='button' value='Input N and Nr' onclick='messageShow()' id="btn1" />
+  </div>
+   <p id="par1">Turn the button.</p>
+
+              <table border="1" width="500" height="240">
+	<tr>
+		<th colspan="2" > Results</th> <th>Theory</th>
+	<!--	<th>Ячейка 3</th> -->
+	</tr>
+
+	<tr>
+	<td>Mx</td> <td id="Mx">Mx</td> <td>0.0</td>
+	</tr>
+
+	<tr>
+	<td>Dx</td> <td id="Dx">Dx</td> <td>1.0</td>
+	</tr>
+
+	<tr>
+	<td>SigmaX</td> <td id="Sx">Sigmax</td> <td>1.0</td>
+	</tr>
+         </table>
+
+
+ <script type='text/javascript' >
+   var Sum = 0;
+   var Sum2 = 0;
+   var t;
+   let N = ''
+   let Nr = ''
+   let arr = [];
+ function messageShow() {
+   const input = document.getElementById('Inp1')
+   N = input.value
+   const input1 = document.getElementById('Inp2')
+   Nr = input1.value
+   arr = [];
+   for (i = 0; i < N; i++){
+  t=0; 
+   for (j = 0; j < Nr; j++){ 
+   a = Math.random();
+   t = t + (a- 0.5);
+    if (i==0){
+    arr[j] = (a*100).toFixed(0)    //Math.round(a*100)   
+   }
+   }
+  Sum = Sum + t;
+  Sum2 = Sum2 + t*t;
+   }
+     Sum = (Sum/N);  
+     Sum2 = ((Sum2/N)*12/Nr - Sum*Sum);
+     var sko = Math.sqrt(Sum2);
+
+   document.getElementById("par1").innerHTML="Result:" +
+" Nx = " + N + ";  Nr =  "+ Nr + ' arrRND: ' + arr;
+   //{alert(arr)}
+
+document.getElementById("Mx").innerHTML= (Sum).toFixed(5);
+document.getElementById("Dx").innerHTML= (Sum2).toFixed(4);
+document.getElementById("Sx").innerHTML= (sko).toFixed(4);;
+}
+</script>
+
+</body>
+</html>
+
