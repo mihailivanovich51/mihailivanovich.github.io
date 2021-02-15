@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head> <meta charset="UTF-8" >
+    <title>BERLOGA 51</title>
+<style>
+
+body {
+  font-family: Arial;
+  margin: 0;
+}
+.header {
+  padding: 2vh;
+  text-align: center;
+  background: #000099;
+  color: white;
+  font-size: 30px;
+}
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+.overlay a {
+  padding: 2px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+#overlay-content {
+  position: relative;
+  text-align: center;
+  top: 5%;
+  width: 100%;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 2px;
+  left: 20px;
+  font-size: 60px;
+}
+.big{height: 75vh;}
+.blur {
+        -webkit-filter: blur(5px);
+        cursor: pointer; 
+        float: left;
+        width: 19vw;
+        margin-left: 0.5vw;
+        margin-top:  2vw;
+        transition: -webkit-filter 0.5s;
+      }
+.blur:hover {-webkit-filter: blur(0px);}
+#i0{margin-left: 10vw;}
+
+</style>
+</head>
+<body>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div id="overlay-content">
+    <a> </a>
+  </div>
+</div>
+
+<div class="header">
+  <p>BERLOGA 51</p>
+</div>
+
+    <img id= "i0" class="blur" src="..//puzzles/BRB_01.jpg"     onclick="openNav()">
+    <img id= "i1" class="blur" src="..//puzzles/MI_01.jpg"      onclick="openNav()">
+    <img id= "i2" class="blur" src="..//puzzles/Paddy_01.jpg"   onclick="openNav()">
+    <img id= "i3" class="blur" src="..//puzzles/ARCHY_01.jpg"   onclick="openNav()">
+    <img id= "i4" class="blur" src="..//puzzles/DBLD_02.jpg"    onclick="openNav()">
+    <img id= "i5" class="blur" src="..//puzzles/ML_01.jpg"      onclick="openNav()">
+    <img id= "i6" class="blur" src="..//puzzles/Sirano_01.jpg"  onclick="openNav()">
+    <img id= "i7" class="blur" src="..//puzzles/Snuglse_02.jpg" onclick="openNav()">
+    <img id= "i8" class="blur" src="..//puzzles/Valdek.jpg"     onclick="openNav()">
+
+<script>
+  Name = ["Barboss","Michael Ivanovich","Paddy","Archy","prof. Dumbledorf","Mog. Lapy","Sirano","Snugles","Valdek"]
+function openNav() {
+s1 = event.target.src;    s3 = event.target.id; s2 = s3.slice(1);
+   s = "<a>"+ Name[s2]+ "</a>"; 
+    s = s + "<img class='big' src=" + s1 + ">"  ;
+  document.getElementById("overlay-content").innerHTML = s;
+  document.getElementById("myNav").style.width = "100%";}
+
+function closeNav() {document.getElementById("myNav").style.width = "0%";}
+
+
+</script>
+     
+</body>
+</html>
