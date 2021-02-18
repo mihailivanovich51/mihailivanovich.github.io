@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head> <meta charset="UTF-8" >
+    <title>Bears and B51</title>
+<style>
+
+body {
+  font-family: Arial;
+  margin: 0; 
+} 
+#p0{text-align: center;}
+.header {
+  padding: 5px;
+  text-align: center;
+  background: #000099;
+  color: white;
+  font-size: 30px;
+}
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #ffffff;
+}
+#overlay-content {
+  position: relative;
+  text-align: center;
+  top: 15%;
+  width: 100%;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 60px;
+}
+.big{
+  width: 50%; margin: 25%; margin-top: 2%;
+}
+.blur {-webkit-filter: blur(2px);
+        cursor: pointer;         
+        margin-left: 5px;
+        margin-top:  5px;
+        transition: -webkit-filter 0.5s;
+      }
+.blur:hover {-webkit-filter: blur(0px);}
+#p1{font-size: 16px;}
+</style>
+</head>
+<body>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div id="overlay-content">
+    <a> </a>
+  </div>
+</div>
+  
+<div class="header">
+<p id= "p1">  
+<input type="radio" checked name="varb" onclick='varz=1; SetBears()'>Zv 51
+<input type="radio" name="varb" onclick='varz=0; SetBears()'>from WWW </p>
+  <h1 id="h1t"> URSUS from INTENET</h1>
+</div>
+
+<div id="di">
+  <p id= "p0">    
+  </p>
+</div> 
+<script>
+let varz=1; 
+  
+let ArimW = ['https://icdn.lenta.ru/images/2019/07/08/14/20190708143614542/square_1024_acb6fa5e07efdea150219fdef91e1c96.jpg',
+'https://api.time.com/wp-content/uploads/2018/05/bear-pepper-spray.jpg?w=800&quality=85',
+'https://im.kommersant.ru/Issues.photo/CORP/2018/07/23/KMO_141501_03399_1_t218_201916.jpg',
+'https://cdn21.img.ria.ru/images/155246/09/1552460957_0:383:2787:1951_600x0_80_0_0_51451dc5400e57c8dbdff55b8082a07d.jpg',
+'https://img1.liveinternet.ru/images/attach/c/11/116/632/116632247_1.jpg',
+'https://s11.stc.all.kpcdn.net/share/i/12/11016788/inx960x640.jpg',
+'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTTJHpxR57vFEXwrn5q3RuYsrqq7LkYMpDrwA&usqp=CAU',
+'https://ru.sm.news/wp-content/uploads/2020/03/11/16cb97b8-dce9-4068-a85c-c1ad944016c9.jpeg',
+'https://cdn.images.express.co.uk/img/dynamic/128/590x/secondary/100353.jpg',
+'https://animalfactguide.com/wp-content/uploads/2013/01/grizzlybear-2.jpg',
+'https://static.mk.ru/upload/entities/2019/08/07/21/articles/detailPicture/c3/6e/fc/6a/a96ca57d3c9c68baad30081b31e5a393.jpg',
+'https://www.belta.by/images/storage/news/with_archive/2020/000023_1585837767_385697_big.jpg',
+'https://trikky.ru/wp-content/blogs.dir/1/files/2020/05/24/medved.jpg',
+'https://53news.ru/images/wsscontent/articles/2017/10/lyubytinskaya-medveditsa-schitaet-ulitsy-rajtsentra-sredoj-svoego-obitaniya.jpg',
+'https://komiinform.ru/content/news/images/199554/1467011007-01.jpg',
+'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRzGjMFXjv-Uvx_1hm-myjmtrshke5dNeqyIitPm2JVnGq8MewjWMdh1YGqLxji_qKaQua-nQ&usqp=CAU'];
+ 
+let Arim51 = ["..//puzzles/BRB_01.jpg","..//puzzles/MI_01.jpg","..//puzzles/Paddy_01.jpg","..//puzzles/ARCHY_01.jpg","..//puzzles/DBLD_02.jpg","..//puzzles/ML_01.jpg","..//puzzles/Sirano_01.jpg","..//puzzles/Snuglse_02.jpg","..//puzzles/Valdek.jpg"];
+
+ let Name51 = ["Barboss","Michael Ivanovich","Paddy","Archy","prof. Dumbledorf","Mog. Lapy","Sirano","Snugles","Valdek"]
+ 
+ let NameW = []; let Name = [];   let Arim=[];    let W;   SetBears();
+
+ function SetBears(){let kpv=document.body.clientWidth/100; 
+ if (varz==1) {Name=Name51; Arim=Arim51; nim = Arim.length; W = 19*kpv} else {Arim=ArimW; nim = Arim.length; W=12*kpv;
+  for (i = 0; i < nim; i++) {NameW[i] = 'Bears Pict #'+i;} Name=NameW;}
+s = '';
+for (i = 0; i < nim; i++) {
+s = s+'<img id= "i'+i+'" class="blur" width='+W+' src='+Arim[i]+' onclick="openNav()">'
+}
+document.getElementById("p0").innerHTML = s;
+if (varz==1)  h1t.innerHTML="Berloga 51"; else h1t.innerHTML="Bears from WWW "
+}
+
+function openNav() {
+s1 = event.target.src;    s3 = event.target.id; s2 = s3.slice(1);
+   s = "<a>"+ Name[s2]+ "</a>"; 
+    s = s + "<img class='big' src=" + s1 + ">"  ;
+  document.getElementById("overlay-content").innerHTML = s;
+  document.getElementById("myNav").style.width = "100%";}
+
+function closeNav() {document.getElementById("myNav").style.width = "0%";}
+
+</script>     
+</body>
+</html>
