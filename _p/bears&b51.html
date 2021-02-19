@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head> <meta charset="UTF-8" >
-    <title>Bears and B51</title>
+    <title>Show Bears 03</title>
 <style>
 
 body {
@@ -27,7 +27,7 @@ body {
   overflow-x: hidden;
   transition: 0.5s;
 }
-.overlay a {
+.overlay a, .overlay a:focus {
   padding: 8px;
   text-decoration: none;
   font-size: 36px;
@@ -36,7 +36,7 @@ body {
   transition: 0.3s;
 }
 
-.overlay a:hover, .overlay a:focus {
+.overlay a:hover {
   color: #ffffff;
 }
 #overlay-content {
@@ -54,15 +54,19 @@ body {
 }
 .big{
   width: 50%; margin: 25%; margin-top: 2%;
+  /*box-shadow: 10px 10px 7px gray;*/
 }
-.blur {-webkit-filter: blur(2px);
+.blurW,.blur51{-webkit-filter: blur(2px);
         cursor: pointer;         
+        width: 10vw;
         margin-left: 5px;
         margin-top:  5px;
         transition: -webkit-filter 0.5s;
       }
-.blur:hover {-webkit-filter: blur(0px);}
-#p1{font-size: 16px;}
+.blur51 { width: 15vw;     
+      }
+.blur51:hover,.blurW:hover{-webkit-filter: blur(0px);}
+#p1{font-size: 14px;}
 </style>
 </head>
 <body>
@@ -87,8 +91,8 @@ body {
 </div> 
 <script>
 let varz=1; 
-  
-let ArimW = ['https://icdn.lenta.ru/images/2019/07/08/14/20190708143614542/square_1024_acb6fa5e07efdea150219fdef91e1c96.jpg',
+let Arim=[];   
+Arim[0]=['https://icdn.lenta.ru/images/2019/07/08/14/20190708143614542/square_1024_acb6fa5e07efdea150219fdef91e1c96.jpg',
 'https://api.time.com/wp-content/uploads/2018/05/bear-pepper-spray.jpg?w=800&quality=85',
 'https://im.kommersant.ru/Issues.photo/CORP/2018/07/23/KMO_141501_03399_1_t218_201916.jpg',
 'https://cdn21.img.ria.ru/images/155246/09/1552460957_0:383:2787:1951_600x0_80_0_0_51451dc5400e57c8dbdff55b8082a07d.jpg',
@@ -105,26 +109,27 @@ let ArimW = ['https://icdn.lenta.ru/images/2019/07/08/14/20190708143614542/squar
 'https://komiinform.ru/content/news/images/199554/1467011007-01.jpg',
 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRzGjMFXjv-Uvx_1hm-myjmtrshke5dNeqyIitPm2JVnGq8MewjWMdh1YGqLxji_qKaQua-nQ&usqp=CAU'];
  
-let Arim51 = ["..//puzzles/BRB_01.jpg","..//puzzles/MI_01.jpg","..//puzzles/Paddy_01.jpg","..//puzzles/ARCHY_01.jpg","..//puzzles/DBLD_02.jpg","..//puzzles/ML_01.jpg","..//puzzles/Sirano_01.jpg","..//puzzles/Snuglse_02.jpg","..//puzzles/Valdek.jpg"];
+ Arim[1] = ["..//puzzles/BRB_01.jpg","..//puzzles/MI_01.jpg","..//puzzles/Paddy_01.jpg","..//puzzles/ARCHY_01.jpg","..//puzzles/DBLD_02.jpg","..//puzzles/ML_01.jpg","..//puzzles/Sirano_01.jpg","..//puzzles/Snuglse_02.jpg","..//puzzles/Valdek.jpg"];
+ let nim=[]; nim[0]=Arim[0].length; nim[1]=Arim[1].length;
+ let Name = []; Name[0]=[];
+ Name[1] = ["Barboss","Michael Ivanovich","Paddy","Archy","prof. Dumbledorf","Mog. Lapy","Sirano","Snugles","Valdek"]
+ for (i = 0; i < nim[0]; i++) {Name[0][i] = 'Bears Pict #'+i;}
+ for (i = 0; i < nim[1]; i++) {Name[1][i] = 'My Name is '+Name[1][i];}
+ let bl=["blurW","blur51"];
 
- let Name51 = ["Barboss","Michael Ivanovich","Paddy","Archy","prof. Dumbledorf","Mog. Lapy","Sirano","Snugles","Valdek"]
- 
- let NameW = []; let Name = [];   let Arim=[];    let W;   SetBears();
+    SetBears();
 
- function SetBears(){let kpv=document.body.clientWidth/100; 
- if (varz==1) {Name=Name51; Arim=Arim51; nim = Arim.length; W = 19*kpv} else {Arim=ArimW; nim = Arim.length; W=12*kpv;
-  for (i = 0; i < nim; i++) {NameW[i] = 'Bears Pict #'+i;} Name=NameW;}
+ function SetBears(){
 s = '';
-for (i = 0; i < nim; i++) {
-s = s+'<img id= "i'+i+'" class="blur" width='+W+' src='+Arim[i]+' onclick="openNav()">'
-}
+for (i = 0; i < nim[varz]; i++) {
+s = s+'<img id= "i'+i+'" class='+bl[varz]+'  src='+Arim[varz][i]+' onclick="openNav()">'}
 document.getElementById("p0").innerHTML = s;
 if (varz==1)  h1t.innerHTML="Berloga 51"; else h1t.innerHTML="Bears from WWW "
 }
 
 function openNav() {
 s1 = event.target.src;    s3 = event.target.id; s2 = s3.slice(1);
-   s = "<a>"+ Name[s2]+ "</a>"; 
+   s = "<a>"+ Name[varz][s2]+ "</a>"; 
     s = s + "<img class='big' src=" + s1 + ">"  ;
   document.getElementById("overlay-content").innerHTML = s;
   document.getElementById("myNav").style.width = "100%";}
