@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SpiralSquare00</title>
+</head>
+<body>
+<style>
+.i1{width: 60px; margin-left: 10px;} 
+body{font-family: "TNR"; font-size: 16px;}	
+canvas{
+border:1px solid #a1a4a8; 
+box-shadow:0 0 10px 0 #555555;
+-webkit-box-shadow:0 0 10px 0 #555555;
+-moz-box-shadow:0 0 10px 0 #555555;
+margin-left: 20px;
+margin-top: 20px;}
+    div{ position: absolute; 
+         width: 150px; height: 170px;         
+         top: 30px; left: 650px;
+         border: 1px solid black; box-shadow:0 0 6px 0 #222299;
+         background-color: rgb(240,240,250);
+         font-family: "Courier New"; font-size: 15px;
+         text-align: center;}
+button,input[type='button']{width: 60px}       
+#tname{width: 70px; margin-top: 10px}
+input[type='number']{ width: 60px}
+input[type='range']{ width: 100px}
+input[type='color']{margin-left: 15px}
+ #btn0 {
+  width: 110px; 
+  height: 36px;  
+  background-color: rgb(50, 14, 12);
+  font-family: 'Courier New'; font-size: 18px; font-weight: bold; color: white;
+  transition: width 0.2s, height 0.2s,  background-color 0.2s;  
+ }
+#btn0:hover {background-color: red;}
+p{margin-left: 20px; margin-top: 2px}
+</style>
+ <canvas id="Mycanvas" width="600" height="600">Обновите браузер</canvas><br>
+
+<div> 
+  <input  id="tname" value="New Data"><br><br> 
+  W_% = <input type="number" value="70" min=2 max=100 step=1 id="wst"><br> 
+  dw% = <input type="number" value="3" min=0.1 max=14 step=0.1 id="dw"><br> 
+  wf% = <input type="number" value="10" min=2 max=50 step=1 id="wfin"><br>
+  V <input id="btn2" type="range" value="50" min=20 max=150 step=5 onchange = 'tint=170-this.value'><br> 
+  <button id="bt0" onclick="New()">NEW</button>
+ </div>
+  <input type="color" value= "#FFFFFF" onchange = 'colorbgr=this.value; SetBG()'>BackColor
+  <input type="color" value= "#0000ff" onchange = 'colorline=this.value; ;'>LineColor
+
+  <button onclick="clearCanvas()">Clear</button>
+
+ <input type='button' value='1 step' onclick='Set1Step()'>
+ <input type="checkbox" checked onclick="squer=!squer">only Squers
+ <input type='button' id="btn0" value='RUN' onclick='act = (!act);Run()'><br>
+ <p>Picture can be inserted "ctrl+V"</p> 
+<script type="text/javascript">
+	let squer = true;     let act=false;  let tint=25;
+	let colorline='#0000ff';  let colorbgr='#FFFFFF';
+	var canvas=document.getElementById("Mycanvas")
+    var ctx=canvas.getContext("2d"); let canW=canvas.width;
+    ctx.strokeStyle=colorline; ctx.lineWidth=1;  
+ var img2=new Image();  // Создаём изображение
+ img2.src = "Brb_01.jpg";
+
+   let W0,H0,Wfin,W,H,x0,y0,kW,dfi,sinb,cosb,k1;  let nscr=0;
+  
+if (!squer) img2.onload = function() { ctx.drawImage(img2,x0,y0,W,H);}
+
+ctx.save(); New();  //ввод данных из таблицы
+
+function Run(){ let tim = setInterval(function() {
+   if (!act) {btn0.value='RUN'; clearInterval(tim); } else {btn0.value='STOP'; Set1Step()}},tint); 
+
+}	
+function New(){ //ввод данных из таблицы
+W0=wst.value/100*canW; W=W0; H0=W0; H=W; x0=canW/2-W/2; y0=canW/2-H/2;
+kW=dw.value/100; dfi=Math.asin(1/((1-2*kW)/Math.sin(Math.PI/4)))-Math.PI/4;
+   sinb = Math.sin(dfi);   cosb = Math.cos(dfi);
+Wfin=wfin.value/100*W0;  nscr=0;  clearCanvas(); tint=170-btn2.value
+}
+function Set1Step(){ 
+ let dx, dy,xc,yc,rc,sina,cosa,sinc,cosc;  
+ctx.strokeStyle=colorline; //ctx.lineWidth=lw;
+nscr++; if (W>=W0) k1=kW; 
+if (W<=Wfin) k1=-kW; 
+if (squer) ctx.strokeRect(x0,y0,W,H);
+if (!squer) ctx.drawImage(img2,x0,y0,W,H);
+
+xc = x0 + W/2;    
+yc = y0 + H/2;
+
+rc = Math.sqrt(xc*xc+yc*yc);
+sina = yc/rc; cosa = xc/rc;
+
+sinc = sina*cosb - sinb*cosa;
+cosc = cosa*cosb + sinb*sina;
+
+dx = rc*cosc - xc + k1*W;  
+dy = rc*sinc - yc + k1*H;       
+x0 = x0+dx;  y0 = y0+dy;  
+W=(1-2*k1)*W;   H=(1-2*k1)*H;
+ctx.rotate(dfi);  
+}
+function clearCanvas(){
+ ctx.restore();         ctx.save();  
+ ctx.fillStyle=colorbgr;
+ ctx.fillRect(-2*canvas.width,-2*canvas.height,4*canvas.width,4*canvas.height); ctx.stroke();
+i=-1; W=W0; H=W;	dx=0; dy=0;  x0=canW/2-W/2; y0=canW/2-H/2;  nscr=0;
+} 
+function SetBG(){
+  ctx.fillStyle=colorbgr;
+  ctx.fillRect(-2*canvas.width,-2*canvas.height,4*canvas.width,4*canvas.height); ctx.stroke();}
+function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
+  if(pasteEvent.clipboardData == false){if(typeof(callback) == "function"){
+            callback(undefined);}};
+    var items = pasteEvent.clipboardData.items;
+    if(items == undefined){if(typeof(callback) == "function"){callback(undefined);}};
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") == -1) continue;
+        var blob = items[i].getAsFile();
+        if(typeof(callback) == "function"){callback(blob);}}}
+
+window.addEventListener("paste", function(e){
+    retrieveImageFromClipboardAsBlob(e, function(imageBlob){
+        if(imageBlob){var URLObj = window.URL || window.webkitURL;
+        img2.src = URLObj.createObjectURL(imageBlob);
+             /*SetImage();*/}});}, false);
+        /*END  Ctrl+V img2 */  
+</script> 
+</body>
+</html>
