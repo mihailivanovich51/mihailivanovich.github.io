@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>SpiralSquare00</title>
+<title>SpiralSquare01</title>
 </head>
 <body>
 <style>
@@ -16,7 +16,7 @@ box-shadow:0 0 10px 0 #555555;
 margin-left: 20px;
 margin-top: 20px;}
     div{ position: absolute; 
-         width: 150px; height: 170px;         
+         width: 150px; height: 210px;         
          top: 30px; left: 650px;
          border: 1px solid black; box-shadow:0 0 6px 0 #222299;
          background-color: rgb(240,240,250);
@@ -45,6 +45,7 @@ p{margin-left: 20px; margin-top: 2px}
   dw% = <input type="number" value="3" min=0.1 max=14 step=0.1 id="dw"><br> 
   wf% = <input type="number" value="10" min=2 max=50 step=1 id="wfin"><br>
   V <input id="btn2" type="range" value="50" min=20 max=150 step=5 onchange = 'tint=170-this.value'><br> 
+  <input type="checkbox" checked onclick="ckw=!ckw">Clockwise<br><br>
   <button id="bt0" onclick="New()">NEW</button>
  </div>
   <input type="color" value= "#FFFFFF" onchange = 'colorbgr=this.value; SetBG()'>BackColor
@@ -57,7 +58,7 @@ p{margin-left: 20px; margin-top: 2px}
  <input type='button' id="btn0" value='RUN' onclick='act = (!act);Run()'><br>
  <p>Picture can be inserted "ctrl+V"</p> 
 <script type="text/javascript">
-	let squer = true;     let act=false;  let tint=25;
+	let squer = true;     let act=false;  let tint=25; let ckw=true;
 	let colorline='#0000ff';  let colorbgr='#FFFFFF';
 	var canvas=document.getElementById("Mycanvas")
     var ctx=canvas.getContext("2d"); let canW=canvas.width;
@@ -78,6 +79,7 @@ function Run(){ let tim = setInterval(function() {
 function New(){ //ввод данных из таблицы
 W0=wst.value/100*canW; W=W0; H0=W0; H=W; x0=canW/2-W/2; y0=canW/2-H/2;
 kW=dw.value/100; dfi=Math.asin(1/((1-2*kW)/Math.sin(Math.PI/4)))-Math.PI/4;
+if (!ckw) dfi=-dfi;
    sinb = Math.sin(dfi);   cosb = Math.cos(dfi);
 Wfin=wfin.value/100*W0;  nscr=0;  clearCanvas(); tint=170-btn2.value
 }
