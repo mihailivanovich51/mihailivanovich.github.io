@@ -67,7 +67,7 @@ label{display: inline-block; width: 120px;
   <img ondragover="event.stopPropagation(); event.preventDefault();"
      ondrop="event.stopPropagation(); event.preventDefault();
      dodrop(event);"
-   id="imbg" src="Pict_BG/HC_07.jpg"><br>
+   id="imbg" src="Pict_BG/HC_08.jpg"><br>
   <img id="im0" src="Pict_Zv/BRB_01.jpg"> 
   <img id="im1" src="Pict_Zv/DBLD_02.jpg">
   <img id="im2" src="Pict_Zv/Snuglse_02.jpg">
@@ -476,18 +476,18 @@ function VRxy(j,vx0,vx1,vx2,vy0,vy1,vy2,dx1,dx2,dx3){
  xris[j]=ax; yris[j]=ay;
  }
                                //расчет параметров  W, Opac и Deg к-го шага
-function VR0(i,v0,v1,v2,nf){ 
+function VR0(i,v0,v1,v2){ 
  n0 = t0[i]/100*Nst; n1 = t1[i]/100*Nst;  n2 = t2[i]/100*Nst; n3 = t3[i]/100*Nst; n4 = t4[i]/100*Nst; 
  n5 = t5[i]/100*Nst; let nz=tz[j]/100*Nst; let ki=k+nz; if (ki>Nst) ki=-Nst+ki;
   if (ki<=n0) a = v0 
-  if (ki>n0 && ki<=n1) {t=(ki-n0)/(n1-n0); if (nf==0) kf=t; else if (nf==1) kf=t*t; else kf= Math.sqrt(t); 
-  a = v0+(v1-v0)*kf }
- if (ki>n1 && k<=n2) a =v1
- if (ki>n2 && ki<=n3) {t=(ki-n2)/(n3-n2); if (nf==0) kf=t; else if (nf==1) kf=t*t; else kf= Math.sqrt(t);  
-  a = v1+(v2-v1)*kf} 
+  if (ki>n0 && ki<=n1) {t=(ki-n0)/(n1-n0); 
+  a = v0+(v1-v0)*t }
+ if (ki>n1 && ki<=n2) a =v1
+ if (ki>n2 && ki<=n3) {t=(ki-n2)/(n3-n2);
+  a = v1+(v2-v1)*t} 
  if (ki>n3 && ki<=n4) a =v2 
- if (ki>n4 && ki<=n5) {t=(ki-n4)/(n5-n4); if (nf==0) kf=t; else if (nf==1) kf=t*t; else kf= Math.sqrt(t);  
-  a = v2+(v0-v2)*kf}
+ if (ki>n4 && ki<=n5) {t=(ki-n4)/(n5-n4); 
+  a = v2+(v0-v2)*t}
  if (ki>n5 && ki<=Nst) a = v0 
  return a;}
 
