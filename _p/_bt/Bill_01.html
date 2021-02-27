@@ -478,7 +478,7 @@ function VRxy(j,vx0,vx1,vx2,vy0,vy1,vy2,dx1,dx2,dx3){
                                //расчет параметров  W, Opac и Deg к-го шага
 function VR0(i,v0,v1,v2){ 
  n0 = t0[i]/100*Nst; n1 = t1[i]/100*Nst;  n2 = t2[i]/100*Nst; n3 = t3[i]/100*Nst; n4 = t4[i]/100*Nst; 
- n5 = t5[i]/100*Nst; let nz=tz[j]/100*Nst; let ki=k+nz; if (ki>Nst) ki=-Nst+ki;
+ n5 = t5[i]/100*Nst; let nz=tz[i]/100*Nst; let ki=k+nz; if (ki>Nst) ki=-Nst+ki;
   if (ki<=n0) a = v0 
   if (ki>n0 && ki<=n1) {t=(ki-n0)/(n1-n0); 
   a = v0+(v1-v0)*t }
