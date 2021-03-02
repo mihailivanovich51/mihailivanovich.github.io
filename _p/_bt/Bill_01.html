@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-      <title>Billiard_01</title>
+      <title>Theater_02</title>
     <style> 
     body{margin: 0vw}  
     div{ width: 11vw; height: 350px;
@@ -18,7 +18,7 @@
        #tname{width: 70px}
        #nameO{width: 60px}
        #nameT{width: 60px}
-       #imbg{left: 0px;  opacity: 1;border: 2px solid blue; /*box-shadow:0 0 6px 0 #222299;*/  }
+       #imbg{left: 0px;  opacity: 1; border: 3px solid gray}
        #im0,#im1,#im2,#im3,#im4,#im5,#im6{ position: absolute; cursor: move; }
         
  input[name='tn0']{width: 70px}
@@ -64,10 +64,7 @@ label{display: inline-block; width: 120px;
 <p>2. В виде объекта в window.localStorage. Имя задаем в окне "name Obj", кнопкой "SaveObj" сохраняем, а "OpenObj" - открываем.</p>
 <p>3. Сохраняем варианты, каждый из котрых соответствует отмеченному V0, V1 и V2. Кнопка "SaveJS" формирует скрипт с соответствующим вар. Запись выполняется при нажатии ссылки "SAVE". Файл из папки загрузки нужно переместить в текущую папку. Скрипты в папке должен соответствовать и адресам скриптов, т.е. src="V0.js","V1.js" и "V2.js",. Открывается соответствующий вариант кнопкой "NewVar".
    </div>
-  <img ondragover="event.stopPropagation(); event.preventDefault();"
-     ondrop="event.stopPropagation(); event.preventDefault();
-     dodrop(event);"
-   id="imbg" src="Pict_BG/HC_08.jpg"><br>
+  <img id="imbg" src="Pict_BG/HC_08.jpg"><br>
   <img id="im0" src="Pict_Zv/BRB_01.jpg"> 
   <img id="im1" src="Pict_Zv/DBLD_02.jpg">
   <img id="im2" src="Pict_Zv/Snuglse_02.jpg">
@@ -118,13 +115,15 @@ label{display: inline-block; width: 120px;
   Ns = <input type="number" id="nst" step=10><br> 
   <button id="bt0" onclick="New()">NEW</button><br>
   
-  <input type="radio" name="rd" onclick='Rct()'>Rctng
-  <input type="radio" checked name="rd" onclick='Circle()'>Circl<br>
+  <input type="radio" checked name="rd" onclick='Rct()'>Rctng
+  <input type="radio" name="rd" onclick='Circle()'>Circl<br>
   <input type="radio" checked name="rad" onclick='OldIm()'>ZV_51
   <input type="radio" name="rad" onclick='NewIm()'>Zv_WF
   </div>
 
- <div id="c2">    
+ <div id="c2"
+ ondragover="event.stopPropagation(); event.preventDefault();"
+     ondrop="event.stopPropagation(); event.preventDefault();dodrop(event);">    
     <input type="checkbox" checked name="spice"><input name="tn0"><br>
     <input type="checkbox" checked name="spice"><input name="tn0"><br>
     <input type="checkbox" checked name="spice"><input name="tn0"><br>
@@ -141,8 +140,8 @@ label{display: inline-block; width: 120px;
     <input type="radio" name="radio" value="3" onclick = 'ib=this.value; VarBG();'>BG_4<br>
     <input type="radio" name="radio" value="4" onclick = 'ib=this.value; VarBG();'>BG_5
     <input type="radio" name="radio" value="5" onclick = 'ib=this.value; VarBG();'>BG_6<br>
-    <input type="radio" checked name="radio" value="6" onclick = 'ib=this.value; VarBG();'>BG_7
-    <input type="radio" name="radio" value="7" onclick = 'ib=this.value; VarBG();'>BG_8<br><br>
+    <input type="radio" name="radio" value="6" onclick = 'ib=this.value; VarBG();'>BG_7
+    <input type="radio" checked name="radio" value="7" onclick = 'ib=this.value; VarBG();'>BG_8<br><br>
 
     <input type="radio" checked name="varD" value="0" onclick='iv=+this.value'>V0
     <input type="radio" name="varD" value="1" onclick='iv=+this.value'>V1
@@ -156,9 +155,9 @@ label{display: inline-block; width: 120px;
  <input type='button' class="bt0" value='+10deg'onclick="dg[pic]+=10; SetPic();">
  <input type='button' class="bt0" value='+W'onclick="wris[pic]+=0.3; if (PorT==0) PicSH(); else SetPic();">
  <input type='button' class="bt0" value='+Op'onclick="op[pic]+=0.1; SetPic();">
- <input type='button' class="bt1" value='Start'onclick="PorT=1; SetPicSt();">
- <input type='button' class="bt1" value='Fin1'onclick="PorT=1; SetPicF();">
- <input type='button' class="bt1" value='Fin2'onclick="PorT=1; SetPicF2();">
+ <input type='button' class="bt1" value='Start'onclick="PorT=1; SetPicSt(0);">
+ <input type='button' class="bt1" value='Fin1'onclick="PorT=1; SetPicSt(1);">
+ <input type='button' class="bt1" value='Fin2'onclick="PorT=1; SetPicSt(2);">
  <input type='button' class="bt2" value='Tea 1 St'onclick="OneStep();">
  <input type='button' class="bt2" value='+vel'onclick="tint/=1.2;">
  <input type='button' id="btn0" value='Theater'onclick="PorT=1; act = (!act); Run()">
@@ -168,9 +167,9 @@ label{display: inline-block; width: 120px;
  <input type='button' class="bt0" value='-10deg'onclick="dg[pic]-=10; SetPic();">
  <input type='button' class="bt0" value='-W'onclick="wris[pic]-=0.3; if (PorT==0) PicSH(); else SetPic();">
  <input type='button' class="bt0" value='-Op'onclick="op[pic]-=0.1; SetPic();">
- <input type='button' class="bt3" value='NewSt'onclick="NewSt();">
- <input type='button' class="bt3" value='NewFin1'onclick="NewFin1();">
- <input type='button' class="bt3" value='NewFin2'onclick="NewFin2();">
+ <input type='button' class="bt3" value='NewSt'onclick="NewSt(0);">
+ <input type='button' class="bt3" value='NewFin1'onclick="NewSt(1);">
+ <input type='button' class="bt3" value='NewFin2'onclick="NewSt(2);">
  <input type='button' class="btZ" value='Bill 1 st'onclick="PorT=0; Bounce();">
  <input type='button' class="bt4" value='-vel'onclick="tint*=1.2;">
  <input type='button' id="btn1" value='Billiard'onclick="PorT=0; act1 = (!act1); Run1()">
@@ -179,13 +178,14 @@ label{display: inline-block; width: 120px;
 <script src="V0.js"></script>
 <script src="V1.js"></script>
 <script src="V2.js"></script>
+<script src="V3.js"></script>
 
  <script> 
   let PorT=0; let VS=0; let opc=1; blr=3; fl=1;
   let Ncol=['red','green','yellow','blue','Lime','BlueViolet','Crimson','Fuchsia'];
   let rnd=[];
-  let Nzv=7; let kpv=document.body.clientWidth/100;   let ib=6; let iZv=0; let rect=1;
-  let wff=[]; wff[0]=[10,10,10,10,10,10,10];  wff[1]=[9,9,9,9,9,9,9];    wff[2]=[9,9,9,9,9,9,9];
+  let Nzv=7; let kpv=document.body.clientWidth/100;   let ib=7; let iZv=0; let rect=1;
+ /* let wff=[]; wff[0]=[10,10,10,10,10,10,10];  wff[1]=[9,9,9,9,9,9,9];    wff[2]=[9,9,9,9,9,9,9];
   let xff=[]; xff[0]=[48.5, 18, 18, 7.5, 7.5, 7.5,29];  xff[1]=[10,30,35,52,40,15,25]; xff[2]=[53,2,54,1,10,55,35];
   let yff=[]; yff[0]=[18.9,25.2,12.6,6.9,30.9,18.9,18.9]; yff[1]=[31,33,32,43,25,25,25]; yff[2]=[18,16,16,16,25,25,25];
   let dff=[]; dff[0]=[0,0,0,0,0,0,0];       dff[1]=[360,0,360,0,0,0,0];  dff[2]=[0,0,0,0,0,0,0];
@@ -196,14 +196,12 @@ label{display: inline-block; width: 120px;
   //временная шкала %%
  t0=[0,0,0,0,0,0,0]; t1=[25,25,25,25,20,20,20]; t2=[50,50,50,50,55,55,55]; t3=[70,70,70,70,70,70,70]; 
  t4=[80,80,80,80,80,82,82];  t5=[90,90,90,90,90,90,90]; tz=[0,0,0,0,0,0,0];
-
-  let kZ=0.0;  kw0=1; kwN=1; let Lx=50; let Ly=50;               flH=0;  
-  imbg.style.width=Lx+'vw'; //SetBlr(); 
-  c1.style.left=Lx+0.5+'vw'; c2.style.left=Lx+11+'vw'; divSave.style.left=Lx+0.5+'vw';
+*/
+  let kZ=0.0;  kw0=1; kwN=1;   flH=0;
 
 let wris=[];  let xris=[];  let yris=[]; let dg = []; let op=[]; let xv=[];  let yv =[];
 
- let act=false; let act1=false; let flmouse=false; pic=0; let k=0; 
+ let act1=false; let flmouse=false; pic=0; let k=0; 
  let Nst = 300; let Nb=30; let tint=30;  pim=Math.PI;
  let sin1=[];   let cos1=[]; let lxy=[]; 
   
@@ -219,22 +217,45 @@ let zvWc=['Pict_Zv/Paddy_01.jpg','Pict_Zv/Vald_01.JPG','Pict_Zv/3.jpg','Pict_Zv/
 let zv51c=['Pict_Zv/BRB_01.jpg','Pict_Zv/DBLD_02.jpg','Pict_Zv/Snuglse_02.jpg','Pict_Zv/Sirano_01.jpg','Pict_Zv/ML00.JPG','Pict_Zv/Murr200.jpg','Pict_Zv/Ralpha200.jpg'];
 let ZV0=[]; ZV0=zv51; let ZV1=[]; ZV1=zvW;
 
+                         //Бильярд
+   ts=0; dt=0.001; krat=20;  Cs=800; let rv=0; db=0.06;   kom=1; let T; 
+   let xs0=[]; let ys0=[];  let vxs0=[];  let vys0=[]; Fx=[]; Fy=[];   let ays=[0,0,0,0,0,0,0]; let omeg=[0,0,0,0,0,0,0];
+   let xs=[]; let ys=[]; let vxs=[]; let vys=[];  let Rs=[]; fis=[0,0,0,0,0,0,0];
+ //   for (j=0; j<7; j++){vxs[j]=0; vys[j]=0;}
   var Img0=[im0,im1,im2,im3,im4,im5,im6]; var Imga=[0,1,2,3,4,5,6];  var imt0=Imga;
 
-function SetOpc(){imbg.style.opacity = opc;}
+     /*Save & Open*/   let iv=0;   let Name;   let Data={};   let obj={};   let SD='';
 
-function SetBlr(){imbg.style=' width:'+ Lx +'vw;'+ ' height:'+ Ly +'vw;'+'-webkit-filter: blur('+ +blr+'px); opacity:'+opc+';'}
 
+
+
+
+  /*   Start program !!!  */
+     let Ly=50; let Lx=Ly/imbg.height*imbg.width;  imbg.style.width=Lx+'vw';   //Set BGImage & div         
+  c1.style.left=Lx+0.5+'vw'; c2.style.left=Lx+11+'vw'; divSave.style.left=Lx+0.5+'vw';
+
+    iv=3; OpenJS(); let act=true;  Run()
+//  sincos();   SetTab(); SetName();  Piramid(VS);/*Rct(); SetPicSt(0); Piramid(VS);*/   SetBlr(); 
+
+
+
+
+
+
+
+function SetOpc(){imbg.style.opacity = opc;}           
+
+function SetBlr(){ VarBG(); 
+  imbg.style='-webkit-filter: blur('+ +blr+'px); opacity:'+opc+';';
+}
 function Piramid(VarSt){
   let R,dZ,X0,Y0,dxy;  VS=VarSt;
   for (j=0; j<Nzv; j++) {i=imt0[j]; omeg[i]=0; fis[i]=0;}
   if (VarSt==0){ //piramida
   for (j=0; j<Nzv; j++){i=imt0[j]; vxs[i]=0; vys[i]=0;
-       wris[i]=7*kwN; Rs[i]=wris[i]*(1+2*db)/2;}        wris[0]=7*kw0; vxs[0]=10; ts=0;
- 
-  dZ=kZ*Rs[1]; Rs[0]=wris[0]*(1+2*db)/2;
+       wris[i]=7*kwN; Rs[i]=wris[i]*(1+2*db)/2;}        wris[0]=7*kw0; vxs[0]=10; ts=0; 
+    dZ=kZ*Rs[1]; Rs[0]=wris[0]*(1+2*db)/2;
     X0=Lx/2; Y0=Ly/2; R=Rs[1]+dZ;  dxy=R*Math.sqrt(3);  
-
   xs[1]=X0-Rs[1];  ys[1]=Y0-Rs[1]; xs[2]=xs[1]+dxy; xs[3]=xs[2]; 
   ys[2]=ys[1]+R; ys[3]=ys[1]-R;
     xs[0]=X0-Rs[0]-3*R; ys[0]=Y0-Rs[0];
@@ -256,11 +277,6 @@ let x0 = []; let y0 = []; Rp=0.3*Ly;
 }}  
      PicSH() }
 
-                         //Бильярд
-   ts=0; dt=0.001; krat=20;  Cs=800; let rv=0; db=0.06;   kom=1; let T; 
-   let xs0=[]; let ys0=[];  let vxs0=[];  let vys0=[]; Fx=[]; Fy=[];   let ays=[0,0,0,0,0,0,0]; let omeg=[0,0,0,0,0,0,0];
-   let xs=[]; let ys=[]; let vxs=[]; let vys=[];  let Rs=[]; fis=[0,0,0,0,0,0,0];
-          
 function PicSH(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
   Img0[i].style = 'transform:rotate('+fis[i]+'rad)';  Img0[i].style.opacity = 1;
   Img0[i].style.left=xs[i]+'vw';    Img0[i].style.top=ys[i]+'vw'; 
@@ -309,19 +325,15 @@ let Fxy,Fx1,Fy1, dxR,dyR,vtij;
 T=0; for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  T+=vxs[i]*vxs[i]+vys[i]*vys[i] ;} //кинетич. энергия
  PicSH();}
 
-  sincos();   SetTab(); SetName();  Piramid(VS); 
-
 
   function SavOpenHelp(){if (flH==1) Help.style.display='none'; else Help.style.display='block';
    flH=1-flH;} 
   
-  let iv=0; Sjs='Data51.js';  AB=['A','B','C']; s0=''; s1=''; s2=''; SA=[s0,s1,s2]; let Name;
-let Data={};   let obj={}; let SD='';
-
+  
 function OpenJS(){ obj={};
   if (iv==0) {obj=V0} else  
   if (iv==1) {obj=V1} else  
-  if (iv==2) {obj=V2};
+  if (iv==2) {obj=V2} else {obj=V3};
 ObjToIsh()}
 
 function SaveJS(){SetDataFromIsh(); SD='V'+iv;
@@ -331,13 +343,13 @@ document.getElementsByTagName('a')[1].onclick = function() {
     this.target = '_blank';
     this.download = SD+'.js';}}  
 
-wris0=[]; xs0=[]; ys0=[]; vxs0=[]; vys0=[];
+
   
 function SetDataFromIsh(){Data={};//Name=nameO.value; 
-  if (PorT==1){
-Data = {PorT,Nst,Nzv,iZv,ib,tint,rect,blr,xff,yff,wff,rxy,dff,off,t0,t1,t2,t3,t4,t5,tz}} else {
-  wris0=wris; xs0=xs; ys0=ys; vxs0=vxs; vys0=vys;
-Data = {PorT,Nzv,iZv,ib,tint,dt,Cs,rv,krat,rect,blr,xs0,ys0,vxs0,vys0,omeg,wris0}  //+Cs, rv, krat,fis? -kom
+  if (PorT==1){ 
+Data = {PorT,imt0,Nst,Nzv,iZv,ib,tint,rect,blr,xff,yff,wff,rxy,dff,off,t0,t1,t2,t3,t4,t5,tz}} else {
+ wris0=[]; xs0=[]; ys0=[]; vxs0=[]; vys0=[]; wris0=wris; xs0=xs; ys0=ys; vxs0=vxs; vys0=vys;
+Data = {PorT,imt0,Nzv,iZv,ib,tint,dt,Cs,rv,krat,rect,blr,xs0,ys0,vxs0,vys0,omeg,wris0}  //+Cs, rv, krat,fis? -kom
 }}
 
 function SaveTxt(){ Name=nameT.value; SetDataFromIsh();
@@ -351,17 +363,25 @@ function SaveSt(){Name=nameO.value; SetDataFromIsh();
 const obj_str = JSON.stringify(Data)
 window.localStorage.setItem(Name, obj_str)}
 
+function NewChek(){ var check = document.getElementsByName('spice');
+for (i = 0; i < 7; i++){check[i].checked=false}
+for (i = 0; i<imt0.length; i++){check[imt0[i]].checked=true}
+Nzv=imt0.length-1; }
+
 function ObjToIsh(){
 PorT=obj.PorT; Nzv=obj.Nzv; iZv=obj.iZv; ib=obj.ib; tint=obj.tint; rect=obj.rect; blr=obj.blr;
  if (PorT==1){Nst=obj.Nst; xff=obj.xff; yff=obj.yff; wff=obj.wff; rxy=obj.rxy; dff=obj.dff; off=obj.off;
  t0=obj.t0; t1=obj.t1; t2=obj.t2; t3=obj.t3; t4=obj.t4; t5=obj.t5; tz=obj.tz; 
  if (rect==1) {ZV0=zv51c; ZV1=zvWc;} else {ZV0=zv51; ZV1=zvW;}  
-VarBG(); SetBlr(); if (iZv==0) OldIm(); else NewIm(); sincos();   SetPicSt();} else
+VarBG();/*SetBlr();*/ imt0=obj.imt0;    NewChek(); New1();
+if (iZv==0) OldIm(); else NewIm(); sincos();   SetPicSt(0); SetBlr()}       else
+
 {dt=obj.dt; Cs=obj.Cs; rv=obj.rv; krat=obj.krat; omeg=obj.omeg; 
-for (i = 0; i < Nzv; i++){
+for (i = 0; i < 7; i++){
   wris[i]=obj.wris0[i]; xs[i]=obj.xs0[i];ys[i]=obj.ys0[i];vxs[i]=obj.vxs0[i];vys[i]=obj.vys0[i];}
- VarBG(); SetBlr(); if (rect==1) {ZV0=zv51c; ZV1=zvWc;} else {ZV0=zv51; ZV1=zvW;}
-  if (iZv==0) OldIm(); else NewIm(); PicSH();}
+ VarBG(); /*SetBlr();*/ imt0=obj.imt0;    NewChek(); New1();
+ if (rect==1) {ZV0=zv51c; ZV1=zvWc;} else {ZV0=zv51; ZV1=zvW;}
+ if (iZv==0) OldIm(); else NewIm(); PicSH(); SetBlr()}
 } 
 
 function loadFile(o){var fr = new FileReader(); fr.readAsText(o.files[0]);//}
@@ -381,7 +401,7 @@ function SetName(){
 var put = document.getElementsByName('tn0');
 for (i = 0; i < 7; i++){ put[i].value=name[i];}}
 
-function VarBG(){imbg.src = BG[ib];} //BackGround
+function VarBG(){imbg.src = BG[ib]; SetImage()} //BackGround
 
 function sincos(){ 
   for (j = 0; j < Nzv; j++) { i = imt0[j]; lxy[i]=[]; sin1[i]=[]; cos1[i]=[];
@@ -417,14 +437,14 @@ function New1(){
  imt0=[]; Nzv=0;  var check = document.getElementsByName('spice');
 for (i = 0; i < 7; i++){
 if (check[i].checked) Nzv = imt0.push(i);  else Img0[i].style='width: 0vw;';  } 
-if(PorT==0) PicSH(); else  SetPic();}
+if(PorT==0) PicSH(); else   SetPicSt(0);}
 
 function SetTab(){t00.value=t0[pic];  t01.value=t1[pic]; t02.value=t2[pic];  t03.value=t3[pic]; 
  t04.value=t4[pic]; t05.value=t5[pic]; tz0.value=tz[pic]; 
  d00.value=rxy[0][pic];  d01.value=rxy[1][pic]; d02.value=rxy[2][pic]; 
  tname.value=name[pic]; nst.value=Nst;} 
 
-function SetTabXY(){vx.value=(vxs[pic]).toFixed(5); vy.value=(vys[pic]).toFixed(5); } 
+function SetTabXY(){if(PorT==0){vx.value=(vxs[pic]).toFixed(3); vy.value=(vys[pic]).toFixed(3);}}
 
 function New(){t0[pic] = +t00.value; t1[pic] = +t01.value; t2[pic] = +t02.value; t3[pic] = +t03.value; 
   t4[pic] = +t04.value; t5[pic] = +t05.value; tz[pic] = +tz0.value; 
@@ -447,10 +467,10 @@ function SetPic(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
 }
 
 function OneStep(){PorT=1;  k++; 
- for (j = 0; j < Nzv; j++) {  i = imt0[j];   //alert("j="+j+ " i="+i);
-  wris[i]=VR0(i,wff[0][i],wff[1][i],wff[2][i],nf[i]); 
-    dg[i]=VR0(i,dff[0][i],dff[1][i],dff[2][i],nf[i]); 
-    op[i]=VR0(i,off[0][i],off[1][i],off[2][i],nf[i]); 
+ for (j = 0; j < Nzv; j++) {  i = imt0[j];   
+  wris[i]=VR0(i,wff[0][i],wff[1][i],wff[2][i]); 
+    dg[i]=VR0(i,dff[0][i],dff[1][i],dff[2][i]); 
+    op[i]=VR0(i,off[0][i],off[1][i],off[2][i]); 
 VRxy(i,xff[0][i],xff[1][i],xff[2][i],yff[0][i],yff[1][i],yff[2][i],rxy[0][i],rxy[1][i],rxy[2][i]); 
 }
    if (k==Nst) k=0; 
@@ -491,29 +511,13 @@ function VR0(i,v0,v1,v2){
  if (ki>n5 && ki<=Nst) a = v0 
  return a;}
 
-function SetPicF(){ 
- for (j = 0; j < Nzv; j++){i = imt0[j]; wris[i] = wff[1][i];
- xris[i] = xff[1][i]; yris[i] = yff[1][i]; dg[i]=dff[1][i]; op[i]=off[1][i];}  SetPic(); }
+function SetPicSt(ns){ 
+  for (j = 0; j < Nzv; j++) {  i = imt0[j];  wris[i] = wff[ns][i];
+  xris[i] = xff[ns][i]; yris[i] = yff[ns][i]; dg[i]=dff[ns][i]; op[i]=off[ns][i];} if (ns==0) k=0; SetPic(); }
 
-function SetPicF2(){ 
- for (j = 0; j < Nzv; j++){i = imt0[j]; wris[i] = wff[2][i];
- xris[i] = xff[2][i]; yris[i] = yff[2][i]; dg[i]=dff[2][i]; op[i]=off[2][i];}  SetPic(); }
-
-function SetPicSt(){ 
-  for (j = 0; j < Nzv; j++) {  i = imt0[j];  wris[i] = wff[0][i];
-  xris[i] = xff[0][i]; yris[i] = yff[0][i]; dg[i]=dff[0][i]; op[i]=off[0][i];} k=0; SetPic(); }
-
-function NewSt(){ 
- for (j = 0; j < Nzv; j++) {i = imt0[j]; wff[0][i]=wris[i]; 
-  xff[0][i]=xris[i]; yff[0][i] = yris[i]; dff[0][i]=dg[i]; off[0][i]=op[i];} sincos(); k=0; }
-
-function NewFin1(){ 
- for (j = 0; j < Nzv; j++) {i = imt0[j]; wff[1][i]=wris[i]; 
-    dff[1][i]=dg[i]; off[1][i]=op[i]; xff[1][i]=xris[i]; yff[1][i]=yris[i];} sincos();}
-
-function NewFin2(){
- for (j = 0; j < Nzv; j++){i = imt0[j]; wff[2][i] = wris[i];
-    dff[2][i]=dg[i]; off[2][i]=op[i]; xff[2][i]=xris[i]; yff[2][i]=yris[i];} sincos();}
+function NewSt(ns){ 
+ for (j = 0; j < Nzv; j++) {i = imt0[j]; wff[ns][i]=wris[i]; 
+  xff[ns][i]=xris[i]; yff[ns][i] = yris[i]; dff[ns][i]=dg[i]; off[ns][i]=op[i];} sincos(); /*k=0;*/ }
 
                             /* From MOVE6n  Move Pict */
  for (i = 0; i < Nzv; i++) {Img0[i].onmousedown = function() {pic =  event.target.id.slice(2); 
@@ -545,9 +549,9 @@ function dodrop(event){
 }           
 function SetImage(){
 imbg.onload = function() {
-   w0=this.width; h0=this.height; 
-  Lx=Ly*w0/h0; imbg.style.width=Lx+'vw'; //imbg.style.height=Ly0+'vw';
-  c1.style.left=Lx+0.5+'vw'; c2.style.left=Lx+12+'vw'; divSave.style.left=Lx+0.5+'vw';
+   w0=this.width; h0=this.height;  Lx=Ly*w0/h0; 
+   imbg.style.width=Lx+'vw';
+   c1.style.left=Lx+0.5+'vw'; c2.style.left=Lx+12+'vw'; divSave.style.left=Lx+0.5+'vw';
 }}           
 function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
   if(pasteEvent.clipboardData == false){if(typeof(callback) == "function"){
