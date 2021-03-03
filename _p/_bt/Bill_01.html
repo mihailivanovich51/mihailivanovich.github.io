@@ -92,8 +92,8 @@ label{display: inline-block; width: 120px;
   
   <button onclick="vxs[pic]=+vx.value; vys[pic]=+vy.value;">NEW Vpic</button><br>
   <button onclick="dt=-dt">Revers</button><br> 
-  <button onclick="PorT=0; Piramid(0);">Start 0
-  <button onclick="PorT=0; Piramid(1);">Start 1</button><br><br>
+  <button class="btS" onclick="PorT=0; Piramid(0);">Bill v.0</button>
+  <button class="btS" onclick="PorT=0; Piramid(1);">Bill v.1</button><br><br>
   kZ <input type="range" value="0" min=0 max=1 step=0.05 onchange = 'kZ=this.value; Piramid(VS)'><br>
   Wi <input type="range" value="1" min=0.2 max=2 step=0.05 onchange ='kw0=this.value;Piramid(VS)'><br>
   wN <input type="range" value="1" min=0.2 max=2 step=0.05 onchange ='kwN=this.value; Piramid(VS)'><br>
@@ -146,10 +146,10 @@ label{display: inline-block; width: 120px;
     <input type="radio" checked name="varD" value="0" onclick='iv=+this.value'>V0
     <input type="radio" name="varD" value="1" onclick='iv=+this.value'>V1
     <input type="radio" name="varD" value="2" onclick='iv=+this.value'>V2<br>
-    <button onclick="if (fl==1) divSave.style.display='none'; else divSave.style.display='block';
-   fl=1-fl;">Sv/Op</button>
+    
    <button onclick="OpenJS()">NewVar</button><br>
-     
+   <button class="bt2" onclick="if (fl==1) divSave.style.display='none'; else divSave.style.display='block';
+   fl=1-fl;">Sv/Op</button>  
  </div>
 
  <input type='button' class="bt0" value='+10deg'onclick="dg[pic]+=10; SetPic();">
@@ -158,9 +158,9 @@ label{display: inline-block; width: 120px;
  <input type='button' class="bt1" value='Start'onclick="PorT=1; SetPicSt(0);">
  <input type='button' class="bt1" value='Fin1'onclick="PorT=1; SetPicSt(1);">
  <input type='button' class="bt1" value='Fin2'onclick="PorT=1; SetPicSt(2);">
- <input type='button' class="bt2" value='Tea 1 St'onclick="OneStep();">
  <input type='button' class="bt2" value='+vel'onclick="tint/=1.2;">
  <input type='button' id="btn0" value='Theater'onclick="PorT=1; act = (!act); Run()">
+ <input type='button' class="bt2" value='Thea 1st'onclick="OneStep();">
  Opc <input id="Op" type="range" value="1" min=0 max=1 step=0.05 onchange='opc=this.value; SetOpc()'>
  <button onclick="SavOpenHelp()">HELP &plusmn;</button> <br> 
   
@@ -170,9 +170,9 @@ label{display: inline-block; width: 120px;
  <input type='button' class="bt3" value='NewSt'onclick="NewSt(0);">
  <input type='button' class="bt3" value='NewFin1'onclick="NewSt(1);">
  <input type='button' class="bt3" value='NewFin2'onclick="NewSt(2);">
- <input type='button' class="btZ" value='Bill 1 st'onclick="PorT=0; Bounce();">
  <input type='button' class="bt4" value='-vel'onclick="tint*=1.2;">
  <input type='button' id="btn1" value='Billiard'onclick="PorT=0; act1 = (!act1); Run1()">
+ <input type='button' class="btZ" value='Bill 1 st'onclick="PorT=0; Bounce();">
  Blr <input id="Bl" type="range" value=3 min=0 max=10 onchange='blr=this.value; SetBlr()'>
 
 <script src="V0.js"></script>
@@ -181,23 +181,12 @@ label{display: inline-block; width: 120px;
 <script src="V3.js"></script>
 
  <script> 
-  let PorT=0; let VS=0; let opc=1; blr=3; fl=1;
+  let PorT=0;  let opc=1; blr=3; fl=1;
   let Ncol=['red','green','yellow','blue','Lime','BlueViolet','Crimson','Fuchsia'];
   let rnd=[];
   let Nzv=7; let kpv=document.body.clientWidth/100;   let ib=7; let iZv=0; let rect=1;
- /* let wff=[]; wff[0]=[10,10,10,10,10,10,10];  wff[1]=[9,9,9,9,9,9,9];    wff[2]=[9,9,9,9,9,9,9];
-  let xff=[]; xff[0]=[48.5, 18, 18, 7.5, 7.5, 7.5,29];  xff[1]=[10,30,35,52,40,15,25]; xff[2]=[53,2,54,1,10,55,35];
-  let yff=[]; yff[0]=[18.9,25.2,12.6,6.9,30.9,18.9,18.9]; yff[1]=[31,33,32,43,25,25,25]; yff[2]=[18,16,16,16,25,25,25];
-  let dff=[]; dff[0]=[0,0,0,0,0,0,0];       dff[1]=[360,0,360,0,0,0,0];  dff[2]=[0,0,0,0,0,0,0];
-  let off=[]; off[0]=[1,1,1,1,1,1,1];       off[1]=[1,1,1,1,1,1,1];      off[2]=[1,1,1,1,1,1,1];
-    // параметры искривления
-  rxy0=[[0,0.1,0.2,0.3,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]];  rxy=rxy0;
-  nf=[0,0,0,0,0,0,0]; //вид функции перехода
-  //временная шкала %%
- t0=[0,0,0,0,0,0,0]; t1=[25,25,25,25,20,20,20]; t2=[50,50,50,50,55,55,55]; t3=[70,70,70,70,70,70,70]; 
- t4=[80,80,80,80,80,82,82];  t5=[90,90,90,90,90,90,90]; tz=[0,0,0,0,0,0,0];
-*/
-  let kZ=0.0;  kw0=1; kwN=1;   flH=0;
+
+  let VS;  let kZ=0.0;  kw0=1; kwN=1;   flH=0; //for Billiard
 
 let wris=[];  let xris=[];  let yris=[]; let dg = []; let op=[]; let xv=[];  let yv =[];
 
@@ -221,7 +210,7 @@ let ZV0=[]; ZV0=zv51; let ZV1=[]; ZV1=zvW;
    ts=0; dt=0.001; krat=20;  Cs=800; let rv=0; db=0.06;   kom=1; let T; 
    let xs0=[]; let ys0=[];  let vxs0=[];  let vys0=[]; Fx=[]; Fy=[];   let ays=[0,0,0,0,0,0,0]; let omeg=[0,0,0,0,0,0,0];
    let xs=[]; let ys=[]; let vxs=[]; let vys=[];  let Rs=[]; fis=[0,0,0,0,0,0,0];
- //   for (j=0; j<7; j++){vxs[j]=0; vys[j]=0;}
+    for (j=0; j<7; j++){vxs[j]=0; vys[j]=0;} //for Billiard
   var Img0=[im0,im1,im2,im3,im4,im5,im6]; var Imga=[0,1,2,3,4,5,6];  var imt0=Imga;
 
      /*Save & Open*/   let iv=0;   let Name;   let Data={};   let obj={};   let SD='';
@@ -248,82 +237,8 @@ function SetOpc(){imbg.style.opacity = opc;}
 function SetBlr(){ VarBG(); 
   imbg.style='-webkit-filter: blur('+ +blr+'px); opacity:'+opc+';';
 }
-function Piramid(VarSt){
-  let R,dZ,X0,Y0,dxy;  VS=VarSt;
-  for (j=0; j<Nzv; j++) {i=imt0[j]; omeg[i]=0; fis[i]=0;}
-  if (VarSt==0){ //piramida
-  for (j=0; j<Nzv; j++){i=imt0[j]; vxs[i]=0; vys[i]=0;
-       wris[i]=7*kwN; Rs[i]=wris[i]*(1+2*db)/2;}        wris[0]=7*kw0; vxs[0]=10; ts=0; 
-    dZ=kZ*Rs[1]; Rs[0]=wris[0]*(1+2*db)/2;
-    X0=Lx/2; Y0=Ly/2; R=Rs[1]+dZ;  dxy=R*Math.sqrt(3);  
-  xs[1]=X0-Rs[1];  ys[1]=Y0-Rs[1]; xs[2]=xs[1]+dxy; xs[3]=xs[2]; 
-  ys[2]=ys[1]+R; ys[3]=ys[1]-R;
-    xs[0]=X0-Rs[0]-3*R; ys[0]=Y0-Rs[0];
-  xs[4]=xs[3]+dxy;  xs[5]=xs[4];  xs[6]=xs[4];
-  ys[4]=ys[1]-2*R; ys[5]=ys[1]; ys[6]=ys[1]+2*R;
-  } else { //Krug
-let x0 = []; let y0 = []; Rp=0.3*Ly;
-  for (j=0; j<Nzv; j++){i=imt0[j]; vxs[i]=0; vys[i]=0;
-       wris[i]=11*kwN; Rs[i]=wris[i]*(1+2*db)/2;}     wris[0]=11*kw0; vxs[0]=10; vys[0]=10; ts=0;
- 
-  dZ=kZ*Rs[1]; Rs[0]=wris[0]*(1+2*db)/2;
-  x0[0]=Lx/2; y0[0]=Ly/2; R=Rs[1]+dZ;  dxy=R*Math.sqrt(3);  
-  xs[0]=x0[0]-Rs[0]; ys[0]=y0[0]-Rs[0];
 
-  for (j=1; j<Nzv; j++){i=imt0[j];
-  x0[i]= x0[0]+Rp*Math.cos(Math.PI/3*i);
-  y0[i]= y0[0]+Rp*Math.sin(Math.PI/3*i);
-  xs[i]=x0[i]-Rs[i]; ys[i]=y0[i]-Rs[i];
-}}  
-     PicSH() }
 
-function PicSH(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
-  Img0[i].style = 'transform:rotate('+fis[i]+'rad)';  Img0[i].style.opacity = 1;
-  Img0[i].style.left=xs[i]+'vw';    Img0[i].style.top=ys[i]+'vw'; 
-  Img0[i].style.width=wris[i]+'vw';  
-   if (rect==1) {Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' navy';
-   if (i==0) Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' red';
-  Img0[i].style.borderRadius=wris[i]+'vw'; 
-  } }
-}  
-function Bounce(){ //1 step Billiard
-  let dR;  PorT=0; 
-for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  Rs[i]=wris[i]*(1+2*db)/2;}
-
-function Udar(i,j){
-let Fxy,Fx1,Fy1, dxR,dyR,vtij;
-  dxR=(xs[j]+Rs[j]-xs[i]-Rs[i])/dR;   dyR=(ys[j]+Rs[j]-ys[i]-Rs[i])/dR; // направляющие косинусы нормали
-  Fxy=Cs*(Rs[j]+Rs[i]-dR);  
-  Fx1=Fxy*dxR;  Fy1=Fxy*dyR;
-  Fx[j]=Fx[j]+Fx1;    Fx[i]=Fx[i]-Fx1;
-  Fy[j]=Fy[j]+Fy1;    Fy[i]=Fy[i]-Fy1;
-  vtij=((vxs[i]-vxs[j])*dyR -(vys[i]-vys[j])*dxR+omeg[i]*Rs[i]-omeg[j]*Rs[j])/2;
-  omeg[i]=-vtij/Rs[i]; omeg[j]=vtij/Rs[j];
-  } //Udar
-
-  for (i8 = 0; i8 < krat; i8++){ 
-
-  for (i = 0; i < Nzv; i++) {Fx[imt0[i]]=0; Fy[imt0[i]]=0;}
-
-  for (j1 = 0; j1 < Nzv; j1++) {i = imt0[j1];
-  if (xs[i]<0) {Fx[i]=-Cs*(xs[i]);                        omeg[i] = vys[i]/Rs[i];};  
-  if ((xs[i]+2*Rs[i])>Lx) {Fx[i]=Cs*(Lx-(xs[i]+2*Rs[i])); omeg[i] = -vys[i]/Rs[i];};
-  if (ys[i]<0) {Fy[i]=-Cs*(ys[i]);                        omeg[i] = -vxs[i]/Rs[i];};
-  if ((ys[i]+2*Rs[i])>Ly) {Fy[i]=Cs*(Ly-(ys[i]+2*Rs[i])); omeg[i] = vxs[i]/Rs[i];};  
-
-       for (j2 = j1+1; j2 < Nzv; j2++){j = imt0[j2]; 
-      dR=Math.sqrt((xs[i]+Rs[i]-xs[j]-Rs[j])*(xs[i]+Rs[i]-xs[j]-Rs[j])
-        +(ys[i]+Rs[i]-ys[j]-Rs[j])*(ys[i]+Rs[i]-ys[j]-Rs[j]));
-      if (dR<(Rs[j]+Rs[i])) Udar(i,j);}  
-
-  vxs[i]=vxs[i]+Fx[i]*dt-rv*vxs[i]*dt;  
-  vys[i]=vys[i]+ays[i]*dt+Fy[i]*dt-rv*vys[i]*dt;
-   xs[i]=xs[i]+vxs[i]*dt;     ys[i]=ys[i]+vys[i]*dt;
-   fis[i]+=omeg[i]*dt;
-}
- ts+=dt;}  
-T=0; for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  T+=vxs[i]*vxs[i]+vys[i]*vys[i] ;} //кинетич. энергия
- PicSH();}
 
 
   function SavOpenHelp(){if (flH==1) Help.style.display='none'; else Help.style.display='block';
@@ -420,7 +335,9 @@ lxy[i][2]=Math.sqrt((yff[0][i]-yff[2][i])*(yff[0][i]-yff[2][i])+
 if(lxy[i][2]==0){sin1[i][2]=0; cos1[i][2]=0;} else
 {sin1[i][2]=((yff[0][i]-yff[2][i])/lxy[i][2]); cos1[i][2]=((xff[0][i]-xff[2][i])/lxy[i][2]);}
 }}
-    
+ 
+
+     //different ImageZv   
  function Rct(){rect=0; ZV0=zv51; ZV1=zvW; if (iZv==1) NewIm(); else OldIm();
           if(PorT==0) PicSH(); else  SetPic()}  
 
@@ -433,6 +350,8 @@ function NewIm(){iZv=1; for (i = 0; i < 7; i++) Img0[i].src=ZV1[i];
 function OldIm(){iZv=0; for (i = 0; i < 7; i++) Img0[i].src=ZV0[i];
       if (rect==1) name=name0c; else name=name0; SetName();} 
 
+
+
 function New1(){
  imt0=[]; Nzv=0;  var check = document.getElementsByName('spice');
 for (i = 0; i < 7; i++){
@@ -444,7 +363,7 @@ function SetTab(){t00.value=t0[pic];  t01.value=t1[pic]; t02.value=t2[pic];  t03
  d00.value=rxy[0][pic];  d01.value=rxy[1][pic]; d02.value=rxy[2][pic]; 
  tname.value=name[pic]; nst.value=Nst;} 
 
-function SetTabXY(){if(PorT==0){vx.value=(vxs[pic]).toFixed(3); vy.value=(vys[pic]).toFixed(3);}}
+function SetTabXY(){vx.value=(vxs[pic]).toFixed(3); vy.value=(vys[pic]).toFixed(3);}
 
 function New(){t0[pic] = +t00.value; t1[pic] = +t01.value; t2[pic] = +t02.value; t3[pic] = +t03.value; 
   t4[pic] = +t04.value; t5[pic] = +t05.value; tz[pic] = +tz0.value; 
@@ -510,7 +429,8 @@ function VR0(i,v0,v1,v2){
   a = v2+(v0-v2)*t}
  if (ki>n5 && ki<=Nst) a = v0 
  return a;}
-
+ 
+      // Old and New Positions (Theater)
 function SetPicSt(ns){ 
   for (j = 0; j < Nzv; j++) {  i = imt0[j];  wris[i] = wff[ns][i];
   xris[i] = xff[ns][i]; yris[i] = yff[ns][i]; dg[i]=dff[ns][i]; op[i]=off[ns][i];} if (ns==0) k=0; SetPic(); }
@@ -518,6 +438,91 @@ function SetPicSt(ns){
 function NewSt(ns){ 
  for (j = 0; j < Nzv; j++) {i = imt0[j]; wff[ns][i]=wris[i]; 
   xff[ns][i]=xris[i]; yff[ns][i] = yris[i]; dff[ns][i]=dg[i]; off[ns][i]=op[i];} sincos(); /*k=0;*/ }
+
+
+
+         //for Billiard
+
+  function Piramid(VarSt){
+  let R,dZ,X0,Y0,dxy;  VS=VarSt;
+  for (j=0; j<Nzv; j++) {i=imt0[j]; omeg[i]=0; fis[i]=0;}
+  if (VarSt==0){ //piramida
+  for (j=0; j<Nzv; j++){i=imt0[j]; vxs[i]=0; vys[i]=0;
+       wris[i]=7*kwN; Rs[i]=wris[i]*(1+2*db)/2;}        wris[0]=7*kw0; vxs[0]=10; ts=0; 
+    dZ=kZ*Rs[1]; Rs[0]=wris[0]*(1+2*db)/2;
+    X0=Lx/2; Y0=Ly/2; R=Rs[1]+dZ;  dxy=R*Math.sqrt(3);  
+  xs[1]=X0-Rs[1];  ys[1]=Y0-Rs[1]; xs[2]=xs[1]+dxy; xs[3]=xs[2]; 
+  ys[2]=ys[1]+R; ys[3]=ys[1]-R;
+    xs[0]=X0-Rs[0]-3*R; ys[0]=Y0-Rs[0];
+  xs[4]=xs[3]+dxy;  xs[5]=xs[4];  xs[6]=xs[4];
+  ys[4]=ys[1]-2*R; ys[5]=ys[1]; ys[6]=ys[1]+2*R;
+  } else { //Krug
+let x0 = []; let y0 = []; Rp=0.3*Ly;
+  for (j=0; j<Nzv; j++){i=imt0[j]; vxs[i]=0; vys[i]=0;
+       wris[i]=11*kwN; Rs[i]=wris[i]*(1+2*db)/2;}     wris[0]=11*kw0; vxs[0]=10; vys[0]=10; ts=0;
+ 
+  dZ=kZ*Rs[1]; Rs[0]=wris[0]*(1+2*db)/2;
+  x0[0]=Lx/2; y0[0]=Ly/2; R=Rs[1]+dZ;  dxy=R*Math.sqrt(3);  
+  xs[0]=x0[0]-Rs[0]; ys[0]=y0[0]-Rs[0];
+
+  for (j=1; j<Nzv; j++){i=imt0[j];
+  x0[i]= x0[0]+Rp*Math.cos(Math.PI/3*i);
+  y0[i]= y0[0]+Rp*Math.sin(Math.PI/3*i);
+  xs[i]=x0[i]-Rs[i]; ys[i]=y0[i]-Rs[i];
+}}  
+     PicSH() }
+
+function PicSH(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
+  Img0[i].style = 'transform:rotate('+fis[i]+'rad)';  Img0[i].style.opacity = 1;
+  Img0[i].style.left=xs[i]+'vw';    Img0[i].style.top=ys[i]+'vw'; 
+  Img0[i].style.width=wris[i]+'vw';  
+   if (rect==1) {Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' navy';
+   if (i==0) Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' red';
+  Img0[i].style.borderRadius=wris[i]+'vw'; 
+  } }
+}  
+function Bounce(){ //1 step Billiard
+  let dR;  PorT=0; 
+for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  Rs[i]=wris[i]*(1+2*db)/2;}
+
+function Udar(i,j){
+let Fxy,Fx1,Fy1, dxR,dyR,vtij;
+  dxR=(xs[j]+Rs[j]-xs[i]-Rs[i])/dR;   dyR=(ys[j]+Rs[j]-ys[i]-Rs[i])/dR; // направляющие косинусы нормали
+  Fxy=Cs*(Rs[j]+Rs[i]-dR);  
+  Fx1=Fxy*dxR;  Fy1=Fxy*dyR;
+  Fx[j]=Fx[j]+Fx1;    Fx[i]=Fx[i]-Fx1;
+  Fy[j]=Fy[j]+Fy1;    Fy[i]=Fy[i]-Fy1;
+  vtij=((vxs[i]-vxs[j])*dyR -(vys[i]-vys[j])*dxR+omeg[i]*Rs[i]-omeg[j]*Rs[j])/2;
+  omeg[i]=-vtij/Rs[i]; omeg[j]=vtij/Rs[j];
+  } //Udar
+
+  for (i8 = 0; i8 < krat; i8++){ 
+
+  for (i = 0; i < Nzv; i++) {Fx[imt0[i]]=0; Fy[imt0[i]]=0;}
+
+  for (j1 = 0; j1 < Nzv; j1++) {i = imt0[j1];
+  if (xs[i]<0) {Fx[i]=-Cs*(xs[i]);                        omeg[i] = vys[i]/Rs[i];};  
+  if ((xs[i]+2*Rs[i])>Lx) {Fx[i]=Cs*(Lx-(xs[i]+2*Rs[i])); omeg[i] = -vys[i]/Rs[i];};
+  if (ys[i]<0) {Fy[i]=-Cs*(ys[i]);                        omeg[i] = -vxs[i]/Rs[i];};
+  if ((ys[i]+2*Rs[i])>Ly) {Fy[i]=Cs*(Ly-(ys[i]+2*Rs[i])); omeg[i] = vxs[i]/Rs[i];};  
+
+       for (j2 = j1+1; j2 < Nzv; j2++){j = imt0[j2]; 
+      dR=Math.sqrt((xs[i]+Rs[i]-xs[j]-Rs[j])*(xs[i]+Rs[i]-xs[j]-Rs[j])
+        +(ys[i]+Rs[i]-ys[j]-Rs[j])*(ys[i]+Rs[i]-ys[j]-Rs[j]));
+      if (dR<(Rs[j]+Rs[i])) Udar(i,j);}  
+
+  vxs[i]=vxs[i]+Fx[i]*dt-rv*vxs[i]*dt;  
+  vys[i]=vys[i]+ays[i]*dt+Fy[i]*dt-rv*vys[i]*dt;
+   xs[i]=xs[i]+vxs[i]*dt;     ys[i]=ys[i]+vys[i]*dt;
+   fis[i]+=omeg[i]*dt;
+}
+ ts+=dt;}  
+T=0; for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  T+=vxs[i]*vxs[i]+vys[i]*vys[i] ;} //кинетич. энергия
+ PicSH();}
+
+
+
+
 
                             /* From MOVE6n  Move Pict */
  for (i = 0; i < Nzv; i++) {Img0[i].onmousedown = function() {pic =  event.target.id.slice(2); 
