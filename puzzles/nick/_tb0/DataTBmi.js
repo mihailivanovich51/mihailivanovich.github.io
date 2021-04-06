@@ -13,8 +13,8 @@ let wris=[];  let xris=[];  let yris=[]; let dg = []; let op=[]; let xv=[];  let
   
  let BG=[]; 
  function dataBG(kd){
- let s="https://www.mihailivanovich.com/puzzles/nick/_tb0/Pict_BG/HC_0";  
- let s1="https://www.mihailivanovich.com/puzzles/nick/_tb0/Pict_BG/bg0";
+ let s="Pict_BG/HC_0";  
+ let s1="Pict_BG/bg0";
  for (i=0; i<8; i++){j=i+1; if (kd==j) BG[i]=s+j+'d.jpg'; else BG[i]=s+j+'.jpg';  BG[i+10]=s1+j+'.jpg'}}
  dataBG()
 
@@ -30,7 +30,7 @@ var checkZ51 = document.getElementsByName('rad');
 
    /* picZv[0]=[zv51,zvW]; picZv[1]=[zv51c,zvWc];*/ 
  let picZv=[]; picZv[0]=[]; picZv[1]=[]; picZv[0][0]=[]; picZv[0][1]=[];  picZv[1][0]=[]; picZv[1][1]=[]; 
- function dataZv(){ let s="https://www.mihailivanovich.com/puzzles/nick/_tb0/Pict_Zv/";  let s1=".jpg"; let s2=".png"; 
+ function dataZv(){ let s="Pict_Zv/";  let s1=".jpg"; let s2=".png"; 
  for (i=0; i<7; i++){picZv[0][0][i]=s+i+s2; picZv[1][0][i]=s+(i+10)+s2; 
                      picZv[0][1][i]=s+i+s1; picZv[1][1][i]=s+(i+10)+s1; }}
      dataZv();   
