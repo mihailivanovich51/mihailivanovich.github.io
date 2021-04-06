@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+      <title>_BearVideoGH_00</title>
+  <link rel="icon" href="https://www.mihailivanovich.com/puzzles/ICO/mi1.ico" type="image/x-icon">
+    <style> 
+    body{margin: 0vw}  
+    div{ width: 11vw; height: 350px;
+         position: absolute; 
+         top: 2px;
+         border: 1px solid black; box-shadow:0 0 6px 0 #222299;
+         background-color: rgb(240,240,250);
+         font-family: "Courier New"; font-size: 12px;
+         text-align: center;}
+     #c1{left: 50.5vw;}    
+     #c2{left: 62vw; display: none;} 
+     #divSave{display: none;}
+
+       #imbg{left: 0px;  opacity: 1; border: 3px solid gray}
+       #im0,#im1,#im2,#im3,#im4,#im5,#im6{ position: absolute; cursor: move; }
+        
+ input[name='tn0']{display: none; width: 70px}
+ input[type='button']{display: none; width: 60px}
+ input[type='number']{width: 60px}
+  #btn0 {display: inline;
+  width: 110px; 
+  height: 36px;  
+  background-color: rgb(50, 14, 12);
+  font-family: 'Courier New'; font-size: 18px; font-weight: bold; color: white;
+  transition: width 0.2s, height 0.2s,  background-color 0.2s;  
+ }
+#btn0:hover {background-color: red;}
+#inp{display: none;}
+label{display: inline-block; width: 120px;
+ border-style: solid; border-color: black; border-width: 1px;font-family: 'Times';}
+#Help{display: none; width: 100vw; height: 50vh;position: fixed; top: 2px; left: 2px; z-index: 4;
+      background-color: rgb(50, 14, 12); text-align: left; color: #aff; opacity: 0.9;
+      overflow-y: auto;} 
+#Bl,#Op{width: 80px}
+#Apl,#Vpl{background-color: lightgreen}
+audio{display: none}  
+video{position: absolute;}   
+    </style>  
+  </head>
+
+  <body>
+   <div id="Help">
+ <h1> Демонстрационный показ приложения</h1>
+ <p>Можно поменять фигурантов Zv_51 Zv_WF</p>    
+ <p>Можно поменять  фигурантов - прозрачный Rctng на круглый Circl</p>
+ <p>Регулировать прозрачность Opc и размытость Blr</p> 
+   
+<p>Изменив к-во точек Ns, меняем скорость движений. Перед этим нужно кликнуть по одному из фигурантов, при этм его имя появится на панели. Меняя значения ti и di, можно регулировать временные показатели в % и кривизну трех участков траектории данного фигуранта.</p>
+
+   </div>
+  <img id="imbg"><br>  
+  <img id="im0"><img id="im1"><img id="im2"><img id="im3"><img id="im4"><img id="im5"><img id="im6">
+ 
+ <div id="divSave" style="position: absolute;  left: 50.5vw; top: 355px; width: 220px; height: 400px; background-color: rgb(200,200,220); box-shadow: 6px 6px 4px grey; text-align: center;">
+ 
+ </div>
+
+ <div id="c1">  
+ <input  id="tname" value="Barboss"><br> 
+  t0 = <input type="number" id="t00"><br> 
+  t1 = <input type="number" id="t01"><br> 
+  t2 = <input type="number" id="t02"><br> 
+  t3 = <input type="number" id="t03"><br> 
+  t4 = <input type="number" id="t04"><br> 
+  t5 = <input type="number" id="t05"><br> 
+  tz = <input type="number" id="tz0"><br> 
+  d0 = <input type="number" id="d00" step=0.05><br> 
+  d1 = <input type="number" id="d01" step=0.05><br> 
+  d2 = <input type="number" id="d02" step=0.05><br> 
+  Ns = <input type="number" id="nst" step=10><br> 
+  <button id="bt0" onclick="New()">NEW</button><br>
+  
+  <input type="radio" checked name="rd" onclick='Rct()'>Rctng
+  <input type="radio" name="rd" onclick='Circle()'>Circl<br>
+  <input type="radio" checked name="rad" onclick='OldIm()'>ZV_51
+  <input type="radio" name="rad" onclick='NewIm()'>Zv_WF
+  </div>
+
+ <div id="c2">    
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    
+    <button onclick="New1()">NEW1</button><br>
+    Var BG <input type="checkbox" id="vbg" onclick='if (vbg.checked) dBG=10; else dBG=0' >BG+10 <br> 
+    <input type="radio" name="radio" value="0" onclick='ib=this.value; VarBG();'>1
+    <input type="radio" name="radio" value="1" onclick='ib=this.value; VarBG();'>2
+    <input type="radio" name="radio" value="2" onclick = 'ib=this.value; VarBG();'>3
+    <input type="radio" name="radio" value="3" onclick = 'ib=this.value; VarBG();'>4<br>
+    <input type="radio" name="radio" value="4" onclick = 'ib=this.value; VarBG();'>5
+    <input type="radio" name="radio" value="5" onclick = 'ib=this.value; VarBG();'>6
+    <input type="radio" name="radio" value="6" onclick = 'ib=this.value; VarBG();'>7
+    <input type="radio" checked name="radio" value="7" onclick = 'ib=this.value; VarBG();'>8<br><br>
+ </div> 
+
+ <input type='button' id="btn0" value='Theater'onclick="PorT=1; act = (!act); Run()">
+ <button id="Apl" onclick="apl=!apl; Aplay()">Play/Stop Audio</button> 
+ <button id="Vpl" onclick="vpl=!vpl; vplay()">Play/Stop Video</button> 
+ <button onclick="SavOpenHelp();">HELP &plusmn;</button> <br> 
+  
+ Blr <input id="Bl" type="range" value=0 min=0 max=10 onchange='blr=this.value; SetBlr()'>
+ Opc <input id="Op" type="range" value="1" min=0 max=1 step=0.05 onchange='opc=this.value; SetOpc()'>
+
+<script src="https://www.mihailivanovich.com/puzzles/nick/_tb0/DataTBmi.js"></script>
+<script src="https://www.mihailivanovich.com/puzzles/nick/_tb0/V3mi.js"></script>
+<!-- <script src="DataTBmi.js"></script>
+<script src="V3mi.js"></script> -->
+
+ <audio src="https://www.mihailivanovich.com/_p/Audio_Avi/Bear.mp3" id="a1" controls></audio><br> 
+    <video width="320" height="240" id="v1">   <!-- controls="controls" -->
+<source src="https://www.mihailivanovich.com/_p/Audio_Avi/bear.mp4" type="video/mp4">    
+      Ваш браузер не поддерживает тег video.
+    </video> 
+
+ <script> 
+  /*   Start program !!!  */  kpv=document.body.clientWidth/100;  
+  let Ly=50; var Lx=Ly/imbg.height*imbg.width;  imbg.style.width=Lx+'vw';   //Set BGImage & div         
+  c1.style.left=Lx+0.5+'vw'; 
+
+   a1.volume=0.6; apl=false;  vpl=false;
+   v1.width=0; 
+    v1.height=0.3*52*kpv;
+   v1.style.left=0.35*62+'vw';   v1.style.top=0.17*62+'vw';
+ 
+    iv=3; OpenJS(); let act=false;  //Run();
+
+function vplay() {kpv=document.body.clientWidth/100; 
+  if (vpl) {v1.width=0.4*52*kpv;    
+  v1.style.top=0.17*62+'vw'; v1.style.left=0.35*62+'vw'; v1.height=0.3*52*kpv; v1.play();} else {v1.pause();
+  v1.width=0}
+}
+
+function Aplay(){if (apl) a1.play(); else a1.pause()}
+
+function SetPic(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
+  if (rect==1) if (k%12==i+1){rnd[i]=Math.floor(Math.random() * (8));}
+  Img0[i].style = 'transform:rotate('+dg[i]+'deg)';  Img0[i].style.opacity = op[i];
+  Img0[i].style.left=xris[i]+'vw';    Img0[i].style.top=yris[i]+'vw'; 
+  Img0[i].style.width=wris[i]+'vw';  
+   if (rect==1) {Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' lightblue';
+  Img0[i].style.borderRadius=wris[i]+'vw'; 
+  Img0[i].style.borderColor=Ncol[rnd[i]];} }
+}
+
+function OneStep(){PorT=1;  k++; 
+ for (j = 0; j < Nzv; j++) {  i = imt0[j];   
+  wris[i]=VR0(i,wff[0][i],wff[1][i],wff[2][i]); 
+    dg[i]=VR0(i,dff[0][i],dff[1][i],dff[2][i]); 
+    op[i]=VR0(i,off[0][i],off[1][i],off[2][i]); 
+VRxy(i,xff[0][i],xff[1][i],xff[2][i],yff[0][i],yff[1][i],yff[2][i],rxy[0][i],rxy[1][i],rxy[2][i]); 
+}
+if (k==n3+1){btn0.onclick(); Vpl.click();  //a1.play();a1.volume=0.5;
+}  
+   if (k==Nst) k=0; 
+ SetPic();
+}
+             //расчет параметров  Х и У к-го шага
+function VRxy(j,vx0,vx1,vx2,vy0,vy1,vy2,dx1,dx2,dx3){
+ n0 = t0[j]/100*Nst; n1 = t1[j]/100*Nst;  n2 = t2[j]/100*Nst; n3 = t3[j]/100*Nst; n4 = t4[j]/100*Nst; 
+ n5 = t5[j]/100*Nst; let nz=tz[j]/100*Nst; let ki=k+nz; if (ki>Nst) ki=-Nst+ki;
+  if (ki<=n0) {ax = vx0; ay = vy0;}  
+  if (ki>n0 && ki<=n1) {t=(ki-n0)/(n1-n0); 
+    dx=dx1*lxy[i][0]*Math.sin(t*pim)*sin1[i][0]; dy=-dx1*lxy[i][0]*Math.sin(t*pim)*cos1[i][0];
+    ax=vx0+(vx1-vx0)*t+dx; ay=vy0+(vy1-vy0)*t+dy;}
+ if (ki>n1 && ki<=n2) {ax =vx1; ay=vy1;}
+ if (ki>n2 && ki<=n3) {t=(ki-n2)/(n3-n2);
+    dx=dx2*lxy[i][1]*Math.sin(t*pim)*sin1[j][1]; dy=-dx2*lxy[i][1]*Math.sin(t*pim)*cos1[j][1];
+    ax=vx1+(vx2-vx1)*t+dx; ay=vy1+(vy2-vy1)*t+dy;} 
+ if (ki>n3 && ki<=n4) {ax =vx2; ay=vy2;}    
+ if (ki>n4 && ki<=n5) {t=(ki-n4)/(n5-n4);  
+    dx=dx3*lxy[j][2]*Math.sin(t*pim)*sin1[j][2]; dy=-dx3*lxy[j][2]*Math.sin(t*pim)*cos1[j][2];
+    ax=vx2+(vx0-vx2)*t+dx; ay=vy2+(vy0-vy2)*t+dy;}  
+ if (ki>n5 && ki<=Nst) {ax = vx0; ay = vy0;} 
+ xris[j]=ax; yris[j]=ay;
+ }
+                               //расчет параметров  W, Opac и Deg к-го шага
+function VR0(i,v0,v1,v2){ 
+ n0 = t0[i]/100*Nst; n1 = t1[i]/100*Nst;  n2 = t2[i]/100*Nst; n3 = t3[i]/100*Nst; n4 = t4[i]/100*Nst; 
+ n5 = t5[i]/100*Nst; let nz=tz[i]/100*Nst; let ki=k+nz; if (ki>Nst) ki=-Nst+ki;
+  if (ki<=n0) a = v0 
+  if (ki>n0 && ki<=n1) {t=(ki-n0)/(n1-n0); 
+  a = v0+(v1-v0)*t }
+ if (ki>n1 && ki<=n2) a =v1
+ if (ki>n2 && ki<=n3) {t=(ki-n2)/(n3-n2);
+  a = v1+(v2-v1)*t} 
+ if (ki>n3 && ki<=n4) a =v2 
+ if (ki>n4 && ki<=n5) {t=(ki-n4)/(n5-n4); 
+  a = v2+(v0-v2)*t}
+ if (ki>n5 && ki<=Nst) a = v0 
+ return a;}
+ 
+      // Old and New Positions (Theater)
+function SetPicSt(ns){ 
+  for (j = 0; j < Nzv; j++) {  i = imt0[j];  wris[i] = wff[ns][i];
+  xris[i] = xff[ns][i]; yris[i] = yff[ns][i]; dg[i]=dff[ns][i]; op[i]=off[ns][i];} if (ns==0) k=0; SetPic(); }
+  
+ </script>
+  </body>
+</html>
