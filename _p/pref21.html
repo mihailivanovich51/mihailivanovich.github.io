@@ -1,0 +1,132 @@
+<html>
+<head>
+        <meta charset="UTF-8">
+  <link rel="icon" href="../ICO/sirano.ico" type="image/x-icon">
+  	<title>pref21</title> 
+		<style> 
+#btn1 {
+  width: 150px; 
+  height: 30px; 
+  margin-top: 5px; 
+  color: white; 
+  background-color: darkred;
+  transition: background-color 0.2s ;
+}      
+#btn1:hover {background-color: red;}
+label:hover {background-color: red;}
+input { width: 80px; /*margin-left: 1px ;*/ text-align: center;
+font-family: "Courier New"; font-size:18; font-weight: bold;
+ }
+input[name='GV']{width: 100px; height: 40px;} 
+body {background-color: rgb(200,250,200);
+font-family: "Courier New", Arial, sans-serif; font-weight: bold; }
+table { font-weight: bold } 
+#inp{display: none;}
+label,a,input[type='button']{
+   width: 150px;
+   height: 35px;
+   text-align: center; 
+   border-style: solid;
+   border-color: black;
+   border-width: 2px; 
+   font-size: 20px; 
+   color: white;
+   cursor:pointer;
+   background-color:  rgb(50,60,250);;
+   box-shadow:0 0 5px 0 #F5DEB3;
+}
+
+  </style>
+ </head>
+<body>
+
+   <p> Расчет пульки в сочинском преферансе </p>
+    
+              <table border="2" width="400" height="250">
+	<tr>
+	<th> *****</th> <th>Pl 0</th>	<th>Pl 1</th><th>Pl 2</th>
+	</tr>
+
+	<tr>
+	<th>Pl 0</th> <th><input type="number" name="GV" value=0></th> 
+  <th><input type="number" name="GV" value=1></th>
+  <th><input type="number" name="GV" value=2></th>
+	</tr>
+
+	<tr>
+	<th>Pl 1</th> <th><input type="number" name="GV" value=3></th> 
+  <th><input type="number" name="GV" value=4></th>
+  <th><input type="number" name="GV" value=5></th>
+	</tr>
+
+	<tr>
+	<th>Pl 2</th><th><input type="number" name="GV" value=6></th> 
+  <th><input type="number" name="GV" value=7></th>
+  <th><input type="number" name="GV" value=8></th>
+	</tr>
+
+  <tr>
+  <th> *****</th> <th>Pl 0</th> <th>Pl 1</th><th>Pl 2</th>
+  </tr>
+  <tr>
+  <th>REZ</th> <th id="p0"></th> <th id="p1"></th><th id="p2"></th>
+  </tr>
+         </table><br>
+
+  <input type='button' value='Calculate' onclick='Calculate()' id="btn1" />
+  <a href="graphPref21.html">Graphs</a> </p><br><br><br>
+  <label for="inp">Open File Rez</label> <br><br>
+  <input type="file" id="inp" onchange="loadFile(this)">
+ 
+ <input type='button' class="btS" value='Add Rez now'onclick="SaveSt();"><br> 
+ <a id="Save" href=#>SAVE new Rez</a><br> 
+
+ <script type='text/javascript' >
+  var gv = document.getElementsByName('GV');
+   var Sred;
+   var Rez= [];   
+   let pula = []; 
+ function Calculate() {
+  N=+gv[2].value
+  for (i = 0; i < 3; i++){pula[i]=[]
+  for (j = 0; j < 3; j++){
+    pula[i][j]=+gv[i*3+j].value
+  }} 
+  Sred = 0; 
+  for (i = 0; i < 3; i++){ 
+    Sred+=pula[i][i]*10/3; Rez[i]=0;
+  } 
+  for (i = 0; i < 3; i++){
+  for (j = 0; j < 3; j++){
+   if(i!=j) Rez[i]=Rez[i]+pula[i][j]-pula[j][i];
+  }} 
+  for (j = 0; j < 2; j++) Rez[j]=Math.round(Rez[j]+Sred-pula[j][j]*10);
+    Rez[2]=-(Rez[0]+Rez[1])
+
+if (Rez[0]>0) p0.style.color='green'; else p0.style.color='red'
+if (Rez[1]>0) p1.style.color='green'; else p1.style.color='red'
+if (Rez[2]>0) p2.style.color='green'; else p2.style.color='red'
+document.getElementById("p0").innerHTML= Rez[0].toFixed(0);  
+document.getElementById("p1").innerHTML= Rez[1].toFixed(0);  
+document.getElementById("p2").innerHTML= Rez[2].toFixed(0);  
+}
+function loadFile(o){var fr = new FileReader(); fr.readAsText(o.files[0]);//}
+  fr.onload = function(e){showDataFile(e) }                    
+  function showDataFile(e){S = e.target.result; //получаем строку                    
+obj = JSON.parse(S); rez=obj.rez;  Nrez=rez.length;//преобразуем в массив и его длина
+}}
+function SaveSt(){// OpenSt()  
+rez[Nrez]=Rez;
+obj = {rez};  
+const obj_str = JSON.stringify(obj);  
+    Save.onclick = function () {
+    this.href = 'data:application/txt;charset=utf-8,' + encodeURIComponent(obj_str);
+    this.target = '_blank';
+    this.download = 'Rez.txt';}
+}
+
+</script>
+
+</body>
+</html>
+

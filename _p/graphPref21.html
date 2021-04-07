@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>graphPref21</title>
+ <link rel="icon" href="../ICO/ml00.ico" type="image/x-icon">
+</head>
+<style> 
+body {font-family: 'Courier New'; font-size: 18px; font-weight: bold;}	
+#canvas {    border: 1px solid black;}	
+input[type='file']{display: none; width: 60px}
+input[type='number']{ width: 60px}
+input[type='button']{ width: 80px}
+label{
+   position: fixed;
+   width: 120px;
+   height: 25px;
+   top: 45px;
+   text-align: center; 
+   text-shadow: 0px 0px 1px #00F;
+   border-style: solid;
+   border-color: black;
+   border-width: 1px; 
+   font-size: 18px; 
+   color: white;
+   cursor:pointer;
+   background-color:  #D2691E;
+   box-shadow:0 0 5px 0 #F5DEB3;
+}
+label:hover{background-color: rgb(150,60,60);}
+table {
+position: fixed; left: 350px; top: 10px}
+#t0{position: fixed; left: 350px; top: 10px}
+#t1{position: fixed; left: 330px; top: 540px}
+  img{height: 200px}
+</style> 
+<body>
+
+<p>Результаты пуль 2016 - 2019 </p>
+<label for="lf" >Open File</label> 
+  <input type="file" id="lf" onchange="loadFile(this)">
+  <table border="1" width="300" height="60" id="t0">
+  <tr>  <th>VTK</th>  <th>Ded</th><th>RP</th></tr>
+  <tr> <th id="p0">0</th> <th id="p1">0</th><th id="p2">0</th></tr>
+</table><br>
+<table border=1 width="300" height="80" id="t1">
+  <tr>  <th colspan="3">game # <input type="number" value=1 min=1 id="Npl" onchange="Rez1()"></th></tr>
+  <tr>  <th>VTK</th>  <th>Ded</th><th>RP</th></tr>
+  <tr> <th id="p00">0</th> <th id="p01">0</th><th id="p02">0</th></tr>
+</table> 
+
+<canvas width="700" height="400" id="canvas"></canvas>
+
+<p></p>
+    <input type="radio" checked name="radio" value="0" onclick='SetYear(this.value)'>total
+    <input type="radio" name="radio" value="1" onclick='SetYear(this.value)'>2016
+    <input type="radio" name="radio" value="2" onclick ='SetYear(this.value)'>2017
+    <input type="radio" name="radio" value="3" onclick ='SetYear(this.value)'>2018
+    <input type="radio" name="radio" value="4" onclick ='SetYear(this.value)'>2019<br>
+
+
+<input type='button' class="btS" value='SetStartFin'onclick="SetStFin();"><br> 
+
+ _start = <input type="number" value=0 id="Nst" >
+ <input type='button' value='Zoom +'onclick="ky=ky*1.1;Ymax/=1.1;zGraph()"><br>
+ finish = <input type="number" value=100 id="Nfin">
+ <input type='button' value='Zoom -'onclick="ky=ky/1.1;Ymax*=1.1;zGraph()"><br> 
+
+<input type='button' value='Graph'onclick="SetGraph();">
+<input type='button' value='Clear'onclick="ClearGraph();">
+
+<p id="data"></p>  
+<p id="demo"></p>
+<!-- <img  src="https://www.mihailivanovich.com/puzzles/galina/pict/g000.jpg">
+<img  src="https://www.mihailivanovich.com/puzzles/ana/Pict/rp00.JPG">
+<img  src="https://www.mihailivanovich.com/puzzles/galina/pict/g16.jpg">
+<img  src="https://www.mihailivanovich.com/puzzles/nick/pict/n10.jpg"> -->
+
+<script>
+  let y3p=[]; y3p[0]=[];  y3p[1]=[];  y3p[2]=[];
+  let Nrez,N,nst,nfin,ymax3graph,Ymax,kx;
+  
+	let ctx = canvas.getContext('2d');
+	let dx=15;   let dy=15;  let radius=3; 
+	let ky=(canvas.height/2-dy)/Ymax;  
+	let yst=canvas.height/2;  let xst=dx; let xfin=canvas.width-dx; let yfin=canvas.height-dy;
+
+  let Nsf=[[0,200],[0,48],[48,98],[98,147],[147,200]];
+  let col_th=['rgba(255,0,0,0.3)','rgba(0,0,255,0.3)','rgba(255,0,255,0.3)']          
+  let th_all = document.getElementsByTagName("th");   
+for (i = 0; i < 3; i++){th_all[i].style.backgroundColor=col_th[i]; th_all[i+3].style.backgroundColor=col_th[i];
+  th_all[i+7].style.backgroundColor=col_th[i];}
+FormGraph();   
+
+function SetYear(n){nst=Nsf[n][0]; nfin=Nsf[n][1]; N=nfin-nst+1; kx=(canvas.width-2*dx)/(N-1);
+     SetGraph();}
+
+function Rez1(){
+for (i = 0; i < 3; i++) {
+if (rez[Npl.value-1][i]>0) th_all[i+10].style.color='green'; else th_all[i+10].style.color='red';
+th_all[i+10].innerHTML= rez[Npl.value-1][i];}}
+
+function SetStFin(){ nst=+Nst.value;	nfin=+Nfin.value;  N=nfin-nst+1; kx=(canvas.width-2*dx)/(N-1);
+SetGraph();}
+function ClearGraph(){ ctx.fillStyle='white';
+ctx.fillRect(0,0,canvas.width,canvas.height); FormGraph()
+}
+  function loadFile(o){var fr = new FileReader(); fr.readAsText(o.files[0]);
+  fr.onload = function(e){showDataFile(e) }                    
+  function showDataFile(e){S = e.target.result; //получаем строку  
+ let obj = JSON.parse(S); rez=obj.rez;  Nrez=rez.length+1;
+  kx=(canvas.width-2*dx)/(Nrez); 
+nst=0; nfin=Nrez-1; N=nfin-nst+1; Nsf[0][1]=Nrez-1; Nsf[4][1]=Nrez-1; 
+ for (j = 0; j < 3; j++) y3p[j][0]=0;  
+ for (i = 1; i < N; i++) for (j = 0; j < 3; j++) y3p[j][i]=y3p[j][i-1]+rez[i-1][j];   
+ FormGraph();   SetGraph(); Rez1()
+}}
+
+function zGraph(){ClearGraph(); Graph3();}
+
+function Graph3(){ 
+GraphYi(y3p[0],'red','red'); 
+GraphYi(y3p[1],'blue','blue'); 
+GraphYi(y3p[2],'magenta','magenta');}
+
+function SetGraph(){ ClearGraph()
+ let Y=[]; let a=[];
+ for (j = 0; j < 3; j++) a[j]= y3p[j][nst];
+ for (j = 0; j < 3; j++) for (i = 0; i < N; i++) Y[i+(N-0)*j]=y3p[j][i+nst]-a[j];   
+   ymax3graph=Math.max(Math.max(...Y),-Math.min(...Y));
+for (j = 0; j < 3; j++){
+ if (y3p[j][N-1+nst]-a[j]>0) th_all[j+3].style.color='green'; else th_all[j+3].style.color='red' 
+ th_all[j+3].innerHTML= y3p[j][N-1+nst]-a[j];}
+Ymax = MaxRound(ymax3graph);  ky=(canvas.height/2-dy)/Ymax;   Graph3()} 
+
+function MaxRound(Y){// OpenSt()  
+let i = 1; let MR=Math.floor(Y/i); //j0=Math.floor(i%ny); 
+while (MR > 10) {   // Выполнять код, пока значение переменной i меньше 3
+   i*=10; MR=Math.floor(Y/i); }          // Увеличиваем значение переменной i
+  return ((MR+1)*i)
+}
+
+function FormGraph() {
+ctx.strokeStyle = "blue";   // Рамка и оси  
+ctx.lineWidth = 1; // Ширина линии
+ctx.strokeRect(dx,dy,canvas.width-2*dx,canvas.height-2*dy);
+ctx.beginPath(); // Запускает путь
+ctx.moveTo(dx, canvas.height/2);
+ctx.lineTo(canvas.width-dx, canvas.height/2);
+ctx.stroke();
+ShowSetka()}
+
+function ShowSetka() {
+let nx=5; let ny=4;
+  ctx.lineWidth=1; 
+  ctx.strokeStyle='rgba(100,100,100,0.6)'; ctx.beginPath();
+ for (i = 1; i < ny; i++){
+    ctx.moveTo(dx,dy+i*(yfin-dy)/ny);
+    ctx.lineTo(xfin,dy+i*(yfin-dy)/ny); }
+ for (i = 1; i < nx; i++){
+    ctx.moveTo(dx+i*(xfin-dx)/nx,dy);
+    ctx.lineTo(dx+i*(xfin-dx)/nx,yfin); }
+            ctx.stroke();}
+
+function GraphYi(Y,c1,c2){    //линейный график
+ctx.strokeStyle = c1; // Задаём  цвет для линий 
+ctx.lineWidth = 2.0; // Ширина линии
+let a=Y[nst]; 
+ctx.beginPath();
+ctx.moveTo(dx, yst-(Y[nst]-a)*ky);
+for (i = 1; i < N; i++) {
+ctx.lineTo(xst+i*kx, yst-(Y[i+nst]-a)*ky); //ctx.stroke();
+}
+ctx.stroke();
+ctx.strokeStyle = c2;  // график круглые точки
+ctx.lineWidth = 1.0; // Ширина линии
+for (i = 0; i < N; i++) { ctx.beginPath();
+ctx.arc(xst+i*kx, yst-(Y[i+nst]-a)*ky, radius, 0, 2*Math.PI, false); ctx.stroke();} 
+ctx.fillStyle='white';
+ctx.fillRect(xst+2,dy+2,50,20);
+ctx.font='18px TNR';
+ctx.fillStyle='blue';
+ctx.fillText(Math.round(Ymax), xst+5, 35 ); 
+ctx.fillText(nst, xst+5, yst+Ymax*ky-5 );
+ctx.fillText(nfin, canvas.width-2*dx-20, yst+Ymax*ky-5 ); 
+}
+</script>
+
+</body>
+</html>
