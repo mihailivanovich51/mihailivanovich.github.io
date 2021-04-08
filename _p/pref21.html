@@ -1,7 +1,7 @@
 <html>
 <head>
         <meta charset="UTF-8">
-  <link rel="icon" href="../ICO/sirano.ico" type="image/x-icon">
+  <link rel="icon" href="../puzzles/ICO/sirano.ico" type="image/x-icon">
   	<title>pref21</title> 
 		<style> 
 #btn1 {
@@ -115,14 +115,15 @@ function loadFile(o){var fr = new FileReader(); fr.readAsText(o.files[0]);//}
   function showDataFile(e){S = e.target.result; //получаем строку                    
 obj = JSON.parse(S); rez=obj.rez;  Nrez=rez.length;//преобразуем в массив и его длина
 }}
-function SaveSt(){// OpenSt()  
+function SaveSt(){
+d=new Date(); s=d.getDate()+'_'+month[d.getMonth()]+'_'+d.getFullYear()+'_'+d.getHours()+':'+d.getMinutes(); 
 rez[Nrez]=Rez;
 obj = {rez};  
 const obj_str = JSON.stringify(obj);  
     Save.onclick = function () {
     this.href = 'data:application/txt;charset=utf-8,' + encodeURIComponent(obj_str);
     this.target = '_blank';
-    this.download = 'Rez.txt';}
+    this.download =s+'_Rez.txt';}
 }
 
 </script>
