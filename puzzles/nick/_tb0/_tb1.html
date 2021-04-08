@@ -131,7 +131,9 @@ video{position: absolute;}
    v1.width=0; 
     v1.height=0.3*52*kpv;
    v1.style.left=0.35*62+'vw';   v1.style.top=0.17*62+'vw';
- 
+
+   let SrcZ=[];    for (i=0; i<4; i++) SrcZ[i]=picZv[0][0][i];
+
     iv=3; OpenJS(); let act=false;  //Run();
 
 function vplay() {kpv=document.body.clientWidth/100; 
@@ -157,11 +159,12 @@ function OneStep(){PorT=1;  k++;
   wris[i]=VR0(i,wff[0][i],wff[1][i],wff[2][i]); 
     dg[i]=VR0(i,dff[0][i],dff[1][i],dff[2][i]); 
     op[i]=VR0(i,off[0][i],off[1][i],off[2][i]); 
-VRxy(i,xff[0][i],xff[1][i],xff[2][i],yff[0][i],yff[1][i],yff[2][i],rxy[0][i],rxy[1][i],rxy[2][i]); 
-}
-if (k==n3+1){btn0.onclick(); Vpl.click();  //a1.play();a1.volume=0.5;
-}  
-   if (k==Nst) k=0; 
+VRxy(i,xff[0][i],xff[1][i],xff[2][i],yff[0][i],yff[1][i],yff[2][i],rxy[0][i],rxy[1][i],rxy[2][i]); }
+                   
+if (k==n3+1){for (i=0; i < 4; i++) {picZv[0][0][i]='Pict_Zv/z'+i+'.png'; Img0[i].src=picZv[0][0][i];}
+ btn0.onclick(); Vpl.click(); } 
+  
+   if (k==Nst) {k=0; for (i=0; i<4; i++) picZv[0][0][i]=SrcZ[i]; OldIm();}
  SetPic();
 }
              //расчет параметров  Х и У к-го шага
