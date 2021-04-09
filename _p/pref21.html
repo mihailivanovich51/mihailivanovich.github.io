@@ -35,7 +35,16 @@ label,a,input[type='button']{
    background-color:  rgb(50,60,250);;
    box-shadow:0 0 5px 0 #F5DEB3;
 }
-
+#hlp{ 
+  display: none;
+  position: fixed; top: 20px; left: 25vw;
+  width: 40vw; height: 30vw;
+  background-color: rgba(200,200,250,0.5);
+  border-style: solid;
+  border-color: blue;
+  border-width: 2px;   
+}
+#bth{background-color: rgba(100,200,250,0.8);}
   </style>
  </head>
 <body>
@@ -77,9 +86,23 @@ label,a,input[type='button']{
   <a href="graphPref21.html">Graphs</a> </p><br><br><br>
   <label for="inp">Open File Rez</label> <br><br>
   <input type="file" id="inp" onchange="loadFile(this)">
+	
  
  <input type='button' class="btS" value='Add Rez now'onclick="SaveSt();"><br> 
  <a id="Save" href=#>SAVE new Rez</a><br> 
+ <input type='button' id="bth" value='HELP'onclick="HELP();"> 
+ 
+ <div id="hlp">
+  <p>Help<br>1. Заполнение таблицы пули:<br>
+Строки - висты i-го игрока на j-го игрока (столбец); сам на себя - гора.<br>
+2. Calculate - расчет результатов пули.<br>
+3. Open File Rez - открыть файл последних результатов, к нему добавится результат пули.<br>
+4. Add Rez now - добавлен результат.<br>
+5. SAVE new Rez - сохраняется новый файл результатов, в его имени содержится дата и время.<br>
+6. Graphs - открывается окно программы с графиками результатов. <br>
+7. HELP - открывается\закрывается это окно.<br>
+  </p>
+ </div> 
 
  <script type='text/javascript' >
   var gv = document.getElementsByName('GV');
