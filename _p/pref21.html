@@ -105,11 +105,16 @@ label,a,input[type='button']{
  </div> 
 
  <script type='text/javascript' >
+  let kpv=document.body.clientWidth/100;  hlp.style.left = 440/kpv + 'vw';
+	 
   var gv = document.getElementsByName('GV');
    var Sred;
    var Rez= [];   
-   let pula = []; 
-  let month=['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec']
+   let pula = [];    let fl_help=false;
+  let month=['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+ function HELP() {kpv=document.body.clientWidth/100;  hlp.style.left = 440/kpv + 'vw';
+  fl_help=!fl_help;  if (fl_help) hlp.style.display='block'; else hlp.style.display='none' }
+	 
  function Calculate() {
   N=+gv[2].value
   for (i = 0; i < 3; i++){pula[i]=[]
