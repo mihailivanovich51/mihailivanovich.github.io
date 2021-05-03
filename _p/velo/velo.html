@@ -3,49 +3,61 @@
 <head>
   <meta charset="UTF-8">
     <link rel="icon" href="/puzzles/ICO/sirano.ico" type="image/x-icon">
-	<title>VeloBF_v.0</title>
+	<title>Monocycle</title>
 <style type="text/css">
-#d0{ /*position: fixed;*/ width: 600px; height: 300px;
-   	margin-left: 20px; top: 50px; z-index: -1; background-color: white }
-#Mycanvas{ position: fixed; z-index: 2;  left: 25px;  top: 60px;}  
-#d1,#d2{ position: fixed; width: 600px; height: 320px; background-color: white; 
-	left: 620px; top: 45px; z-index: 2;}
-#d2{ width: 20px; 	left: 0px;}
+#Mycanvas{position: fixed; z-index: 1;  left: 25px; top: 60px; box-shadow:4px 4px 6px 0 #224422;}  
+#d0{position: fixed; width: 400px; height: 30px; margin-left: 20px; top: 465px; }
+#dbg{position: fixed; width: 200px; height: 60px; margin-left: 270px; top: 465px;}
+/*#dfl{position: fixed; width: 200px; height: 30px; margin-left: 470px; top: 470px;}*/
 #dset,#dcom{position: fixed; display: none;
-	width: 140px; height: 300px; 	left: 20px; top: 420px;
-	border: 1px solid black; box-shadow:0 0 6px 0 #222299;
-         background-color: rgb(240,240,250);
-         font-family: "Courier New"; font-size: 12px;
-         text-align: center;}
-#dcom{width: 340px;	left: 165px; background-color: rgba(240,240,250,0.5);}
+	width: 145px; height: 340px; left: 20px; top: 520px;
+	border: 1px solid black; box-shadow:0 0 6px 0 #222255;  background-color: rgb(240,240,250);
+         font-family: "Courier New"; font-size: 12px; text-align: center;}
+#dcom{width: 340px;	left: 170px;}
 input[type='number']{ width: 60px; height: 20px}
-img{position: absolute; width: 600px; margin-top: 0px; z-index: 0;}
-#im1{ margin-left: -600px; -webkit-filter: blur(0px);} 	
-#im2{margin-left:  0px; -webkit-filter: blur(0px);} 
-#im0{width: 80px; left: 290px; top: 160px}
-h3{margin-left: 100px; color: green}
+#im0{position: absolute; margin-top: 0px; z-index: 0; width: 160px; left: 390px; top: 260px;z-index: 3;}
+h3{font-size: 32px; margin-top: 10px; margin-left: 100px; color: green; text-shadow: 2px 2px 2px #000; }
 #b1{width: 100px; height: 35px; color: white; background-color: brown}
 #b1:hover {background-color: red}
 #b0,#b2{width: 70px; height: 35px; color: white; background-color: green}
-p.date{text-align:left; }		
+p.date{text-align:left; }
+
 </style>	
 </head>
 <body>
 <h3>Barboss on the monocycle</h3>		
+
+<img id="im0" src="b&s1.gif">	
+ 
+<canvas id="Mycanvas" width="800" height="400">Обновите браузер</canvas>
+
 <div id="d0">
-  <img id="im1" src="002.jpg">	
-  <img id="im2" src="002.jpg">	
-  <img id="im0" src="bvel5.png">	
-</div>
-
-<canvas id="Mycanvas" width="600" height="300">Обновите браузер</canvas>
-
-  <div id="d1"> </div>
-  <div id="d2"> </div><br>
-	<input type="button" id="b0" name="btn" value="One step" onclick="oneStep()">
+  <input type="button" id="b0" name="btn" value="One step" onclick="oneStep()">
 	<input type="button" id="b2" value="Setting" onclick="fls=!fls;ShowSett()">
   <input type="button" id="b1" name="btn" value="Start/Stop" onclick="act=!act; Run()">
-  
+ </div>
+ <div id="dbg">
+ <form>
+  <input type="radio" checked name="bg" value="0" onclick="nbg=+this.value; VarBG()">bg0
+  <input type="radio" name="bg" value="1" onclick="nbg=+this.value; VarBG()">bg1
+  <input type="radio" name="bg" value="2" onclick="nbg=+this.value;VarBG()">bg2  
+  </form>
+ <!-- </div> -->
+ <!-- <div id="dfl">  -->
+<form>
+  <input type="radio" checked name="flag" value="0" onclick="nfl=+this.value; VarFlag()">fl0
+  <input type="radio" name="flag" value="1" onclick="nfl=+this.value; VarFlag()">fl1
+  <input type="radio" name="flag" value="2" onclick="nfl=+this.value; VarFlag()">fl2
+</form>
+</div>
+<!--  Flag <input type="radio" checked name="flag" value=0 onclick="nfl=+this.value; VarFlag()">3
+<input type="radio" name="flag" value=1 onclick="nfl=+this.value; VarFlag()">2
+<input type="radio" name="flag" value=2 onclick="nfl=+this.value; VarFlag()">VTK Ded***__***VarBG
+<input type="radio" checked name="bg" value="0" onclick="nbg=+this.value; VarBG()">0
+   <input type="radio" name="bg" value="1" onclick="nbg=+this.value; VarBG()">1
+   <input type="radio" name="bg" value="2" onclick="nbg=+this.value;VarBG()">2</p>-->
+
+ 
   <div id="dset"> 
   <p>Model's parameters</p>	
   vs = <input type="number" name="nmbr"><br> 
@@ -57,6 +69,10 @@ p.date{text-align:left; }
   kr = <input type="number" name="nmbr"><br> 
   cs = <input type="number" name="nmbr"><br> 
   rs = <input type="number" name="nmbr"><br> 
+ <!--  <p>VarBG<input type="radio" checked name="bg" value="0" onclick="nbg=+this.value; VarBG()">0
+   <input type="radio" name="bg" value="1" onclick="nbg=+this.value; VarBG()">1
+   <input type="radio" name="bg" value="2" onclick="nbg=+this.value;VarBG()">2</p> -->
+   
 	<input type="button" name="btn" value="SetIsh" onclick="SetIsh()">
  </div>
 <div id="dcom">
@@ -70,43 +86,85 @@ p.date{text-align:left; }
 <p class="date">кратность показа картинки</p>
 <p class="date">жесткость, кг*(м/с^2)/м)</p>
 <p class="date">коэфф. гашения по скорости, кг*(м/с^2)/(м/с)</p>
+<!-- Variant Flag</p>
+<p> <input type="radio" checked name="flag" value=0 onclick="nfl=+this.value; VarFlag()">3 bears
+   <input type="radio" name="flag" value=1 onclick="nfl=+this.value; VarFlag()">2 fish
+   <input type="radio" name="flag" value=2 onclick="nfl=+this.value; VarFlag()">VTK Ded</p> -->
+
 </div>
 <script type="text/javascript">	
-let W,H,w0,h0,dx,dy; let nx=10; let ny=2;  
-  var canvas=document.getElementById("Mycanvas");
-  var ctx=canvas.getContext("2d");
-  var img2=new Image();  // Создаём изображение
-   img2.src = "3medv.JPG";
-
-img2.onload = function() { kf=0;
- W=this.width;  H = this.height; 
- w0 = W/(nx-0);  h0 =H/(ny-0); 
-  if (W>H) {dx = 250/nx; dy = 250/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}   dxd=0.12*dx;
- SetTrans(); 
-}
-
+ let BG=["001.jpg","002.jpg","003.jpg"]; let nbg=0;
+ let FL=["3bears.jpg","2fish.jpg","fl2.jpg"]; let nfl=0;
+// var checkBG = document.getElementsByName('bg');
+ let ImL=0;  let act=false; let tint=10; fls=false;   
+        
+  //for FLAG!!!
 pim = Math.PI;   let aflag=20;  let kzoom=0.5; let varfl=0; let Aks=true;  let zx=0; let zy=0;
-xris0 = 320; yris0 = 50; xris = xris0; yris = yris0;  akf = 0.3;
+xris0 = 440; yris0 = 75; xris = xris0; yris = yris0;  akf = 0.1; 
 let fiz0 = -0.78;  fiz = fiz0; let fiy0 = 0;  fiy = fiy0; 
 cosz=Math.cos(fiz); cosy=Math.cos(fiy); sinz=Math.sin(fiz); siny=Math.sin(fiy); 
 
 var xs=[]; var ys=[]; var xa=[]; var ya=[]; var zs=[];    
 
-let kf=0;  let kf1=0;  let kfv=0;  let Nst=200;  n0=0.75*Nst; n1=0.85*Nst; n2=0.9*Nst; let zxy=0;
+let kf=0;  let kf1=0;  let kfv=0;  let zxy=0;  let lxv=-600;   let lxv1=-200;  let lxv2=1500;
+
+let W,H,W1,H1,W2,H2,W3,H3,W4,H4,yv0,yv1,yv2,kbg,w0,h0,dx,dy; let nx=10; let ny=2; 
+  var canvas=document.getElementById("Mycanvas");
+  var ctx=canvas.getContext("2d");
+  var im1=new Image();  VarBG();  
+ function VarBG(){  
+   im1.src = BG[nbg]; // Фон
+im1.onload = function() { W1=this.width;  H1 = this.height;  kbg=+canvas.width/+W1; SetBG();}
+}
+
+function SetBG(){canvas.height=400; ctx.drawImage(im1,0,0,W1-ImL/kbg,H1,ImL,0,kbg*W1-ImL,kbg*H1);
+               ctx.drawImage(im1,W1-ImL/kbg,0,ImL/kbg,H1,0,0,ImL,kbg*H1); }
+
+  var imv=new Image();  // встречный 0
+   imv.src = "bear1.gif";
+imv.onload = function() { W2=this.width*1.33;  H2 = this.height*1.33; }
+
+  var imv1=new Image();  // встречный 2
+   imv1.src = "wolf.gif";
+imv1.onload = function() { W3=this.width;  H3 = this.height; }
+
+  var imv2=new Image();  // встречный 2
+   imv2.src = "fox.gif";
+imv2.onload = function() { W4=this.width;  H4 = this.height; }
+
+  var img2;    VarFlag(); // Флаг
+ function VarFlag(){  img2=new Image(); 
+   img2.src = FL[nfl];//"2fish.jpg";
+img2.onload = function() { kf=0;
+ W=this.width;  H = this.height; 
+ w0 = W/(nx-0);  h0 =H/(ny-0); 
+  if (W>H) {dx = 350/nx; dy = 350/W*H/ny}  else {dy = 250/ny; dx = 250/H*W/nx;}   dxd=0.2*dx; /*для волны*/
+ SetTrans(); 
+}}
 
 function SetTrans(){ 
-  function clearCanvas() {canvas.height=300;} clearCanvas();
+  function clearCanvas() {canvas.height=400;} 
+  clearCanvas(); SetBG();    //****2 встречных*****
+lxv=lxv+(v+10)*dt*kz*krat;  if (lxv>=800) lxv=-2000-Math.random()*2000; yv0=8*Math.sin(0.01*lxv);
+dfi=yv0/60; yc=230+yv0;
+Show1vs(imv,lxv,dfi,yc,W2,H2);
 
- for (i = 0; i < nx+1; i++) {
-    xs[i] = [];  ys[i] = [];  xa[i] = [];  ya[i] = []; zs[i] = [];
- for (j = 0; j < ny+1; j++) {   
- ys[i][j] = (dy*j)*kzoom;
- dx1=dxd*Math.sin(akf*kf)+dxd; xs[i][j] = ((dx-dx1)*i)*kzoom;
- zs[i][j] = (Math.sin(2.5*pim/nx*i+akf*kf/1.5)-Math.sin(akf*kf/1.5))*aflag*kzoom;
+lxv1=lxv1+(v+12)*dt*kz*krat;  if (lxv1>=800) lxv1=-3000-Math.random()*2000; yv1=6*Math.sin(0.01*lxv1);
+dfi1=yv2/60; yc1=230+yv1;
+Show1vs(imv1,lxv1,dfi1,yc1,W3,H3);
 
-       fiz = fiz0 +fi/60; cosz=Math.cos(fiz);  sinz=Math.sin(fiz);
+lxv2=lxv2-(v+2)*dt*kz*krat;  if (lxv2<=-W4) lxv2=3000+Math.random()*2000; yv2=10*Math.sin(0.02*lxv2);
+dfi2=yv2/60; yc2=230+yv2;
+Show1vs(imv2,lxv2,dfi2,yc2,W4,H4);
+           //******Флаг********
+ for (i = 0; i < nx+1; i++) {xs[i] = [];  ys[i] = [];  xa[i] = [];  ya[i] = []; zs[i] = [];
+ for (j = 0; j < ny+1; j++) { ys[i][j] = (dy*j)*kzoom;
+ dx1=dxd*Math.sin(/*akf*/omf*kf)+dxd; xs[i][j] = ((dx-dx1)*i)*kzoom;
+ zs[i][j] = (Math.sin(2.3*pim/nx*i+kf*omf)-Math.sin(kf*omf))*aflag*kzoom;
+
+  fiz = fiz0 +fi/60; cosz=Math.cos(fiz);  sinz=Math.sin(fiz);
   aksxy(xs[i][j],ys[i][j],zs[i][j]);
-  xa[i][j] = xr+xris+3*fi;  ya[i][j] = yr + yris+yb*kz;}}
+  xa[i][j] = xr+xris+4*fi;  ya[i][j] = yr + yris+yb*kz;}}
 
  for (i = 0; i < nx; i++) {
  for (j = 0; j < ny; j++) {
@@ -116,23 +174,30 @@ function SetTrans(){
    if (h01>0) sky =1;  else sky =-1;
 ctx.setTransform(skx,skx*sy,sky*sx,sky,-ya[i][j]*sx,-xa[i][j]*sy);  //матрица поворота и др.
 ctx.drawImage(img2,w0*i,h0*j,w0,h0,skx*xa[i][j]+zx*i,sky*ya[i][j]+zy*j,skx*1.05*w01,sky*1.05*h01);  
-}} kf=kf+1;
+}} 
+
+function Show1vs(img1,lx1,dfi1,yc1,W1,H1){
+if ((lx1<=canvas.width)&&(lx1>=-W1))
+{ctx.rotate(dfi1); 
+var ct = Math.cos(dfi1), st = Math.sin(dfi1);         
+dx1=lx1*(1-ct)+yc1*st; dy1=yc1*(1-ct)-lx1*st;
+
+ctx.drawImage(img1,lx1+dx1,yc1+dy1,W1,H1);  ctx.rotate(-dfi1);}}
 } 
 
 function aksxy(x,y,z){xt = (x*cosz-y*sinz)*cosy+z*siny; yt = x*sinz+y*cosz;  zt=z*cosy;
  xr=(xt-yt)*0.82;  yr = (yt+xt)*0.82-zt; }
 
-
 	var ish = document.getElementsByName('nmbr');
 
- let ImL=+im1.style.marginLeft;	let ImL1=ImL-600; let act=false; let tint=30; fls=false;
+//for DINAMIC
  let s=0; let nfi=0; let yb=0; let vb=0; let ab=0;
  let g=9.8; let m0=7; let csh=5000; let ast=m0*g/csh; let pst=m0*g; let rsh=200; 
-  let dt=0.005;  let v=10;  let kz=im0.width/1;   //85;
- let hd,as,vs,fi,s0,s1,s2;  let sfi=18;  let n0fi=sfi/v/dt; fi=0;
+  let dt=0.002;  let v=10;  let kz=80; 
+ let hd,as,vs,fi,s0,s1,s2;  let sfi=18;  let n0fi=sfi/v/dt; fi=0; let omf=0.9*v*dt;
  let s00=9;  s1=0.4*s00; s2=0.6*s00;  s0=s1+s2; let krat=3;
- let ahd0=0.1; let ahd=ahd0; let afi0=10; let afi=afi0;
- ris(); SetTab();
+ let ahd0=0.1; let ahd=ahd0; let afi0=10; let afi=afi0; 
+  ris(); SetTab();
 
 function ShowSett(){
  if (fls) {dset.style.display='block'; dcom.style.display='block';} else 
@@ -143,12 +208,12 @@ function SetTab(){ish[0].value=v; ish[1].value=s00; ish[2].value=ahd0; ish[3].va
 
 function SetIsh(){v=+ish[0].value; s00=+ish[1].value; ahd0=+ish[2].value; sfi=+ish[3].value; 
  afi0=+ish[4].value;	dt=+ish[5].value; krat=+ish[6].value; csh=+ish[7].value; rsh=+ish[8].value;
- ahd=ahd0; afi=afi0; s=0; nfi=0; n0fi=sfi/v/dt;
- yb=0; vb=0; ab=0; s1=0.4*s00; s2=0.6*s00; s0=s00; fi=0; ris();}
+ ahd=ahd0; afi=afi0; s=0; nfi=0; n0fi=sfi/v/dt; omf=0.9*v*dt;
+ yb=0; vb=0; ab=0; s1=0.4*s00; s2=0.6*s00; s0=s00; fi=0; ris(); SetTrans();}
 
-function oneStep() { ris(); 
- for (i=0; i<krat; i++){		
- vb=vb+ab*dt; yb=yb+vb*dt;  s=s+v*dt;nfi++; ImL=ImL+v*dt*kz;  if (ImL>=0) ImL=-595; ImL1=ImL+595;
+function oneStep() { ris();  SetTrans();
+ for (i=0; i<krat; i++){kf=kf+1;
+ vb=vb+ab*dt; yb=yb+vb*dt;  s=s+v*dt; nfi++; ImL=ImL+v*dt*kz;  if (ImL>=800) ImL=ImL-800;
 if (s<s1) {hd=ahd*Math.sin(s/s1*Math.PI); vd=v*Math.PI/s1*ahd*Math.cos((s/s1)*Math.PI);} else
  {hd=-ahd*Math.sin((s-s1)/s2*Math.PI); vd=-v*Math.PI/s2*ahd*Math.cos((s-s1)/s2*Math.PI);}	
 if (s>=s0) 
@@ -158,19 +223,17 @@ as=hd-yb; vs=vd-vb;
 ab=p_sh(as,vs)/m0; 
 
 fi=afi*Math.sin(nfi/n0fi*2*Math.PI);	
-if (nfi>=n0fi) {nfi=0; n0fi= sfi*(0.5+Math.random())/v/dt; afi=afi0*(0.5+Math.random());}} SetTrans();
+if (nfi>=n0fi) {nfi=0; n0fi= sfi*(0.5+Math.random())/v/dt; afi=afi0*(0.5+Math.random());}} 
 } 
 
-function ris(){
-im1.style.marginLeft=ImL+'px'; 	im2.style.marginLeft=ImL1+'px'; 
-im0.style.top=190+kz*yb+'px';
+function ris(){ SetBG()
+im0.style.top=235+kz*yb+'px';
 im0.style.transform = 'rotate(' + String(fi) + 'deg)';}
 
 function Run(){ let tim = setInterval(function() {
    if (!act) {clearInterval(tim); b1.value='START';} else {b1.value='STOP'; oneStep()}},tint); }
 
 function p_sh(a,v){if (a<=ast) p=csh*a; else p=pst; p=p+rsh*v;  return(p);} 
-
 	
 </script>
 </body>
