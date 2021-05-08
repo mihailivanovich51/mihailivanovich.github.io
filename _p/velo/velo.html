@@ -2,15 +2,14 @@
 <html>
 <head>
   <meta charset="UTF-8">
-    <link rel="icon" href="/puzzles/ICO/sirano.ico" type="image/x-icon">
-	<title>Monocycle</title>
+   <link rel="icon" href="/puzzles/ICO/sirano.ico" type="image/x-icon">
+  <title>Monocycle</title>
 <style type="text/css">
-#Mycanvas{position: fixed; z-index: 1;  left: 25px; top: 60px; box-shadow:4px 4px 6px 0 #224422;}  
-#d0{position: fixed; width: 400px; height: 30px; margin-left: 20px; top: 465px; }
-#dbg{position: fixed; width: 200px; height: 60px; margin-left: 270px; top: 465px;}
-/*#dfl{position: fixed; width: 200px; height: 30px; margin-left: 470px; top: 470px;}*/
+#Mycanvas{z-index: 1;  left: 25px; top: 60px; box-shadow:2px 2px 3px 0 #224422;}  
+#d0{position: fixed; width: 130px; height: 400px; left: 815px; top: 80px; font-family: "Courier New";
+    font-size: 12px; box-shadow:0 0 3px 0 #222255;}
 #dset,#dcom{position: fixed; display: none;
-	width: 145px; height: 340px; left: 20px; top: 520px;
+	width: 145px; height: 310px; left: 20px; top: 520px;
 	border: 1px solid black; box-shadow:0 0 6px 0 #222255;  background-color: rgb(240,240,250);
          font-family: "Courier New"; font-size: 12px; text-align: center;}
 #dcom{width: 340px;	left: 170px;}
@@ -21,7 +20,7 @@ h3{font-size: 32px; margin-top: 10px; margin-left: 100px; color: green; text-sha
 #b1:hover {background-color: red}
 #b0,#b2{width: 70px; height: 35px; color: white; background-color: green}
 p.date{text-align:left; }
-
+p.v{text-align:center; font-family: "Courier New"; font-size: 16px; font-weight: bolder;}
 </style>	
 </head>
 <body>
@@ -29,34 +28,31 @@ p.date{text-align:left; }
 
 <img id="im0" src="b&s1.gif">	
  
-<canvas id="Mycanvas" width="800" height="400">Обновите браузер</canvas>
+<canvas id="Mycanvas" width="800" height="400">Обновите браузер</canvas><br>
+
+  <input type="button" id="b2" value="Setting" onclick="fls=!fls;ShowSett()">
+  <input type="button" id="b0" name="btn" value="One step" onclick="oneStep()">
+  <input type="button" id="b1" name="btn" value="Start/Stop" onclick="act=!act; Run()">
 
 <div id="d0">
-  <input type="button" id="b0" name="btn" value="One step" onclick="oneStep()">
-	<input type="button" id="b2" value="Setting" onclick="fls=!fls;ShowSett()">
-  <input type="button" id="b1" name="btn" value="Start/Stop" onclick="act=!act; Run()">
- </div>
- <div id="dbg">
- <form>
-  <input type="radio" checked name="bg" value="0" onclick="nbg=+this.value; VarBG()">bg0
-  <input type="radio" name="bg" value="1" onclick="nbg=+this.value; VarBG()">bg1
-  <input type="radio" name="bg" value="2" onclick="nbg=+this.value;VarBG()">bg2  
-  </form>
- <!-- </div> -->
- <!-- <div id="dfl">  -->
-<form>
-  <input type="radio" checked name="flag" value="0" onclick="nfl=+this.value; VarFlag()">fl0
-  <input type="radio" name="flag" value="1" onclick="nfl=+this.value; VarFlag()">fl1
-  <input type="radio" name="flag" value="2" onclick="nfl=+this.value; VarFlag()">fl2
-</form>
-</div>
-<!--  Flag <input type="radio" checked name="flag" value=0 onclick="nfl=+this.value; VarFlag()">3
-<input type="radio" name="flag" value=1 onclick="nfl=+this.value; VarFlag()">2
-<input type="radio" name="flag" value=2 onclick="nfl=+this.value; VarFlag()">VTK Ded***__***VarBG
-<input type="radio" checked name="bg" value="0" onclick="nbg=+this.value; VarBG()">0
-   <input type="radio" name="bg" value="1" onclick="nbg=+this.value; VarBG()">1
-   <input type="radio" name="bg" value="2" onclick="nbg=+this.value;VarBG()">2</p>-->
+  <p class="v"><u>var BG </u></p>
+  <input type="radio" checked name="bg" value="0" onclick="nbg=+this.value; VarBG()">Forest<br>
+  <input type="radio" name="bg" value="1" onclick="nbg=+this.value; VarBG()">Homes<br>
+  <input type="radio" name="bg" value="2" onclick="nbg=+this.value;VarBG()">Winter<br>
 
+  <p class="v"><u>var Flag</u></p>
+  <input type="radio" checked name="flag" value="0" onclick="nfl=+this.value; VarFlag()">Bear Russia<br>
+  <input type="radio" name="flag" value="1" onclick="nfl=+this.value; VarFlag()">2 fish<br>
+  <input type="radio" name="flag" value="2" onclick="nfl=+this.value; VarFlag()">2 bears & fish<br>
+  <input type="radio" name="flag" value="3" onclick="nfl=+this.value; VarFlag()">3 bears 
+
+  <p class="v"><u>Animals</u></p>
+  <input type="checkbox" checked onclick="fb=!fb">Bear<br>
+  <input type="checkbox" checked onclick="fw=!fw">Wolf<br>
+  <input type="checkbox" checked onclick="ff=!ff">Fox<br>
+  <input type="checkbox" checked onclick="fp=!fp">Taddy<br>
+
+</div> 
  
   <div id="dset"> 
   <p>Model's parameters</p>	
@@ -69,10 +65,7 @@ p.date{text-align:left; }
   kr = <input type="number" name="nmbr"><br> 
   cs = <input type="number" name="nmbr"><br> 
   rs = <input type="number" name="nmbr"><br> 
- <!--  <p>VarBG<input type="radio" checked name="bg" value="0" onclick="nbg=+this.value; VarBG()">0
-   <input type="radio" name="bg" value="1" onclick="nbg=+this.value; VarBG()">1
-   <input type="radio" name="bg" value="2" onclick="nbg=+this.value;VarBG()">2</p> -->
-   
+    
 	<input type="button" name="btn" value="SetIsh" onclick="SetIsh()">
  </div>
 <div id="dcom">
@@ -86,17 +79,13 @@ p.date{text-align:left; }
 <p class="date">кратность показа картинки</p>
 <p class="date">жесткость, кг*(м/с^2)/м)</p>
 <p class="date">коэфф. гашения по скорости, кг*(м/с^2)/(м/с)</p>
-<!-- Variant Flag</p>
-<p> <input type="radio" checked name="flag" value=0 onclick="nfl=+this.value; VarFlag()">3 bears
-   <input type="radio" name="flag" value=1 onclick="nfl=+this.value; VarFlag()">2 fish
-   <input type="radio" name="flag" value=2 onclick="nfl=+this.value; VarFlag()">VTK Ded</p> -->
 
 </div>
 <script type="text/javascript">	
  let BG=["001.jpg","002.jpg","003.jpg"]; let nbg=0;
- let FL=["3bears.jpg","2fish.jpg","fl2.jpg"]; let nfl=0;
+ let FL=["fl3.jpg","2fish.jpg","fl2.jpg","3bears.jpg"]; let nfl=0;
 // var checkBG = document.getElementsByName('bg');
- let ImL=0;  let act=false; let tint=10; fls=false;   
+ let ImL=0;  let act=false; let tint=10; fls=false;  let fb=true, fw=true, ff=true, fp=true; 
         
   //for FLAG!!!
 pim = Math.PI;   let aflag=20;  let kzoom=0.5; let varfl=0; let Aks=true;  let zx=0; let zy=0;
@@ -106,15 +95,21 @@ cosz=Math.cos(fiz); cosy=Math.cos(fiy); sinz=Math.sin(fiz); siny=Math.sin(fiy);
 
 var xs=[]; var ys=[]; var xa=[]; var ya=[]; var zs=[];    
 
-let kf=0;  let kf1=0;  let kfv=0;  let zxy=0;  let lxv=-600;   let lxv1=-200;  let lxv2=1500;
-
-let W,H,W1,H1,W2,H2,W3,H3,W4,H4,yv0,yv1,yv2,kbg,w0,h0,dx,dy; let nx=10; let ny=2; 
+let W,H,W1,H1,W2,H2,W3,H3,W4,H4,W5,H5,yp,yv0,yv1,yv2,kbg,w0,h0,dx,dy; let nx=10, ny=2; 
+ 
   var canvas=document.getElementById("Mycanvas");
   var ctx=canvas.getContext("2d");
+
+let kf=0;  let kf1=0;  let kfv=0;  let zxy=0;  let lxv=-600, lxv1=-200, lxv2=1500, lxp=-210, kP=1.5;
+  var imv3=new Image();  // Paddy
+   imv3.src = "paddy.gif";
+imv3.onload = function() { W5=this.width;  H5 = this.height; yp=0.88*canvas.height-kP*H5;}
+
+
   var im1=new Image();  VarBG();  
  function VarBG(){  
    im1.src = BG[nbg]; // Фон
-im1.onload = function() { W1=this.width;  H1 = this.height;  kbg=+canvas.width/+W1; SetBG();}
+im1.onload = function() { W1=this.width;  H1 = this.height;  kbg=+canvas.width/+W1; SetBG(); /*SetTrans()*/}
 }
 
 function SetBG(){canvas.height=400; ctx.drawImage(im1,0,0,W1-ImL/kbg,H1,ImL,0,kbg*W1-ImL,kbg*H1);
@@ -144,18 +139,21 @@ img2.onload = function() { kf=0;
 
 function SetTrans(){ 
   function clearCanvas() {canvas.height=400;} 
-  clearCanvas(); SetBG();    //****2 встречных*****
+  clearCanvas(); SetBG();    //****Paddy*****
+lxp=lxp+v*dt*kz*krat; if (lxp>800) lxp=-2000-Math.random()*2000;
+if (fp) ctx.drawImage(imv3,lxp,yp,kP*W5,kP*H5);
+                    //****2 встречных 1 follow*****
 lxv=lxv+(v+10)*dt*kz*krat;  if (lxv>=800) lxv=-2000-Math.random()*2000; yv0=8*Math.sin(0.01*lxv);
 dfi=yv0/60; yc=230+yv0;
-Show1vs(imv,lxv,dfi,yc,W2,H2);
+if (fb) Show1vs(imv,lxv,dfi,yc,W2,H2);
 
 lxv1=lxv1+(v+12)*dt*kz*krat;  if (lxv1>=800) lxv1=-3000-Math.random()*2000; yv1=6*Math.sin(0.01*lxv1);
 dfi1=yv2/60; yc1=230+yv1;
-Show1vs(imv1,lxv1,dfi1,yc1,W3,H3);
+if (fw) Show1vs(imv1,lxv1,dfi1,yc1,W3,H3);
 
 lxv2=lxv2-(v+2)*dt*kz*krat;  if (lxv2<=-W4) lxv2=3000+Math.random()*2000; yv2=10*Math.sin(0.02*lxv2);
 dfi2=yv2/60; yc2=230+yv2;
-Show1vs(imv2,lxv2,dfi2,yc2,W4,H4);
+if (ff) Show1vs(imv2,lxv2,dfi2,yc2,W4,H4);
            //******Флаг********
  for (i = 0; i < nx+1; i++) {xs[i] = [];  ys[i] = [];  xa[i] = [];  ya[i] = []; zs[i] = [];
  for (j = 0; j < ny+1; j++) { ys[i][j] = (dy*j)*kzoom;
@@ -182,7 +180,7 @@ if ((lx1<=canvas.width)&&(lx1>=-W1))
 var ct = Math.cos(dfi1), st = Math.sin(dfi1);         
 dx1=lx1*(1-ct)+yc1*st; dy1=yc1*(1-ct)-lx1*st;
 
-ctx.drawImage(img1,lx1+dx1,yc1+dy1,W1,H1);  ctx.rotate(-dfi1);}}
+ctx.drawImage(img1,lx1+dx1,yc1+dy1/*,W1,H1*/);  ctx.rotate(-dfi1);}}
 } 
 
 function aksxy(x,y,z){xt = (x*cosz-y*sinz)*cosy+z*siny; yt = x*sinz+y*cosz;  zt=z*cosy;
