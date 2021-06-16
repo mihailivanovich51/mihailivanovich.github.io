@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+  <link rel="icon" href="https://www.mihailivanovich.com/puzzles/ICO/sirano.ico" type="image/x-icon">
+<title>Sky_v.0</title>
+</head>
+<body>
+<style>
+body{font-size: 20px;}	
+input{width: 50px; margin-left: 10px;} 	
+img{position: fixed; width: 784px; left: 10px; top: 10px}
+canvas{position: fixed; left: 30px; top: 40px;
+border:1px solid #a1a4a8; 
+box-shadow:0 0 10px 0 #555555;
+margin-left: 25px;
+margin-top: 5px;}
+#bt{width: 60px; border-radius: 30px; height: 60px; background-color: rgb(0,100,0); color: rgb(100,250,250);}
+#dplay{position: fixed; top: 580px; left: 300px}
+#dset{position: fixed; top: 580px; left: 5px}
+#divb{position: absolute; top: 700px}
+.bt2{background-color: rgba(0,200,0,0.6)}
+.bt4{background-color: rgba(200,0,0,0.6)}
+</style>
+
+ <img src="rama.jpg">   
+ <canvas id="Mycanvas" width="700" height="500">Обновите браузер</canvas><br>
+<div id="dset">
+<input type="color" id="R1" value= '#000040' onchange = 'colorbgr=this.value; SetBG()'>BackGroundColor <br>
+<input type="number" id="nl" value="70" onchange = 'nl=+this.value; SetArr()'> Nstars<br>
+<input type="checkbox" checked onclick= 'rm = !rm' >var Rmax
+</div>
+
+<div id="dplay">
+  <input type='button' class="bt4" value='-vel'onclick="tint*=1.2">
+  <input type='button' id="bt" value='Play' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='+vel'onclick="tint/=1.2">
+</div>
+
+<script type="text/javascript">
+  let act=false;  let tint=150, nl = 70, rc=10, rst=15, rm=true;
+	var canvas=document.getElementById("Mycanvas"); 
+	var ctx=canvas.getContext("2d"); 
+   var div2 = document.getElementById("d2");
+let ArColor=['yellow','magenta','ivory','red','lime','skyblue']; let nc=ArColor.length;
+let colorbgr='#000040'; 
+let minx = canvas.width/2; let miny = canvas.height/2; 
+let Rmax=1.2*Math.sqrt((canvas.width/2)*(canvas.width/2));
+  
+let xs=[], ys=[], dx=[], dy=[], Rp=[], ic=[]; 
+
+SetArr();  SetBG(); 
+
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,100,0)'; bt.value='Play'} else 
+   {bt.style.backgroundColor='rgb(155,0,0)'; bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {
+  if (rm) {Step1()} else Step1C();
+if (act) timerId = setTimeout(timer, tint);
+}, tint);}
+
+function SetBG(){ctx.fillStyle=colorbgr; ctx.fillRect(0,0,canvas.width,canvas.height); }
+
+function setStart(){let fip=Math.random()*2*Math.PI; Rp[i]=Math.sqrt(Math.random())*Rmax; 
+    let nst=Math.random()*20+20;
+    dx[i]=Rp[i]*Math.cos(fip)/nst; dy[i]=Rp[i]*Math.sin(fip)/nst;
+    xs[i]=0; ys[i]=0; ic[i]=Math.floor(Math.random()*nc); }
+
+function SetArr() {xs=[], ys=[], dx=[], dy=[], Rp=[], ic=[]; 
+                    for (i = 0; i < nl; i++) setStart(); }
+
+function Step1() { SetBG();
+  for (i = 0; i < nl; i++){ ctx.beginPath(); ctx.fillStyle=ArColor[ic[i]];
+   let R=Math.sqrt((xs[i])*(xs[i])+(ys[i])*(ys[i])); let rs=2+5*R/Rp[i];  
+   ctx.arc(xs[i]+minx,ys[i]+miny, rs, 0, 2 * Math.PI);   ctx.fill();
+  xs[i]=xs[i]+dx[i]; ys[i]=ys[i]+dy[i];
+    R=Math.sqrt((xs[i])*(xs[i])+(ys[i])*(ys[i])); 
+    if (R>Rp[i]) setStart();
+ }}
+ /**********************************************************/
+function setStartC(){let fip= Math.random()*2*Math.PI; let dr = Math.random()*rst+6;
+    dx[i]=dr*Math.cos(fip); dy[i]=dr*Math.sin(fip);
+    xs[i]=rc*Math.cos(fip); ys[i]=rc*Math.sin(fip); ic[i]=Math.round(Math.random()*nc-0.5); }
+
+function SetArrC() {xs=[], ys=[], dx=[], dy=[],  ic=[];  for (i = 0; i < nl; i++) setStartC();}
+
+function Step1C() { SetBG();
+  for (i = 0; i < nl; i++){ ctx.beginPath(); ctx.fillStyle=ArColor[ic[i]];
+   let R=Math.sqrt((xs[i])*(xs[i])+(ys[i])*(ys[i])); let rs=2+5*R/Rmax;  
+   ctx.arc(xs[i]+minx,ys[i]+miny, rs, 0, 2 * Math.PI);   ctx.fill();
+  xs[i]=xs[i]+dx[i]; ys[i]=ys[i]+dy[i];
+    Math.sqrt((xs[i])*(xs[i])+(ys[i])*(ys[i]));
+    if (R>Rmax) setStartC();
+ }
+}
+</script> 
+</body>
+</html>
