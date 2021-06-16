@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+  <link rel="icon" href="https://www.mihailivanovich.com/puzzles/ICO/sirano.ico" type="image/x-icon">
+<title>Space_v.1</title>
+</head>
+<body id="body">
+<style>
+body{background-color: #0000a0; font-size: 20px; color: white}	
+input{width: 50px; margin-left: 10px;} 	
+
+#bt1,#bt2{width: 100px; height: 35px;background-color: rgb(150,60,60); color: rgb(100,250,250);}
+#bt{width: 60px; border-radius: 30px; height: 60px; background-color: rgb(0,55,0); color: white;}
+
+#d2{ position: fixed; top: 2px; left: 2px; background-color: #22a; width: 250px; height: 125px; color: #aff; font-size: 20px; }
+
+.bt2{background-color: rgba(0,200,0,0.6); color: white}
+.bt4{background-color: rgba(200,0,0,0.6); color: white}
+
+</style>
+ <div id="d2">
+  <input type="color" id="R1" value= '#000040' onchange = 'colorbgr=this.value; SetBG()'>BackGroundColor<br>
+  <input type="checkbox" checked onclick= 'rnd = !rnd;'>RandomPlaceOpen<br>
+  <input type='button' class="bt4" value='-vel'onclick="tint*=1.2">
+  <input type='button' id="bt" value='PLAY' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='+vel'onclick="tint/=1.2"><br>
+ </div> 
+ 
+<img src="images/0.gif">  
+<img src="images/1.gif">  
+<img src="images/2.gif">  
+<img src="images/3.gif">  
+<img src="images/4.gif">  
+<img src="images/5.gif">  
+<img src="images/6.gif">  
+<img src="images/7.gif">  
+<img src="images/8.gif">  
+<img src="images/9.gif">  
+<img src="images/10.gif">  
+<img src="images/11.gif">  
+<img src="images/12.gif">  
+<img src="images/13.gif">  
+<img src="images/14.gif">  
+<img src="images/15.gif">  
+<img src="images/16.gif">  
+<img src="images/17.gif">  
+
+<script type="text/javascript">
+  var imt = document.getElementsByTagName("img");  let nl = imt.length;
+   var div2 = document.getElementById("d2");
+
+ let colorbgr='#000040'; let pim = Math.PI, tint=70; act=false, rnd=true;
+let minx = innerWidth/2; let miny = innerHeight/2; 
+let Rmax=0.8*minx;
+  
+let xs=[], ys=[], dx=[], dy=[], hw=[];  
+ rc=20;  rst=10;
+
+for (i = 0; i < nl; i++){imt[i].style.position='fixed'; imt[i].style.width=2+'px'}
+
+imt[nl-1].onload = function(){for (i = 0; i < nl; i++){ hw[i]=imt[i].height/imt[i].width; }}
+
+SetArr(); 
+function SetBG(){body.style.backgroundColor = colorbgr;}
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,55,0)'; bt.value='PLAY'} else 
+   {bt.style.backgroundColor='rgb(155,0,0)'; bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {
+  Step1();
+if (act) timerId = setTimeout(timer, tint);
+}, tint);}
+
+function SetArr() {for (i = 0; i < nl; i++) setStart();}
+
+function setStart() {let fip= Math.random()*2*pim, dr = Math.random()*rst+8; 
+    dx[i]=dr*Math.cos(fip); dy[i]=dr*Math.sin(fip);
+    if (rnd) {xs[i]=Math.random()*300-150; ys[i]=Math.random()*300-150;} else
+    {xs[i]=rc*Math.cos(fip); ys[i]=rc*Math.sin(fip);}}
+
+function Step1() { 
+  for (i = 0; i < nl; i++){ let R=Math.sqrt((xs[i])*(xs[i])+(ys[i])*(ys[i])); let wt=40+140*R/Rmax;
+ imt[i].style.left=xs[i]+minx-wt/2+'px'; 
+ imt[i].style.top=ys[i]+miny-wt/2*hw[i]+'px'; 
+ imt[i].style.width=wt+'px';  
+  xs[i]=xs[i]+dx[i]; ys[i]=ys[i]+dy[i];
+  if ((xs[i]+minx<0)||(xs[i]+minx>innerWidth)||(ys[i]+miny<0)||(ys[i]+miny>innerHeight)) setStart();
+  }     
+}
+
+</script> 
+</body>
+</html>
