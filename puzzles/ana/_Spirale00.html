@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta charset="UTF-8">
+    <title>_Spyrale00</title>
+    <style>  
+     #myCanvas{cursor: pointer; border-radius: 300px}
+     #bt{width: 60px; border-radius: 30px; height: 60px; background-color: rgb(0,55,0); color: white;}
+     .bt2{width: 60px; background-color: rgba(0,200,0,0.6); color: white}
+     .bt4{width: 60px; background-color: rgba(200,0,0,0.6); color: white}
+    </style>  
+  </head>   
+<body>
+  
+  <canvas id="myCanvas" width="400" height="400" style="border:1px solid">
+    Ваш браузер не поддерживает элемент canvas. </canvas><br>
+    
+  <input type="color" id="R1" value= "#000000" onchange = 'SetBgrnd()'>BackGround
+  <input type="color" id="R2" value= "#0000ff" onchange = 'SetLineColor()'>Lines Color
+  <button onclick="dfaz=-dfaz">Revers</button>
+  <input type="checkbox" checked="checked" onclick= 'selCol = !selCol;'>SelektColor<br>
+ 
+  <input type='button' class="bt4" value='slower'onclick="tint*=1.2">
+  <input type='button' id="bt" value='PLAY' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='faster'onclick="tint/=1.2">
+
+ <script>
+    var myC=document.getElementById("myCanvas");
+    var ctx=myC.getContext("2d");     
+  let selCol=true;
+  let lineColor=["#f25757","#fad119","#a4fa19","#19effa","#195cfa","#1814e0","#c935f2","white"];
+  let colorbgr = "#000"; let colorline = "yellow";    let act=false;  let tint=150;
+  xc=0.5*myC.height;  yc=0.5*myC.height;  rt=0;  nx=410;  ncolor=0;
+  
+ let faz=0; dfaz=2.0;  fi=0; dfi=-Math.PI/30;  dr=2;   jkr=0;  krat=10;
+ 
+  ctx.beginPath();
+  ctx.strokeStyle=colorline;  
+  ctx.fillStyle=colorbgr;
+  ctx.fillRect(0,0,myC.width,myC.height);     
+  ctx.lineWidth = 8; 
+Ris();
+
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,100,0)'; bt.value='Play'} else 
+   {bt.style.backgroundColor='rgb(155,0,0)';  bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {faz=faz+dfaz; Ris(); if (selCol) {ctx.strokeStyle=colorline;} else { jkr++; 
+if (jkr==krat) {jkr=0; ncolor=ncolor+1; if (ncolor>lineColor.length) ncolor=0; ctx.strokeStyle=lineColor[ncolor]}}
+  
+
+if (act) timerId = setTimeout(timer, tint);
+}, tint)};
+
+function Ris(){   
+ clearCanvas();
+   ctx.beginPath();  
+    xs=xc; ys=yc; rt=0;  fi=faz;
+ for (i = 1; i < nx+1; i++) {  fi+=dfi; rt+=0.5;
+   xs =xc+ rt*Math.cos(fi);  ys =yc+ rt*Math.sin(fi);
+ctx.lineTo(xs,ys);
+}
+ctx.stroke();
+}
+
+function SetLineColor() {let input = document.getElementById('R2');  colorline = input.value; Ris();}
+
+function SetBgrnd() {let input = document.getElementById('R1');  colorbgr = input.value; Ris();}
+
+function clearCanvas() {ctx.fillStyle=colorbgr; ctx.fillRect(0,0,myC.width,myC.height);}
+  </script>
+</body>
+</html>

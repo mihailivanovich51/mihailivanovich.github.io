@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta charset="UTF-8">
+    <title>_VerLine00</title>
+    <style>  
+     #myCanvas{cursor: pointer; border-radius: 100px}
+     #bt{width: 60px; border-radius: 30px; height: 60px; background-color: rgb(0,55,0); color: white;}
+     .bt2{width: 60px; background-color: rgba(0,200,0,0.6); color: white}
+     .bt4{width: 60px; background-color: rgba(200,0,0,0.6); color: white}
+    </style>  
+  </head>   
+<body>
+  
+  <canvas id="myCanvas" width="700" height="500" style="border:1px solid">
+    Ваш браузер не поддерживает элемент canvas. </canvas><br>
+    
+  <input type="color" id="R1" value= "#000000" onchange = 'SetBgrnd()'>BackGround
+  <button onclick="Ris()">Show 1 st</button><br>
+ 
+  <input type='button' class="bt4" value='-vel'onclick="tint*=1.2">
+  <input type='button' id="bt" value='PLAY' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='+vel'onclick="tint/=1.2">
+
+ <script>
+    var myC=document.getElementById("myCanvas");
+    var ctx=myC.getContext("2d");     
+ 
+  let lineColor=["#f25757","#fad119","#a4fa19","#19effa","#195cfa","#1814e0","#c935f2","white"];
+  let colorbgr = "#000"; let colorline = "#00f";    let act=false;  let tint=50;
+  maxy=0.7*myC.height;  miny=0.3*myC.height;  
+  
+  xs = [];  ys = [];  yf = [];    let faz=0;  
+let nx = lineColor.length*3 ;    maxx=myC.width;  minx=0; 
+dx=Math.round(maxx/(nx));  maxx=dx*(nx);   dy=0.15*myC.height; let x0=minx; ampx=maxx-minx;
+Ris();
+
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,100,0)'; bt.value='Play'} else 
+   {bt.style.backgroundColor='rgb(155,0,0)'; bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {
+  Ris();
+if (act) timerId = setTimeout(timer, tint);
+}, tint);}
+
+function Ris(){  faz=faz+0.1;  x0=x0+Math.round(dx/4); if (x0>maxx) x0=minx; 
+ctx.fillStyle=colorbgr;                              
+ctx.fillRect(0,0,myC.width,myC.height);     
+ctx.lineCap='round';
+ctx.shadowBlur = 20;
+ctx.lineWidth = 10; 
+
+ for (i = 0; i < nx+1; i++) {       
+    xs[i] =x0 + i*dx; if ((xs[i]+5)>maxx) xs[i]=xs[i]-maxx;
+     dyr=Math.round(Math.sin(2.5*xs[i]*Math.PI/ampx+faz)*dy); 
+     ys[i] = maxy-dyr;   yf[i] =  miny+dyr;
+ctx.beginPath();
+ctx.shadowColor = lineColor[i%(lineColor.length)];
+ctx.strokeStyle = lineColor[i%lineColor.length]; 
+ctx.moveTo(xs[i],ys[i]);
+ctx.lineTo(xs[i],yf[i]);
+ctx.stroke();                 
+}}
+
+function SetLineColor() {
+let input = document.getElementById('R2');  colorline = input.value; Ris();}
+
+function SetBgrnd() {
+let input = document.getElementById('R1');  colorbgr = input.value; Ris();}
+
+  </script>
+</body>
+</html>
