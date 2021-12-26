@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+      <title>Kacheli</title>
+  <link rel="icon" href="../../puzzles/ICO/murr.ico" type="image/x-icon">
+    <style> 
+    body{margin: 0vw}  
+    div{ width: 11vw; height: 290px;
+         position: absolute; 
+         top: 2px;
+         border: 1px solid black; box-shadow:0 0 6px 0 #222299;
+         background-color: rgb(240,240,250);
+         font-family: "Courier New"; font-size: 12px;
+         text-align: center;}
+     #c1{left: 50.5vw;}    
+     #c2{left: 62vw; display: none;} 
+       
+       #tname{width: 70px}
+       #nameO{width: 60px}
+       #nameT{width: 60px}
+       #imbg{left: 0px;  opacity: 1; border: 3px solid gray}
+       #im0,#im1,#im2,#im3,#im4,#im5,#im6{ position: absolute; cursor: move; }
+   #imk{position: absolute; width: 39vw; left: 7.7vw; top: 29vw; transform: rotate(0deg);} 
+ button{background-color: rgba(0,255,0,0.3);}      
+ input[name='tn0']{width: 70px}
+ input[type='button']{ width: 60px}
+ input[type='number']{ width: 60px}
+  .bt0{background-color: rgba(255,0,0,0.3);}
+  .bt2{background-color: rgba(0,255,0,0.3);}
+  .bt3{background-color: rgba(0,0,255,0.3);}
+  .bt4{background-color: rgba(255,255,0,0.6);}
+  .btZ{background-color: rgba(255,0,0,0.5); display: none}
+  .btS{background-color: rgba(255,100,100,0.3); }
+  #btn0,#btn1 {
+  width: 110px; 
+  height: 36px;  
+  background-color: rgb(50, 14, 12);
+  font-family: 'Courier New'; font-size: 18px; font-weight: bold; color: white;
+  transition: width 0.2s, height 0.2s,  background-color 0.2s;  
+ }
+#btn0:hover {background-color: red;}
+#btn1:hover {background-color: red;}
+#btn1{display: none}
+#bt33{margin-top: 20px}
+#inp{display: none;}
+label{display: inline-block; width: 120px;
+ border-style: solid; border-color: black; border-width: 1px;font-family: 'Times';}
+#Help{display: none; width: 100vw; height: 50vh;position: fixed; top: 2px; left: 2px; z-index: 4;
+      background-color: rgb(50, 14, 12); text-align: left; color: #aff; opacity: 0.9;
+      overflow-y: auto;} 
+#Bl,#Op{width: 80px}   
+    </style>  
+  </head>
+
+  <body>
+   <div id="Help">
+ <p> Задачи на январь 2021:<br> DROP FILE на BG загружается (мышкой) фон.<br> BG загружается из буфера обмена - CTRL + V.<br> Размер по Ly.</p>
+    
+ <p>Кнопки W+  W- по-разному работают в режиме Театра и Биллиарда. В первом случае  - для установки NewStart, NewFin1 или NewFin2, во втором - остаются при продолжении Биллиарда.</p>   
+ <p>Движения Zv определяется тремя фиксированными позициями Start, Fin1 и Fin2; движение между ними закольцовано в том же порядке. Кнопками Start, Fin1 и Fin2 проверяются эти позиции, а кнопками NewStart, NewFin1 и NewFin2 задаются новые.</p>
+<p>В таблице на левой (из двух) панели задаем параметры движения: t0, t1... - времена фаз в процентах, а d0, d1, d2 - степень "искривления траектории". Для каждого Zv (отмечается в верхнем окне) они свои, закрепляются кнопкой New. Отдельных фигурантов Zv можно перемещать и устанавливать в разных точках с помощью мыши. Их поворот, размер и прозрачность устатнавливают кнопками внизу.
+Радиокнопки ниже выбирают варианты Zv и их изображений.</p> 
+   
+<p>Сохранить текущий вариант(ы) можно тремя способами:</p>
+<p>1. В текстовом файле. Имя задаем в окне "name Txt", кнопкой "SaveTxt" активируется ссылка "SAVE", при нажатии на нее файл загружается в папку загрузок. Открывается кнопкой "OpenFileTxt" оттуда, куда его переместим.</p>
+<p>2. В виде объекта в window.localStorage. Имя задаем в окне "name Obj", кнопкой "SaveObj" сохраняем, а "OpenObj" - открываем.</p>
+<p>3. Сохраняем варианты, каждый из котрых соответствует отмеченному V0, V1 и V2. Кнопка "SaveJS" формирует скрипт с соответствующим вар. Запись выполняется при нажатии ссылки "SAVE". Файл из папки загрузки нужно переместить в текущую папку. Скрипты в папке должен соответствовать и адресам скриптов, т.е. src="V0.js","V1.js" и "V2.js",. Открывается соответствующий вариант кнопкой "NewVar".
+   </div>
+  <img id="imbg">  
+  <img id="imk" src="Pict_BG/Kacheli2.gif"><br>  
+  <img id="im0"><img id="im1"><img id="im2"><img id="im3"><img id="im4"><img id="im5"><img id="im6">
+
+ <div id="divSave" style="position: absolute;  left: 50.5vw; top: 355px; width: 220px; height: 400px; background-color: rgb(200,200,220); box-shadow: 6px 6px 4px grey; text-align: center; display: none;">
+ 
+ <input type='button' id="bt33" class="btS" value='SaveTxt'onclick="SaveTxt();">
+ <input  id="nameT" value="name Txt">
+ <a id="Save" href=#>SAVE</a> <br>
+
+ <label for="inp" class="btS">Open File txt</label>  
+ <input type="file" id="inp" onchange="loadFile(this)"><br>
+ <input type='button' class="btS" value='SaveObj'onclick="SaveSt();">
+ <input  id="nameO" value="name Obj">
+ <input type='button' class="btS" value='OpenObj'onclick="OpenSt();"><br>
+ <input type='button' class="btS" value='SaveJS' onclick="SaveJS()">
+   <a href=#> Save </a><br><br>
+  rv = <input type="number" value=0 id="RV" min=0 max=10 step=0.005 onchange = 'rv=+this.value;'><br>
+  vx = <input type="number" id="vx"><br> 
+  vy = <input type="number" id="vy"><br> 
+  
+  <button onclick="vxs[pic]=+vx.value; vys[pic]=+vy.value;">NEW Vpic</button><br>
+  <button onclick="dt=-dt">Revers</button><br> 
+  <button class="btS" onclick="PorT=0; Piramid(0);">Bill v.0</button>
+  <button class="btS" onclick="PorT=0; Piramid(1);">Bill v.1</button><br><br>
+  kZ <input type="range" value="0" min=0 max=1 step=0.05 onchange = 'kZ=this.value; Piramid(VS)'><br>
+  Wi <input type="range" value="1" min=0.2 max=2 step=0.05 onchange ='kw0=this.value;Piramid(VS)'><br>
+  wN <input type="range" value="1" min=0.2 max=2 step=0.05 onchange ='kwN=this.value; Piramid(VS)'><br>
+  
+ </div>
+  
+ <div id="c1">  
+  <br>
+  <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    <input type="checkbox" checked name="spice"><input name="tn0"><br>
+    
+    <button onclick="New1()">NEW01</button><button onclick="New10()">A<---->B</button><br><br>
+  <input type="radio" checked name="rd" onclick='Rct()'>Rctng
+  <input type="radio" name="rd" onclick='Circle()'>Circl<br>
+  <input type="radio" checked name="rad" onclick='OldIm()'>ZV_51
+  <input type="radio" name="rad" onclick='NewIm()'>Zv_WF<br><br>
+  </div>
+
+ <div id="c2"
+ ondragover="event.stopPropagation(); event.preventDefault();"
+     ondrop="event.stopPropagation(); event.preventDefault();dodrop(event);">    
+    
+    Var BG <input type="checkbox" id="vbg" onclick='if (vbg.checked) dBG=10; else dBG=0' >BG+10 <br> 
+    <input type="radio" name="radio" value="0" onclick='ib=this.value; VarBG();'>1
+    <input type="radio" name="radio" value="1" onclick='ib=this.value; VarBG();'>2
+    <input type="radio" name="radio" value="2" onclick = 'ib=this.value; VarBG();'>3
+    <input type="radio" name="radio" value="3" onclick = 'ib=this.value; VarBG();'>4<br>
+    <input type="radio" name="radio" value="4" onclick = 'ib=this.value; VarBG();'>5
+    <input type="radio" name="radio" value="5" onclick = 'ib=this.value; VarBG();'>6
+    <input type="radio" name="radio" value="6" onclick = 'ib=this.value; VarBG();'>7
+    <input type="radio" checked name="radio" value="7" onclick = 'ib=this.value; VarBG();'>8<br><br>
+
+    <input type="radio" checked name="varD" value="0" onclick='iv=+this.value'>V0
+    <input type="radio" name="varD" value="1" onclick='iv=+this.value'>V1
+    <input type="radio" name="varD" value="2" onclick='iv=+this.value'>V2<br>
+    
+   <button onclick="OpenJS()">NewVar</button><br> 
+   
+ </div>
+
+ <!-- <input type='button' class="bt0" value='+10deg'onclick="dg[pic]+=10; SetPic();">
+ <input type='button' class="bt0" value='+W'onclick="wris[pic]+=0.3; if (PorT==0) PicSH(); else SetPic();">
+ <input type='button' class="bt0" value='+Op'onclick="op[pic]+=0.1; SetPic();">
+ <input type='button' class="bt1" value='Start'onclick="PorT=1; SetPicSt(0);">
+ <input type='button' class="bt1" value='Fin1'onclick="PorT=1; SetPicSt(1);">
+ <input type='button' class="bt1" value='Fin2'onclick="PorT=1; SetPicSt(2);">-->
+ <input type='button' class="bt2" value='+vel'onclick="tint/=1.1"> 
+ <input type='button' id="btn0" value='Theater'onclick="PorT=1; act = (!act); Run()">
+ <!-- <input type='button' class="bt2" value='Thea 1st'onclick="OneStep();"> -->
+ 
+ <!-- <button onclick="SavOpenHelp()">HELP &plusmn;</button> <br>  -->
+  
+ <!-- <input type='button' class="bt0" value='-10deg'onclick="dg[pic]-=10; SetPic();">
+ <input type='button' class="bt0" value='-W'onclick="wris[pic]-=0.3; if (PorT==0) PicSH(); else SetPic();">
+ <input type='button' class="bt0" value='-Op'onclick="op[pic]-=0.1; SetPic();">
+ <input type='button' class="bt3" value='NewSt'onclick="NewSt(0);">
+ <input type='button' class="bt3" value='NewFin1'onclick="NewSt(1);">
+ <input type='button' class="bt3" value='NewFin2'onclick="NewSt(2);"> -->
+ <input type='button' class="bt4" value='-vel'onclick="tint*=1.1; act=(!act); Run(); act=(!act); Run()">
+ <input type='button' id="btn1" value='Billiard'onclick="PorT=0; act1 = (!act1); Run1()">
+ <!-- <input type='button' class="btZ" value='Bill 1 st'onclick="PorT=0; Bounce();"> -->
+ Blr <input id="Bl" type="range" value=3 min=0 max=10 onchange='blr=this.value; SetBlr()'>
+Opc <input id="Op" type="range" value="1" min=0 max=1 step=0.05 onchange='opc=this.value; SetOpc()'>
+<script src="DataTB.js"></script>
+<script src="V0.js"></script>
+<script src="V1.js"></script>
+<script src="V2.js"></script>
+<script src="V3k7.js"></script>
+
+ <script> 
+ 
+  /*   Start program !!!  */ BG[7] = "Pict_BG/HC_08k.jpg";
+  /*for (i=0; i<7; i++){picZv[1][0][i]="Pict_Zv/"+"P"+i+".png";
+                      nameZv[0][1][i]="Paddy #"+(i+1);}*/
+     let Ly=50; let Lx=Ly/imbg.height*imbg.width;  imbg.style.width=Lx+'vw';   //Set BGImage & div         
+  c1.style.left=Lx+0.5+'vw'; c2.style.left=Lx+11+'vw'; divSave.style.left=Lx+0.5+'vw';
+
+    iv=3; OpenJS();
+    var check = document.getElementsByName('spice');
+    for (i = 0; i < 7; i++) check[i].checked=false;  check[2].checked=true; check[4].checked=true;   New1();
+         
+     let act=false;  OneStep();//Run();
+
+function New10(){ var c0=imt0[0]; imt0[0]=imt0[1]; imt0[1]=c0; OneStep();}
+
+function SetPic(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
+  if (rect==1) if (k%12==i+1){rnd[i]=Math.floor(Math.random() * (8));}
+  Img0[i].style = 'transform:rotate('+dg[i]+'deg)';  Img0[i].style.opacity = op[i];
+  Img0[i].style.left=xris[j]+'vw';    Img0[i].style.top=yris[j]+'vw'; 
+  Img0[i].style.width=wris[j]+'vw';  
+   if (rect==1) {Img0[i].style.border=db*wris[j]+'vw'+ ' solid' + ' lightblue';
+  Img0[i].style.borderRadius=wris[j]+'vw'; 
+  Img0[i].style.borderColor=Ncol[rnd[i]];} }
+}
+
+function OneStep(){PorT=1;  k++; var k1=(t1[0]-5)/100*Nst, k2=t1[0]/100*Nst, k3=k1+0.5*Nst, k4=k2+0.5*Nst; 
+ for (j = 0; j < Nzv; j++) {  i = j/*imt0[j]*/;   
+  wris[i]=VR0(i,wff[0][i],wff[1][i],wff[2][i]); 
+    dg[i]=VR0(i,dff[0][i],dff[1][i],dff[2][i]); 
+    op[i]=VR0(i,off[0][i],off[1][i],off[2][i]); 
+VRxy(i,xff[0][i],xff[1][i],xff[2][i],yff[0][i],yff[1][i],yff[2][i],rxy[0][i],rxy[1][i],rxy[2][i]); 
+}
+if (ib==7){
+ if (k>k1 && k<k2) {dg1=-30/(k2-k1)*(k-k1); imk.style = 'transform:rotate('+dg1+'deg)';}
+ if (k>k3 && k<k4) {dg2=-30+30/(k4-k3)*(k-k3); imk.style = 'transform:rotate('+ dg2+'deg)';}
+}
+   if (k==Nst) k=0; 
+ SetPic();
+}
+             //расчет параметров  Х и У к-го шага
+function VRxy(j,vx0,vx1,vx2,vy0,vy1,vy2,dx1,dx2,dx3){
+ n0 = t0[j]/100*Nst; n1 = t1[j]/100*Nst;  n2 = t2[j]/100*Nst; n3 = t3[j]/100*Nst; n4 = t4[j]/100*Nst; 
+ n5 = t5[j]/100*Nst; let nz=tz[j]/100*Nst; let ki=k+nz; if (ki>Nst) ki=-Nst+ki;
+  if (ki<=n0) {ax = vx0; ay = vy0;}  
+  if (ki>n0 && ki<=n1) {t=(ki-n0)/(n1-n0); 
+    dx=dx1*lxy[i][0]*Math.sin(t*pim)*sin1[i][0]; dy=-dx1*lxy[i][0]*Math.sin(t*pim)*cos1[i][0];
+    ax=vx0+(vx1-vx0)*t+dx; ay=vy0+(vy1-vy0)*t+dy;}
+ if (ki>n1 && ki<=n2) {ax =vx1; ay=vy1;}
+ if (ki>n2 && ki<=n3) {t=(ki-n2)/(n3-n2);
+    dx=dx2*lxy[i][1]*Math.sin(t*pim)*sin1[j][1]; dy=-dx2*lxy[i][1]*Math.sin(t*pim)*cos1[j][1];
+    ax=vx1+(vx2-vx1)*t+dx; ay=vy1+(vy2-vy1)*t+dy;} 
+ if (ki>n3 && ki<=n4) {ax =vx2; ay=vy2;}    
+ if (ki>n4 && ki<=n5) {t=(ki-n4)/(n5-n4);  
+    dx=dx3*lxy[j][2]*Math.sin(t*pim)*sin1[j][2]; dy=-dx3*lxy[j][2]*Math.sin(t*pim)*cos1[j][2];
+    ax=vx2+(vx0-vx2)*t+dx; ay=vy2+(vy0-vy2)*t+dy;}  
+ if (ki>n5 && ki<=Nst) {ax = vx0; ay = vy0;} 
+ xris[j]=ax; yris[j]=ay;
+ }
+                               //расчет параметров  W, Opac и Deg к-го шага
+function VR0(i,v0,v1,v2){ 
+ n0 = t0[i]/100*Nst; n1 = t1[i]/100*Nst;  n2 = t2[i]/100*Nst; n3 = t3[i]/100*Nst; n4 = t4[i]/100*Nst; 
+ n5 = t5[i]/100*Nst; let nz=tz[i]/100*Nst; let ki=k+nz; if (ki>Nst) ki=-Nst+ki;
+  if (ki<=n0) a = v0 
+  if (ki>n0 && ki<=n1) {t=(ki-n0)/(n1-n0); 
+  a = v0+(v1-v0)*t }
+ if (ki>n1 && ki<=n2) a =v1
+ if (ki>n2 && ki<=n3) {t=(ki-n2)/(n3-n2);
+  a = v1+(v2-v1)*t} 
+ if (ki>n3 && ki<=n4) a =v2 
+ if (ki>n4 && ki<=n5) {t=(ki-n4)/(n5-n4); 
+  a = v2+(v0-v2)*t}
+ if (ki>n5 && ki<=Nst) a = v0 
+ return a;}
+ 
+      // Old and New Positions (Theater)
+function SetPicSt(ns){ 
+  for (j = 0; j < Nzv; j++) {  i = imt0[j];  wris[i] = wff[ns][i];
+  xris[i] = xff[ns][i]; yris[i] = yff[ns][i]; dg[i]=dff[ns][i]; op[i]=off[ns][i];} if (ns==0) k=0; SetPic(); }
+
+function NewSt(ns){ 
+ for (j = 0; j < Nzv; j++) {i = imt0[j]; wff[ns][i]=wris[i]; 
+  xff[ns][i]=xris[i]; yff[ns][i] = yris[i]; dff[ns][i]=dg[i]; off[ns][i]=op[i];} sincos(); /*k=0;*/ }
+
+
+
+         //for Billiard
+
+  function Piramid(VarSt){
+  let R,dZ,X0,Y0,dxy;  VS=VarSt;
+  for (j=0; j<Nzv; j++) {i=imt0[j]; omeg[i]=0; fis[i]=0;}
+  if (VarSt==0){ //piramida
+  for (j=0; j<Nzv; j++){i=imt0[j]; vxs[i]=0; vys[i]=0;
+       wris[i]=7*kwN; Rs[i]=wris[i]*(1+2*db)/2;}        wris[0]=7*kw0; vxs[0]=10; ts=0; 
+    dZ=kZ*Rs[1]; Rs[0]=wris[0]*(1+2*db)/2;
+    X0=Lx/2; Y0=Ly/2; R=Rs[1]+dZ;  dxy=R*Math.sqrt(3);  
+  xs[1]=X0-Rs[1];  ys[1]=Y0-Rs[1]; xs[2]=xs[1]+dxy; xs[3]=xs[2]; 
+  ys[2]=ys[1]+R; ys[3]=ys[1]-R;
+    xs[0]=X0-Rs[0]-3*R; ys[0]=Y0-Rs[0];
+  xs[4]=xs[3]+dxy;  xs[5]=xs[4];  xs[6]=xs[4];
+  ys[4]=ys[1]-2*R; ys[5]=ys[1]; ys[6]=ys[1]+2*R;
+  } else { //Krug
+let x0 = []; let y0 = []; Rp=0.3*Ly;
+  for (j=0; j<Nzv; j++){i=imt0[j]; vxs[i]=0; vys[i]=0;
+       wris[i]=11*kwN; Rs[i]=wris[i]*(1+2*db)/2;}     wris[0]=11*kw0; vxs[0]=10; vys[0]=10; ts=0;
+ 
+  dZ=kZ*Rs[1]; Rs[0]=wris[0]*(1+2*db)/2;
+  x0[0]=Lx/2; y0[0]=Ly/2; R=Rs[1]+dZ;  dxy=R*Math.sqrt(3);  
+  xs[0]=x0[0]-Rs[0]; ys[0]=y0[0]-Rs[0];
+
+  for (j=1; j<Nzv; j++){i=imt0[j];
+  x0[i]= x0[0]+Rp*Math.cos(Math.PI/3*i);
+  y0[i]= y0[0]+Rp*Math.sin(Math.PI/3*i);
+  xs[i]=x0[i]-Rs[i]; ys[i]=y0[i]-Rs[i];
+}}  
+     PicSH() }
+
+function PicSH(){for (j = 0; j < Nzv; j++) {  i = imt0[j];
+  Img0[i].style = 'transform:rotate('+fis[i]+'rad)';  Img0[i].style.opacity = 1;
+  Img0[i].style.left=xs[i]+'vw';    Img0[i].style.top=ys[i]+'vw'; 
+  Img0[i].style.width=wris[i]+'vw';  
+   if (rect==1) {Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' navy';
+   if (i==0) Img0[i].style.border=db*wris[i]+'vw'+ ' solid' + ' red';
+  Img0[i].style.borderRadius=wris[i]+'vw'; 
+  } }
+}  
+function Bounce(){ //1 step Billiard
+  let dR;  PorT=0; 
+for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  Rs[i]=wris[i]*(1+2*db)/2;}
+
+function Udar(i,j){
+let Fxy,Fx1,Fy1, dxR,dyR,vtij;
+  dxR=(xs[j]+Rs[j]-xs[i]-Rs[i])/dR;   dyR=(ys[j]+Rs[j]-ys[i]-Rs[i])/dR; // направляющие косинусы нормали
+  Fxy=Cs*(Rs[j]+Rs[i]-dR);  
+  Fx1=Fxy*dxR;  Fy1=Fxy*dyR;
+  Fx[j]=Fx[j]+Fx1;    Fx[i]=Fx[i]-Fx1;
+  Fy[j]=Fy[j]+Fy1;    Fy[i]=Fy[i]-Fy1;
+  vtij=((vxs[i]-vxs[j])*dyR -(vys[i]-vys[j])*dxR+omeg[i]*Rs[i]-omeg[j]*Rs[j])/2;
+  omeg[i]=-vtij/Rs[i]; omeg[j]=vtij/Rs[j];
+  } //Udar
+
+  for (i8 = 0; i8 < krat; i8++){ 
+
+  for (i = 0; i < Nzv; i++) {Fx[imt0[i]]=0; Fy[imt0[i]]=0;}
+
+  for (j1 = 0; j1 < Nzv; j1++) {i = imt0[j1];
+  if (xs[i]<0) {Fx[i]=-Cs*(xs[i]);                        omeg[i] = vys[i]/Rs[i];};  
+  if ((xs[i]+2*Rs[i])>Lx) {Fx[i]=Cs*(Lx-(xs[i]+2*Rs[i])); omeg[i] = -vys[i]/Rs[i];};
+  if (ys[i]<0) {Fy[i]=-Cs*(ys[i]);                        omeg[i] = -vxs[i]/Rs[i];};
+  if ((ys[i]+2*Rs[i])>Ly) {Fy[i]=Cs*(Ly-(ys[i]+2*Rs[i])); omeg[i] = vxs[i]/Rs[i];};  
+
+       for (j2 = j1+1; j2 < Nzv; j2++){j = imt0[j2]; 
+      dR=Math.sqrt((xs[i]+Rs[i]-xs[j]-Rs[j])*(xs[i]+Rs[i]-xs[j]-Rs[j])
+        +(ys[i]+Rs[i]-ys[j]-Rs[j])*(ys[i]+Rs[i]-ys[j]-Rs[j]));
+      if (dR<(Rs[j]+Rs[i])) Udar(i,j);}  
+
+  vxs[i]=vxs[i]+Fx[i]*dt-rv*vxs[i]*dt;  
+  vys[i]=vys[i]+ays[i]*dt+Fy[i]*dt-rv*vys[i]*dt;
+   xs[i]=xs[i]+vxs[i]*dt;     ys[i]=ys[i]+vys[i]*dt;
+   fis[i]+=omeg[i]*dt;
+}
+ ts+=dt;}  
+T=0; for (i1 = 0; i1 < Nzv; i1++) {i = imt0[i1];  T+=vxs[i]*vxs[i]+vys[i]*vys[i] ;} //кинетич. энергия
+ PicSH();}
+
+ </script>
+  </body>
+</html>

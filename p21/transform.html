@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../puzzles/ICO/murr.ico" type="image/x-icon">
+    <title>Transform</title>
+    <style>  
+     #myCanvas{cursor: pointer; z-index: 2; border: 1px solid;
+     left: 1px; top: 1px;}
+     
+     div{ width: 175px; height: 160px;
+          position: absolute; 
+          left: 730px; top: 20px;
+          border: 1px solid black; box-shadow:0 0 6px 0 #222299;
+          background-color: rgb(240,240,250);
+         font-family: "Courier New"; font-size: 18px; font-weight: bold;
+         text-align: center;
+        }
+       button{ width: 90px; height: 30px; background-color: #622; color: #ccc} 
+       /*#rt,#rc,#nt,#nc,#ks{ width: 60px; }*/
+    </style>  
+  </head>   
+<body>
+  <canvas id="myCanvas" width="700" height="700" >
+    Ваш браузер не поддерживает элемент canvas.
+  </canvas><br> 
+
+  BackGround<input type="color" id="R1" value= "#041140" onchange = 'SetBgrnd()'>
+  Zoom<input type="range" value="0.6" min=0.1 max=2 step=0.05 onchange = 'koefxy = +this.value; SetZoom()'>
+  <button onclick="clearCanvas()">CLEAR</button>
+  <input type="checkbox" onclick="axZ=!axZ">ax_Z visible
+  <button onclick="fiz=0; fiy=0; Ris()">RealPict</button><br>
+  <p>CTRL + V => paste Image  </p>
+  <div  ondragover="event.stopPropagation(); event.preventDefault();"
+     ondrop="event.stopPropagation(); event.preventDefault();
+     dodrop(event);"><br><br> New Image </div>
+
+ <script>
+ axZ = false;
+ xx1=[]; yy1=[]; zz1=[]; xt1=[]; yt1=[]; zt1=[];    xa1=[]; ya1=[];
+for ( i = 0; i < 2; i++) {xx1[i] = [];  yy1[i] = []; zz1[i] = [];  xa1[i] = [];  ya1[i] = [];
+                         xt1[i] = [];  yt1[i] = [];  zt1[i] = [];}
+zz1[0][0] = 0;  zz1[1][0] = 0;   zz1[0][1] = 0;  zz1[1][1] =  0;
+
+    var myC=document.getElementById("myCanvas");
+    var x=myC.getContext("2d");
+    var myC1=document.getElementById("myCanvas");
+    var x1=myC1.getContext("2d");
+  var img2=new Image();  // Создаём изображение
+  img2.src = "22/Pict_Zv/11.JPG";
+  let W=200;let H=20;
+  img2.onload = function() { 
+  W=this.width;  H = this.height; //для пробы
+  if (W>H) {xp0=300; yp0=H/W*300} else {xp0=W/H*300; yp0=300} 
+  SetArr()
+}
+ function dodrop(event){
+  var dt = event.dataTransfer;
+  var files = dt.files;
+  img2.src = URL.createObjectURL(files[0]); 
+  W=this.width;  H = this.height; //для пробы
+  if (W>H) {xp0=300; yp0=H/W*300} else {xp0=W/H*300; yp0=300}
+  SetArr()} 
+
+function SetArr() { xp = xp0*koefxy; yp = yp0*koefxy;
+xx1[0][0] = -xp;  xx1[1][0] =  xp;   xx1[0][1] = -xp;  xx1[1][1] = xp;
+yy1[0][0] = -yp;  yy1[1][0] = -yp;   yy1[0][1] =  yp;  yy1[1][1] = yp;
+ xr1 = -xp;  yr1 = -yp;     zr1 = -yp;  
+ Ris(); } 
+
+ function SetZoom(){xp = xp0*koefxy; yp = yp0*koefxy; SetArr(); Ris() }
+
+    minx = -myC.width/2;  miny = -myC.height/2; let flmouse = false; 
+  fiz = 0;  fiz0 = fiz;  fiy = 0;  fiy0 = fiy;     koefxy = 0.6;
+  let colorbgr = "#041140";
+
+function Ris(){ 
+ clearCanvas(); x.beginPath();  
+  x.fillStyle=colorbgr;
+  x.fillRect(0,0,myC.width,myC.height);   
+
+x.fillStyle= '#000'; 
+for (i = 0; i < 2; i++){
+for (j = 0; j < 2; j++){
+   xa1[i][j] = Xaks(xx1[i][j],yy1[i][j],zz1[i][j]);
+   ya1[i][j] = Yaks(xx1[i][j],yy1[i][j],zz1[i][j]);
+x.fillRect(xa1[i][j],ya1[i][j],3,3);
+}}
+    if (axZ){
+   xra = Xaks(xr1,yr1,zr1); 
+   yra = Yaks(xr1,yr1,zr1);
+     x.strokeStyle='#f66'; x.lineWidth=3; x.beginPath();
+     x.moveTo(xa1[0][0],ya1[0][0]);  x.lineTo(xra,yra); x.stroke();
+  }
+   w01 = xa1[1][0]-xa1[0][0];     
+   h01=ya1[0][1]-ya1[0][0];  
+   sy = (ya1[1][0]-ya1[0][0])/w01;  sx = (xa1[0][1]-xa1[0][0])/h01;  
+   if (w01>0) {skx =1; } else {skx =-1; };
+   if (h01>0) {sky =1; } else {sky =-1; };
+ x.setTransform(skx,skx*sy,sky*sx,sky,-ya1[0][0]*sx,-xa1[0][0]*sy);  //матрица поворота и др.
+ x.drawImage(img2,0,0,W,H,skx*xa1[0][0],sky*ya1[0][0],skx*1.0*w01,sky*1.0*h01); 
+} //Ris
+
+function Xaks(x,y,z){ 
+  x1 = (x*Math.cos(fiz)-y*Math.sin(fiz))*Math.cos(fiy)+z*Math.sin(fiy) - minx;  
+  return x1;}
+function Yaks(x,y,z){y1 = x*Math.sin(fiz)+y*Math.cos(fiz) - miny;  return y1;}
+
+myC.onmousedown = function(obj_event) { 
+  flmouse = true;
+  x0 = window.event.offsetX;
+  y0 = window.event.offsetY;  
+}
+
+myC.onmousemove = function(obj_event) { 
+  if (flmouse) {
+  x1 = window.event.offsetX; dx = x1 - x0;
+  y1 = window.event.offsetY; dy = y1 - y0;
+  fiz = fiz0+dx/300;   fiy = fiy0-dy/300;
+  Ris();}
+}
+myC.onmouseup = function(obj_event) { 
+flmouse = false;  fiz0 = fiz;   fiy0 = fiy; Ris(); }
+
+function SetBgrnd() {
+let input = document.getElementById('R1');  colorbgr = input.value; Ris();}
+
+function clearCanvas() { myC.height=700; }
+function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
+  if(pasteEvent.clipboardData == false){if(typeof(callback) == "function"){
+            callback(undefined);}};
+
+    var items = pasteEvent.clipboardData.items;
+
+    if(items == undefined){if(typeof(callback) == "function"){callback(undefined);}};
+
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") == -1) continue;
+        var blob = items[i].getAsFile();
+        if(typeof(callback) == "function"){callback(blob);}}}
+
+window.addEventListener("paste", function(e){
+    retrieveImageFromClipboardAsBlob(e, function(imageBlob){
+        if(imageBlob){var URLObj = window.URL || window.webkitURL;
+    img2.src = URLObj.createObjectURL(imageBlob);
+  W=this.width;  H = this.height; //для пробы
+  if (W>H) {xp0=300; yp0=H/W*300} else {xp0=W/H*300; yp0=300}
+  SetArr()      
+
+        // img0.src = URLObj.createObjectURL(imageBlob);
+        //      SetImage();
+          }});}, false);
+
+  </script>
+</body>
+</html>

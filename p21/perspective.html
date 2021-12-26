@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../puzzles/ICO/murr.ico" type="image/x-icon">
+    <title>Perspective</title>
+    <style> 
+    img{display: none; opacity: 1} 
+     #myCanvas{cursor: pointer;}
+     div{ width: 175px; height: 300px;
+          position: absolute; 
+          left: 730px; top: 20px;
+          border: 1px solid black; box-shadow:0 0 6px 0 #222299;
+          background-color: rgb(240,240,250);
+          font-family: "Courier New"; font-size: 18px;
+          text-align: center;}
+       #btN{margin-top: 20px; width: 60px;}
+       .inp{width: 50px;}
+     #bt{width: 60px; border-radius: 30px; height: 60px; background-color: rgb(0,55,0); color: white;}
+.bt2{background-color: rgb(0,100,0); color: white}
+.bt4{background-color: rgb(150,0,0); color: white}
+input{width: 50px; margin-left: 10px;}   
+    </style>  
+  </head>   
+<body>
+  
+  <canvas id="myCanvas" width="700" height="500" style="border:1px solid">
+    Ваш браузер не поддерживает элемент canvas. </canvas><br>
+    
+  <input type="color" id="R1" value= "#000000" onchange = 'SetBgrnd()'>BackGround
+  <button onclick="Show()">Show 1 st</button>
+  <input type='button' class="bt4" value='-vel'onclick="tint*=1.2">
+  <input type='button' id="bt" value='PLAY' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='+vel'onclick="tint/=1.2"><br>
+
+
+  <div> 
+  N_x = <input class='inp' type="number" id="Nx" value="1" ><br> 
+  N_y = <input class='inp' type="number" id="Ny" value="40" ><br> 
+  fis = <input class='inp' type="number" id="Fs" value="30" ><br> 
+  fiy = <input class='inp' type="number" id="Fi" value="0" ><br> 
+  fiz = <input class='inp' type="number" id="Fz" value="0" ><br> 
+  bas = <input class='inp' type="number" id="Bs" value="1000" ><br> 
+  xvz = <input class='inp' type="number" id="Xv" value="-400" ><br> 
+  hvz = <input class='inp' type="number" id="Hv" value="1200" ><br> 
+  dxr = <input class='inp' type="number" id="DX" value="500" ><br> 
+  dyr = <input class='inp' type="number" id="DY" value="-300" ><br> 
+  kxy = <input class='inp' type="number" id="Kx" value="1" min=0.1 max=4 step=0.1 ><br> 
+  <button id="btN" onclick="New()">NEW</button>
+  </div>
+
+<img src="../puzzles/nick/pict/n01.jpg">
+<!-- <img src="Img/LT.jpg">   -->
+<img src="../puzzles/BRB_01.jpg">  
+<img src="../puzzles/URS.jpg"> 
+<img src="../puzzles/DBLD_02.jpg">  
+<img src="../puzzles/ML_01.jpg">  
+<img src="../puzzles/Paddy_01.jpg">  
+<img src = "../puzzles/MI_01.jpg"> 
+<img src = "../puzzles/ana/slider/rp1.jpg"> 
+
+ <script>
+   im = document.getElementsByTagName("img");  nim = im.length; //value img
+   var myC=document.getElementById("myCanvas");
+   var ctx=myC.getContext("2d");     
+ 
+  let colorbgr = "#000";   maxy=0.8*myC.height;         Lr=300;
+  
+  let nx = 15; let ny = 15;  let fis=30; cfs=Math.cos(fis/180*Math.PI); sfs=Math.sin(fis/180*Math.PI);  
+  n0=0; n1=2;  n2=3; n3=1;
+  let dx,dy,w1,h1;         koefxy = 1;  dxr=800;  dyr=-50;    tint=100;  act=false;
+  let fiy0=-10; let fiy=fiy0; let cfy=Math.cos(fiy/180*Math.PI); let sfy=Math.sin(fiy/180*Math.PI);
+  let fiz0=20; let fiz=fiz0; let cfz=Math.cos(fiz/180*Math.PI); let sfz=Math.sin(fiz/180*Math.PI);
+  let zz=0; let basis=1000; let hvz=400;  let xvz=600;  ytek1=200; ytek2=1500; ytek=1000;
+  flmouse = false;      // Run();
+W=[]; H=[]; 
+
+let timerId = setTimeout(function timer() {
+ for (k = 0; k < nim; k++) { W[k]=im[k].width;  H[k] = im[k].height; } Show();
+},100);
+
+ Nx.value=nx; Ny.value=ny; Fs.value=fis; Fi.value=fiy; Fz.value=fiz; Xv.value=xvz; Hv.value=hvz; 
+ DX.value=dxr; DY.value=dyr;  Kx.value=koefxy;
+  xs = [];  ys = [];   xa = [];  ya = [];  zs = []; 
+
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,55,0)'; bt.value='PLAY'} else 
+   {bt.style.backgroundColor='rgb(155,0,0)'; bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {
+  Show();
+if (act) timerId = setTimeout(timer, tint);
+}, tint);}
+
+
+function Nr(){return (Math.floor(Math.random()*nim))}
+function Show(){
+ ytek1=ytek1-30; if (ytek1<-400) {ytek1=2200; n0=Nr(); n1=Nr();} ytek=ytek1; Ris(n0,0); Ris(n1,1);
+ ytek2=ytek2-30; if (ytek2<-400) {ytek2=2200; n2=Nr(); n3=Nr();} ytek=ytek2; Ris(n2,1); Ris(n3,2);
+}
+
+function New(){ nx = +Nx.value; ny=+Ny.value;  fis = +Fs.value;
+fiy0 = +Fi.value;   fiy=fiy0;  fiz0 = +Fz.value;   fiz=fiz0;
+basis = +Bs.value; xvz = +Xv.value; hvz = +Hv.value; dxr = +DX.value; dyr = +DY.value; koefxy = +Kx.value; 
+  cfy=Math.cos(fiy/180*Math.PI); sfy=Math.sin(fiy/180*Math.PI);
+  cfz=Math.cos(fiz/180*Math.PI); sfz=Math.sin(fiz/180*Math.PI);
+  cfs=Math.cos(fis/180*Math.PI); sfs=Math.sin(fis/180*Math.PI);
+Ris(1,0); Ris(3,1)}
+
+function Ris(k,numsl){ 
+  /*if (W[k]>H[k]) {dx = Lr/nx; dy = Lr/W[k]*H[k]/ny}  else*/ {dy = Lr/ny; dx = Lr/H[k]*W[k]/nx;} 
+ w0 = W[k]/nx;  h0 =H[k]/ny;  w1=dx*nx; h1=dy*ny;  
+
+ if (numsl==0)  {clearCanvas(); ctx.fillStyle=colorbgr; ctx.fillRect(0,0,myC.width,myC.height); }
+ for (i = 0; i < nx+1; i++) {
+    xs[i] = [];  ys[i] = []; zs[i] = [];  xa[i] = [];  ya[i] = [];
+ for (j = 0; j < ny+1; j++) { 
+ if (numsl%2==0) {yt0=dy*j; zt0=zz/*+30*Math.sin(i*Math.PI/nx)*/; xt0=dx*i/*-w1/2;*/} 
+ else {yt0=dy*j; xt0=-cfs*(dx*(nx-i)); zt0=sfs*(dx*(nx-i));}
+//else {yt0=dy*j; xt0=0/*-w1/2*/; zt0=dx*(nx-i);}
+
+  xt1=xt0*cfy-zt0*sfy; yt1=yt0; zt1=zt0*cfy+xt0*sfy; 
+
+  xt2=xt1*cfz-yt1*sfz; yt2=yt1*cfz+xt1*sfz;   zt2=zt1;
+
+  xs[i][j] = xt2;     ys[i][j] = yt2-ytek;;   zs[i][j] = zt2;  
+     xx = xs[i][j]; yy = /*H[k]h1*/-ys[i][j];  zr = zs[i][j];
+    prsp(xx,yy,zr,basis,xvz,hvz);  
+}}
+
+ for (i = 0; i < nx; i++) {
+ for (j = 0; j < ny; j++) {
+   w01 = xa[i+1][j]-xa[i][j];        h01=ya[i][j+1]-ya[i][j];  
+   sy = (ya[i+1][j]-ya[i][j])/w01;  sx = (xa[i][j+1]-xa[i][j])/h01; 
+   if (w01>0) {skx =1; } else {skx =-1; };
+   if (h01>0) {sky =1; } else {sky =-1; };
+ctx.setTransform(skx,skx*sy,sky*sx,sky,-ya[i][j]*sx,-xa[i][j]*sy);  //матрица поворота и др.
+ctx.drawImage(im[k],w0*i,h0*j,w0,h0,skx*xa[i][j],sky*ya[i][j],skx*1.05*w01,sky*1.05*h01);  
+}}
+} //Ris
+
+function newx (x){return (x)*koefxy;}
+
+function newy (y){return (maxy-y)*koefxy;}
+
+function prsp(x,y,z,basis,xvz,height){ //Перспектива координаьы xa & ya
+ let d=y+basis;
+ xa[i][j]=newx(basis*(x-xvz)/d)+dxr;
+ ya[i][j]=newy((basis*z+height*y)/d)+dyr;}
+
+myC.onmousedown = function(obj_event) { 
+  flmouse = true;
+  xst = window.event.offsetX;
+  yst = window.event.offsetY;}
+
+myC.onmousemove = function(obj_event) { 
+  if (flmouse) {
+  x1 = window.event.offsetX; dxt = x1 - xst;
+  y1 = window.event.offsetY; dyt = y1 - yst;
+  fiy = fiy0-dxt/5;   fiz = fiz0+dyt/5;
+  cfy=Math.cos(fiy/180*Math.PI); sfy=Math.sin(fiy/180*Math.PI);
+  cfz=Math.cos(fiz/180*Math.PI); sfz=Math.sin(fiz/180*Math.PI);
+  Ris(1,0); Ris(3,1)}}
+
+myC.onmouseup = function(obj_event) { 
+flmouse = false;  fiy0 = fiy;   fiz0 = fiz; Fi.value=fiy; Fz.value=fiz;
+Ris(1,0); Ris(3,1)}
+
+function SetBgrnd() {
+let input = document.getElementById('R1');  colorbgr = input.value; Ris(0,0);}
+
+function clearCanvas() { myC.height=500; }
+  </script>
+</body>
+</html>

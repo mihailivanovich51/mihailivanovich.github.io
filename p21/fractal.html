@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="../puzzles/ICO/murr.ico" type="image/x-icon">
+<title>Fractal</title>
+</head>
+<body>
+<style>
+canvas{ border-radius: 60px; 
+border:1px solid #a1a4a8; 
+box-shadow:0 0 10px 0 #555555;
+margin-left: 25px;
+margin-top: 5px;}
+#bt{width: 60px; border-radius: 30px; height: 60px; background-color: rgb(0,55,0); color: white;}
+.bt2{width: 60px; background-color: rgb(0,100,0); color: white}
+.bt4{margin-left: 200px; width: 60px; background-color: rgb(190,0,0); color: white}
+</style>
+
+ <canvas id="Mycanvas" width="550" height="550">Обновите браузер</canvas><br>
+
+  <input type='button' class="bt4" value='slower'onclick="kt*=1.2">
+  <input type='button' id="bt" value='PLAY' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='faster'onclick="kt/=1.2">
+   
+<script type="text/javascript">
+	var canvas=document.getElementById("Mycanvas");    
+	var ctx=canvas.getContext("2d"); ctx.beginPath(); 
+
+act=false;   let kadr=0;  let pim = Math.PI;  tint0=300;  tint=tint0;  kt=1;
+let minx = -canvas.width/2; let miny = -canvas.height/2; 
+ctx.lineCap='round';  lw=1;  ctx.lineWidth=lw;
+
+  lineColor=["#ffffff","#9999ff","#c935f2","#b0ffb0","#f25757","#fad119","#f79fb3","#a4fa19","#19effa"]; 
+  nlc=lineColor.length;
+  BGR=["#000000","#004400","#000044","#440000","#440044"]; nbgr=BGR.length;
+
+ SetParam(); 
+
+function SetBG(){ctx.fillStyle=clrbg; ctx.fillRect(0,0,canvas.width,canvas.height);}
+function newx(x) {return (-minx + x);}
+function newy(y) {return (-miny - y)/*+200*/;}
+function clearCanvas() { Mycanvas.height=550; }
+
+function SetParam() { tint=kt*tint0;
+  colorline=lineColor[Math.floor(Math.random()*nlc)];
+  clrbg=BGR[Math.floor(Math.random()*nbgr)];   ctx.fillStyle=clrbg; 
+  clearCanvas(); SetBG(); ctx.strokeStyle=colorline;  l0=100; li=l0;  
+  xs=[0]; ys=[0]; fs=[0]; df=pim/6; xn=[];  yn=[];  fn=[];  Ns=1;}
+
+function Step(){  kadr++;
+if ((kadr>-10)&&(kadr<-1)) {tint=kt*tint0/3; op=1-0.1*(kadr+10); 
+ if (op<0) op=0; canvas.style='opacity:'+op+';'} else { tint=kt*tint0;  op=1;  canvas.style='opacity:'+op+';';}
+if (kadr==12) {kadr=-16;} else if (kadr==-1) {SetParam();} else if (kadr>-1) { ctx.beginPath();  li=0.85*li; 
+
+for (i = 0; i < Ns; i++) {
+dfi=Math.random()*2*pim; fn[2*i]=fs[i]-dfi;     dfi=Math.random()*2*pim; fn[2*i+1]=fs[i]+dfi;
+lt=Math.random()*1.5*li;
+xn[2*i]=xs[i]+lt*Math.sin(fn[2*i]);      yn[2*i]=ys[i]+lt*Math.cos(fn[2*i]);
+lt=Math.random()*1.5*li;
+xn[2*i+1]=xs[i]+lt*Math.sin(fn[2*i+1]);  yn[2*i+1]=ys[i]+lt*Math.cos(fn[2*i+1]);}
+
+for (i = 0; i < Ns; i++) {
+ctx.moveTo(newx(xn[2*i]),newy(yn[2*i])); 
+ctx.lineTo(newx(xs[i]),newy(ys[i]));
+ctx.lineTo(newx(xn[2*i+1]),newy(yn[2*i+1])); 
+}  ctx.stroke();
+
+Ns=Ns*2; for (i = 0; i < Ns; i++) {xs[i]=xn[i];  ys[i]=yn[i];  fs[i]=fn[i];} 
+}}
+
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,100,0)'; bt.value='Play'} else {bt.style.backgroundColor='rgb(155,0,0)';  bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {Step(); if (act) timerId = setTimeout(timer, tint);
+}, tint)};
+
+</script> 
+</body>
+</html>

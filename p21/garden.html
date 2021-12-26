@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="../puzzles/ICO/murr.ico" type="image/x-icon">
+<title>Garden</title>
+</head>
+<body>
+<style>
+ #myCanvas{border-radius: 60px; }
+ #bt{width: 60px; border-radius: 30px; height: 60px; background-color: rgb(0,55,0); color: white;}
+ .bt2{width: 60px; background-color: rgba(0,200,0,0.6); color: white}
+ .bt4{width: 60px; background-color: rgba(200,0,0,0.6); color: white}
+</style>
+  <canvas id="myCanvas" width="500" height="350" > Обновите браузер</canvas><br>
+
+  <input type='button' class="bt4" value='slower'onclick="tint*=1.2">
+  <input type='button' id="bt" value='PLAY' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='faster'onclick="tint/=1.2">
+
+<script type="text/javascript">
+	var canvas=document.getElementById("myCanvas"); 
+    var ctx=canvas.getContext("2d"); ctx.beginPath(); lw=5; ctx.lineWidth=lw;
+c_thr=["rgb(0,20,20)","rgb(50,50,50)"]; c_app=["rgb(200,0,0)","rgb(255,255,0)"]; c_lst=["green","rgb(220,120,0)"]
+let colorline=c_thr[0];  let colorbgr='#CCCCFF';
+let minx0 = 0; let miny0 = -canvas.height; let kxy = 1; kfi = 0.3; df=0;  rand=true; let kadr=0;
+minx=minx0; miny=miny0;  
+ rst=6; 
+let xs=[];  let ys=[]; nl = 40; dxr=canvas.width/nl;    act=false;  tint=50;   ncolor=0;  ncl=0;
+
+SetArr();  SetBG()
+
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,100,0)'; bt.value='Play'} else {bt.style.backgroundColor='rgb(155,0,0)';  bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {Step1();if (act) timerId = setTimeout(timer, tint);
+}, tint)};
+
+function SetBG(){
+  ctx.fillStyle=colorbgr;
+  ctx.fillRect(0,0,canvas.width,canvas.height);} //ctx.stroke(colorline);  
+
+function newx(x) {return  x*kxy;}
+function newy(y) {return (y-miny)*kxy;}
+function Zoom() {minx=minx0/kxy; miny=miny0/kxy; }
+function SetArr() {
+	xs=[]; ys=[];
+for (i = 0; i < nl; i++){ dxr=canvas.width/nl; xs[i]=minx+(i+0.5)*(dxr); ys[i]=10;}}
+
+function Step1() { kadr++;  
+if (kadr>-1) { 
+if (kadr<75) canvas.style= 'opacity:'+1/75*kadr+';'
+if (kadr==75) {colorline=c_lst[ncl]; lw=2; kfi=2; ctx.beginPath(); rst=10; rand=false; }
+if (kadr==350) {SetArr(); SetBG(); ctx.beginPath(); colorline=c_thr[ncl]; 
+  lw=5; kfi=0.1; kadr=-20; rst=6; rand=true; ncolor++; ncl=ncolor%2;  } 
+
+	ctx.strokeStyle=colorline; ctx.lineWidth=lw;
+  for (i = 0; i < xs.length; i++){ 
+fi =df+Math.random()*Math.PI*kfi+Math.PI*(1-kfi)/2; 
+if (rand) r0 = Math.random()*rst; else r0=rst;
+dx=r0*Math.cos(fi); dy=r0*Math.sin(fi);
+  ctx.moveTo(newx(xs[i]),newy(ys[i]));  
+  ctx.lineTo(newx(xs[i]+dx),newy(ys[i]-dy));
+  xs[i]=xs[i]+dx; ys[i]=ys[i]-dy;
+if ((kadr<225)&&(kadr>200)) {  ctx.fillStyle=c_app[ncl];  if (kadr==224) rst=0;
+  ctx.beginPath();  ctx.arc(newx(xs[i]),newy(ys[i]),5,0,2*Math.PI);  ctx.fill();}
+ if (kadr>300) {op = 1-0.02*(kadr-300);  canvas.style= 'opacity:'+op+';'} 
+ }  ctx.stroke(); }
+}
+</script> 
+</body>
+</html>

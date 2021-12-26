@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../puzzles/ICO/murr.ico" type="image/x-icon">
+    <title>Hyperboloid</title>
+    <style>  
+     #myCanvas{cursor: pointer; border-radius: 200px; opacity: 0.1;}
+     div{ width: 175px; height: 160px;
+          position: absolute; 
+          left: 730px; top: 20px;
+          border: 1px solid black; box-shadow:0 0 6px 0 #222299;
+          background-color: rgb(240,240,250);
+         font-family: "Courier New"; font-size: 18px;
+         text-align: center;
+        }
+       #btN{  margin-top: 20px; width: 60px;} 
+       #rt,#rc,#nt,#nc,#ks{ width: 50px; }
+ #bt{width: 50px; border-radius: 25px; height: 50px; background-color: rgb(0,55,0); color: white;}
+ .bt2{width: 60px; background-color: rgba(0,200,0,0.6); color: white}
+ .bt4{width: 60px; background-color: rgba(200,0,0,0.6); color: white}
+    </style>  
+  </head>   
+<body>
+  
+  <canvas id="myCanvas" width="500" height="500" style="border:1px solid">
+    Ваш браузер не поддерживает элемент canvas.
+  </canvas>
+  <br>
+    
+  <input type="color" id="R1" value= "#FFFFFF" onchange = 'SetBgrnd()'>BackGround
+  <input type="color" id="R2" value= "#0000ff" onchange = 'SetLineColor()'>Lines Color
+  <button onclick="clearCanvas()">CLEAR</button>
+  <button onclick="OneStep()">1 step</button><br>
+
+  <input type='button' class="bt4" value='slower'onclick="tint*=1.2">
+  <input type='button' id="bt" value='PLAY' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='faster'onclick="tint/=1.2">
+
+
+  <div> 
+  R_tor = <input type="number" id="rt" value="120" min=0 max=400 step=1 ><br> 
+  Rcrcl = <input type="number" id="rc" value="60" min=0 max=400 step=1 ><br> 
+  N_tor = <input type="number" id="nt" value="60" min=2 max=100 step=1 ><br> 
+  Ncrcl = <input type="number" id="nc" value="24" min=2 max=100 step=1 ><br> 
+  kStar = <input type="number" id="ks" value="0" min=-1 max=1 step=0.05 ><br> 
+  <button id="btN" onclick="New()">NEW</button>
+  </div>
+
+ <script>
+    var myC=document.getElementById("myCanvas");
+    var x=myC.getContext("2d");       // rt.value=1.66
+    minx = -myC.width/2;  miny = -myC.height/2;
+  let rc=100; zc=150; let nc=48;  dfi=2.4;/*let rtor0=120;   let ntor =60;  rmax=rc+rtor0;*/
+  let pi2 = 2*Math.PI; let flmouse = false;  // let ks = 0;
+  fiy = 0;  fiy0 = fiy;  fix0 = Math.PI/6;  fix = fix0; //rtor=0; rc=rmax;
+  let x0,y0;
+  lineColor=["#ffffff","#9999ff","#c935f2","#b0ffb0","#f25757","#fad119","#f79fb3","#a4fa19","#19effa"]; 
+  nlc=lineColor.length;
+  BGR=["#000000","#004400","#000044","#440000","#440044"]; nbgr=BGR.length;
+
+  kxx = 1;  kyx = 0;  kzx = 0; kxy = 0; kyy = -Math.sin(fix);  kzy = Math.cos(fix);    koefxy = 1;
+  clBG=4; colorbgr = BGR[clBG];  clLN=0;  colorline = lineColor[clLN];  
+    kadr=0; nvar=0;       n1=180;  nop=15;  nr=n1-2*nop;
+  act=false;  tint=80; 
+
+     Ris();
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,100,0)'; bt.value='Play'} else {bt.style.backgroundColor='rgb(155,0,0)';  bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {OneStep(); if (act) timerId = setTimeout(timer, tint);
+}, tint)};
+
+function OneStep(){ kadr++;  
+ if (kadr==n1)  {kadr=0; nvar++; 
+  clBG++; if (clBG>nbgr-1) clBG=0; colorbgr =BGR[clBG];
+  clLN++; if (clLN>nlc-1)  clLN=0; colorline=lineColor[clLN];
+ }
+if (kadr<nop){op = 1/nop*kadr; if (op>1) op=1;  myCanvas.style= 'opacity:'+op+';'}  
+if (kadr>nr+nop){kd=kadr-nop-nr; op =1-kd/nop; if (op<0) op=0;  myCanvas.style= 'opacity:'+op+';'} 
+kdr=kadr-nop; if (kdr<0) kdr=0; if (kdr>nr) kdr=nr;
+  if (nvar%7==1) { dfi=1.3+2*Math.sin(2*pi2/nr*kdr);} else {dfi=2.4; zc=150+50*Math.sin(pi2/nr*kdr);}
+
+  K=nvar%3+4; fiy=K*Math.sin(pi2/nr*kdr);
+  K=nvar%2+1;  fix=K*Math.sin(pi2/nr*kdr); kyy = -Math.sin(fix);  kzy = Math.cos(fix); 
+  
+  Ris();
+}
+
+function New(){
+let input = document.getElementById('rt'); rtor = +input.value; 
+input = document.getElementById('rc'); rc = +input.value; 
+input = document.getElementById('nt'); ntor = +input.value; 
+input = document.getElementById('nc'); nc = +input.value; 
+input = document.getElementById('ks'); ks = +input.value; 
+Ris();}
+
+
+function Ris(){ 
+ clearCanvas(); x.beginPath();  x.strokeStyle=colorline;
+  x.fillStyle=colorbgr;
+  x.fillRect(0,0,myC.width,myC.height);   
+
+for (j = 0; j < nc+1; j++) { i = 0;  //окружности - кольца  
+xx = rc*Math.cos(pi2*(j-0.5)/nc+dfi);
+yy = rc*Math.sin(pi2*(j-0.5)/nc+dfi);
+zz = zc;
+xt = xx*Math.cos(fiy)-zz*Math.sin(fiy);  //поворот
+zt = xx*Math.sin(fiy)+zz*Math.cos(fiy);
+if (j==0) x.moveTo(aksx(xt,yy,zt),aksy(xt,yy,zt));
+  x.lineTo(aksx(xt,yy,zt),aksy(xt,yy,zt));
+} //i,j
+
+for (j = 0; j < nc+1; j++) { i = 0;  //окружности - кольца  
+xx = 0.8*rc*Math.cos(pi2*(j-0.5)/nc);
+yy = 0.8*rc*Math.sin(pi2*(j-0.5)/nc);
+zz = -zc;
+xt = xx*Math.cos(fiy)-zz*Math.sin(fiy);  //поворот
+zt = xx*Math.sin(fiy)+zz*Math.cos(fiy);
+if (j==0) x.moveTo(aksx(xt,yy,zt),aksy(xt,yy,zt));
+  x.lineTo(aksx(xt,yy,zt),aksy(xt,yy,zt));
+} //i,j
+
+for (j = 0; j < nc; j++) { i = 0;  //окружности - кольца  
+xx = rc*Math.cos(pi2*(j-0.5)/nc+dfi);
+yy = rc*Math.sin(pi2*(j-0.5)/nc+dfi);
+zz = zc;
+xt = xx*Math.cos(fiy)-zz*Math.sin(fiy);  //поворот
+zt = xx*Math.sin(fiy)+zz*Math.cos(fiy);
+x.moveTo(aksx(xt,yy,zt),aksy(xt,yy,zt));
+
+xx = 0.8*rc*Math.cos(pi2*(j-0.5)/nc);
+yy = 0.8*rc*Math.sin(pi2*(j-0.5)/nc);
+zz = -zc;
+xt = xx*Math.cos(fiy)-zz*Math.sin(fiy);  //поворот
+zt = xx*Math.sin(fiy)+zz*Math.cos(fiy);
+  x.lineTo(aksx(xt,yy,zt),aksy(xt,yy,zt));
+} //i,j
+
+/*
+  for (i = 0; i < nc+1; i++) { //линии - связки
+    rc1 = rc*(1-ks*(Math.floor(i%2)));
+   xx = (rtor+rc1*Math.cos(pi2*i/nc))*Math.cos(pi2*(0-0.5)/ntor);
+   yy = (rtor+rc1*Math.cos(pi2*i/nc))*Math.sin(pi2*(0-0.5)/ntor);
+   zz = rc1*Math.sin(pi2*i/nc);
+   xt = xx*Math.cos(fiy)-zz*Math.sin(fiy);  //поворот
+   zt = xx*Math.sin(fiy)+zz*Math.cos(fiy);
+     x.moveTo(aksx(xt,yy,zt),aksy(xt,yy,zt));
+
+for (j = 0; j < ntor+1; j++) {// i = 0;
+  rc1 = rc*(1-ks*(Math.floor(i%2)));
+xx = (rtor+rc1*Math.cos(pi2*i/nc))*Math.cos(pi2*(j-0.5)/ntor);
+yy = (rtor+rc1*Math.cos(pi2*i/nc))*Math.sin(pi2*(j-0.5)/ntor);
+zz = rc1*Math.sin(pi2*i/nc);
+xt = xx*Math.cos(fiy)-zz*Math.sin(fiy);  //поворот
+zt = xx*Math.sin(fiy)+zz*Math.cos(fiy);
+  x.lineTo(aksx(xt,yy,zt),aksy(xt,yy,zt));
+}}*/  x.stroke();//j,i   
+ 
+} //Ris
+
+function newx (x){
+  return (x-minx)*koefxy;
+}
+function newy (y){
+  return (y-miny)*koefxy;
+}
+function aksx(x,y,z){ //Аксонометрия Х
+ x1 = z*kzx + y*kyx + x*kxx; x = newx(x1); return x;
+}
+function aksy(x,y,z){ //Аксонометрия Х
+ y1 = z*kzy + y*kyy + x*kxy; y = newy(y1); return y;
+}
+
+myC.onmousedown = function(obj_event) { 
+  flmouse = true;
+  x0 = window.event.offsetX;
+  y0 = window.event.offsetY;  
+}
+
+myC.onmousemove = function(obj_event) { 
+  if (flmouse) {
+  x1 = window.event.offsetX; dx = x1 - x0;
+  y1 = window.event.offsetY; dy = y1 - y0;
+  fiy = fiy0-dx/200;   fix = fix0+dy/200;
+  kyy = -Math.sin(fix);kzy = Math.cos(fix);
+  Ris();}
+}
+myC.onmouseup = function(obj_event) { 
+flmouse = false;  fiy0 = fiy;   fix0 = fix;
+Ris();
+}
+
+function SetLineColor() {
+let input = document.getElementById('R2');  colorline = input.value; Ris();}
+
+function SetBgrnd() {
+let input = document.getElementById('R1');  colorbgr = input.value; Ris();}
+
+function clearCanvas() { myC.height=500; }
+  </script>
+</body>
+</html>
