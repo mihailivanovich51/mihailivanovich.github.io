@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="../puzzles/ICO/murr.ico" type="image/x-icon">
+<title>Stars</title>
+</head>
+<body>
+<style>
+img{position: fixed; width: 380px; height: 410px; left: 10px; top: 10px}
+canvas{position: fixed; left: 52px; top: 65px;}
+#dplay{position: fixed; top: 410px; left: 15px}
+#bt{width: 60px; border-radius: 30px; height: 60px; background-color: rgb(0,55,0); color: white;}
+.bt2{width: 60px; background-color: rgb(0,100,0); color: white}
+.bt4{margin-left: 80px; width: 60px; background-color: rgb(190,0,0); color: white}
+</style>
+
+  <img src="../puzzles/galina/rama.jpg"> 
+  <canvas id="Mycanvas" width="300" height="300">Обновите браузер</canvas><br>
+ <div id="dplay">
+  <input type='button' class="bt4" value='slower'onclick="tint*=1.2">
+  <input type='button' id="bt" value='PLAY' onclick=' act = (!act); Run()'>
+  <input type='button' class="bt2" value='faster'onclick="tint/=1.2">
+ </div>
+   
+<script type="text/javascript">
+	var canvas=document.getElementById("Mycanvas");    lw=1;
+	var ctx=canvas.getContext("2d"); ctx.beginPath(); ctx.lineWidth=lw;
+ 
+lineColor=["#ffffff","#9999ff","#c935f2","#b0ffb0","#f25757","#fad119","#f79fb3","#a4fa19","#19effa"]; 
+  nlc=lineColor.length;
+  BGR=["#000000","#004400","#000044","#440000","#440044"]; nbgr=BGR.length;
+
+let pim = Math.PI; 
+
+tint=100;
+act=false;   let kadr=0;  n1=40; n2=60;  kop=1/(n2-n1);
+colorline=lineColor[0];  clrbg=BGR[nbgr-1];  zarr=[4,5,6,7,8,9,10,11,13,15,17,19,21,12,14,16,18,20,23,25,27,29,31];
+let minx = -canvas.width/2; let miny = -canvas.height/2;  r0=-0.9*minx;  rmin=0.5*r0;
+
+ctx.strokeStyle=colorline; ctx.lineWidth=lw; SetParam();  SetBG(); 
+
+function SetParam() { numz=(Math.floor(Math.random()*zarr.length)); zn=zarr[numz];  fz=0; 
+dfi=pim/zn; x0=rmin*Math.sin(fz-dfi);  y0=rmin*Math.cos(fz-dfi); ctx.moveTo(newx(-x0),newy(-y0)); 
+}
+
+function p_gon(ns,f0) { i=kadr-1;
+ {ft=f0+dfi*(2*i); x0=r0*Math.sin(ft);  y0=r0*Math.cos(ft); ctx.lineTo(newx(x0),newy(y0)); 
+  ft=f0+dfi*(2*i+1); x0=rmin*Math.sin(ft);  y0=rmin*Math.cos(ft); ctx.lineTo(newx(-x0),newy(-y0));} 
+ ctx.stroke();}
+
+function SetBG(){ctx.fillStyle=clrbg;   ctx.fillRect(0,0,canvas.width,canvas.height); }
+function newx(x) {return (-minx + x);}
+function newy(y) {return (-miny - y);}
+
+function Run(){
+ if (!act) {bt.style.backgroundColor='rgb(0,100,0)'; bt.value='Play'} else {bt.style.backgroundColor='rgb(155,0,0)';
+   bt.value='STOP'; } 
+  let timerId = setTimeout(function timer() {Step1(); if (act) timerId = setTimeout(timer, tint);
+}, tint)};
+
+function Step1() { kadr++;	
+ if (kadr>n1) {op = 1-kop*(kadr-n1); if (op<0) op=0;  canvas.style= 'opacity:'+op+';'}
+ if (kadr==n2) {kadr=0;   colorline=lineColor[Math.floor(Math.random()*nlc)]; ctx.strokeStyle=colorline; 
+  clrbg=BGR[Math.floor(Math.random()*nbgr)];   ctx.fillStyle=clrbg; 
+  op = 1;  canvas.style='opacity:'+op+';'; ctx.beginPath(); SetParam(); SetBG(); } 
+  p_gon(zn,fz);}
+</script> 
+</body>
+</html>
