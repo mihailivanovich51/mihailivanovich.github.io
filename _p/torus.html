@@ -6,7 +6,7 @@
     <title>Tor03</title>
     <style>  
      #myCanvas{cursor: pointer;}
-     div{ width: 175px; height: 160px;
+     div{ width: 175px; height: 160px;    
           position: absolute; 
           left: 730px; top: 20px;
           border: 1px solid black; box-shadow:0 0 6px 0 #222299;
@@ -113,7 +113,7 @@ function newy (y){
 function aksx(x,y,z){ //Аксонометрия Х
  x1 = z*kzx + y*kyx + x*kxx; x = newx(x1); return x;
 }
-function aksy(x,y,z){ //Аксонометрия Х
+function aksy(x,y,z){ //Аксонометрия Y
  y1 = z*kzy + y*kyy + x*kxy; y = newy(y1); return y;
 }
 
